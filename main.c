@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/09/27 15:20:26 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:25:22 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 
 int main()
 {
-
-    char input[1024];
-
     while (1)
     {
         //TODO Ali : SIGNALS

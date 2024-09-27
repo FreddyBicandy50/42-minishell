@@ -1,6 +1,6 @@
 NAME = minishell
 INCLUDES = ./src/
-LIBFT = ./libraries/Libft/libft.a
+LIBFT = ./libraries/libft/libft.a
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror  -I$(INCLUDES)
