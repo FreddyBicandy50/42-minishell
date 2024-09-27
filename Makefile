@@ -1,6 +1,6 @@
 NAME = minishell
 INCLUDES = ./src/
-LIBFT = ./libraries/libft/libft.a
+LIBFT = ./libraries/Libft/libft.a
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror  -I$(INCLUDES)
@@ -19,12 +19,12 @@ $(LIBFT):
 	@make -C ./libraries/Libft
 
 clean:
-	@make clean -C ./libraries/libft
+	@make clean -C ./libraries/Libft
 	rm -f $(OBJECTS)
 	@clear
 
 fclean: clean
-	@make fclean -C ./libraries/libft
+	@make fclean -C ./libraries/Libft
 	rm -f $(NAME)
 	@clear
 
