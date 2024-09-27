@@ -19,12 +19,12 @@ $(LIBFT):
 	@make -C ./libraries/Libft
 
 clean:
-	@make clean -C ./libraries/Libft
+	@make clean -C ./libraries/libft
 	rm -f $(OBJECTS)
 	@clear
 
 fclean: clean
-	@make fclean -C ./libraries/Libft
+	@make fclean -C ./libraries/libft
 	rm -f $(NAME)
 	@clear
 
