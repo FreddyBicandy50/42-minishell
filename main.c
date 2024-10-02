@@ -14,12 +14,21 @@
 
 
 
-int main()
+int	main()
 {
-    while (1)
-    {
-        //TODO Ali : SIGNALS
-        lexering(readline(PROMPT));
-    }
-    return (0);
+	char	*input;
+
+	input = readline("MINISHELL>>: ");
+	while (input != NULL)
+	{
+		//TODO Ali : SIGNALS
+		lexering(input);
+		if (strlen(input) > 0)
+		{
+			add_history(input);
+		}
+		free(input);
+		input = readline("MINISHELL>>: ");
+	}
+	return (0);
 }
