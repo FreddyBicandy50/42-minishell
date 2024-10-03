@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/09/27 15:25:22 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/02 21:59:23 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main()
 {
 	char	*input;
 
-	input = readline("MINISHELL>>: ");
+	input = readline(PROMPT);
 	while (input != NULL)
 	{
 		//TODO Ali : SIGNALS
@@ -28,7 +28,7 @@ int	main()
 			add_history(input);
 		}
 		free(input);
-		input = readline("MINISHELL>>: ");
+		input = readline(PROMPT);
 	}
 	return (0);
 }
