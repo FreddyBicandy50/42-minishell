@@ -6,31 +6,48 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/02 22:54:10 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:38:23 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_command(char *prompt)
+char *get_parser(size_t start, char *prompt, const size_t prompt_len)
 {
     char *command;
-    int start;
-    int end;
+    size_t end;
 
-    start = 0;
-    while (prompt[start] != '\0' && (prompt[start] >= 9 && prompt[start] <= 32))
+    while (start < prompt_len && (prompt[start] >= 9 && prompt[start] <= 32))
         start++;
-    end= start;
-    while (prompt[end] != '\0' && !(prompt[end] >= 9 && prompt[end] <= 32))
+    if (start >= prompt_len)
+        return NULL;
+    end = start;
+    while (end < prompt_len && !(prompt[end] >= 9 && prompt[end] <= 32))
         end++;
-        //implement str cpy
-    command = ft_strlcpy(prompt[start], end, command);
-    return (prompt);
+    command = ft_strncpy(start, end, prompt);
+    if (command)
+        printf("Parsed token: '%s'\n", command); // Display the parsed token
+    return command;
 }
 
-void lexering(char *prompt)
+void lexering(char *prompt, const size_t prompt_len)
 {
-    get_command(prompt);
-    return;
+    size_t start;
+    char *command;
+
+    start = 0;
+    while (start < prompt_len)
+    {
+        //TODO 
+            //Fix quotation parser
+            //create a struct for the commands
+            //store the commands in the struct according to the prirority
+        command = get_parser(start, prompt, prompt_len);
+        if (command == NULL)
+            break;
+        start += strlen(command);
+        while (start < prompt_len && (prompt[start] >= 9 && prompt[start] <= 32))
+            start++;
+        free(command);
+    }
 }
