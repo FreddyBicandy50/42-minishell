@@ -6,7 +6,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror  -I$(INCLUDES)
 
 SRCS = main.c \
-	   src/lexer.c
+	   src/lexer.c src/signals.c
 
 OBJECTS = $(SRCS:.c=.o)
 

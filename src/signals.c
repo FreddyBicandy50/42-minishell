@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/07 12:53:10 by amokdad          ###   ########.fr       */
+/*   Created: 2024/10/07 12:49:04 by amokdad           #+#    #+#             */
+/*   Updated: 2024/10/07 13:02:22 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "src/minishell.h"
+#include "minishell.h"
 
-int	main(void)
+//if ^c exit minishell
+void	handle_sigint(__attribute__((unused)) int sig)
 {
-	t_data	data;
-
-	signal(SIGINT, handle_sigint);
-	while (1)
-	{
-		data.input = readline(PROMPT);
-		// TODO
-		// Ali : SIGNALS
-		// Fredy : lexering & parsing
-		add_history(data.input);
-		lexering(&data);
-		free(data.input);
-	}
-	return (0);
+	printf("\nExiting minishell...\n");
+	rl_clear_history();
+	exit(0);
 }
