@@ -6,7 +6,7 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/07 12:53:10 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:08:22 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	main(void)
 	while (1)
 	{
 		data.input = readline(PROMPT);
+		if (data.input == NULL) // Detect EOF (Ctrl+D)
+		handle_eof();
 		// TODO
 		// Ali : SIGNALS
 		// Fredy : lexering & parsing

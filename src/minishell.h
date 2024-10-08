@@ -6,7 +6,7 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/07 12:53:04 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:05:21 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ void lexering(t_data *data);
 int ft_strlen(const char *str);
 char *ft_strncpy(size_t start, size_t end, char *src);
 void	handle_sigint(int sig);
+void	handle_eof(void);
 
 #endif
