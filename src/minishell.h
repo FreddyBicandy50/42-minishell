@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/08 17:05:21 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/08 22:46:45 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ typedef struct s_data
 void lexering(t_data *data);
 int ft_strlen(const char *str);
 char *ft_strncpy(size_t start, size_t end, char *src);
-void	handle_sigint(int sig);
-void	handle_eof(void);
+void handle_sigint(int sig);
+void handle_eof(void);
+char *skip_spaces(char *str);
 
 #endif
