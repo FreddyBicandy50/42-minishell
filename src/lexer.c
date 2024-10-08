@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/08 23:05:41 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/08 23:08:30 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,12 @@ char *get_next_command(char *prompt)
 void lexering(t_data *data)
 {
     // 1.Loop over the input line(character by character)
-    //     Start at the first character and loop until you reach the end of the input string(\0)
-    //     Skip leading spaces or
-    //     tabs to avoid empty tokens .
+        // Start at the first character and loop until you reach the end of the input string(\0)
+        // Skip leading spaces or tabs to avoid empty tokens .
     //  2. Identify Command Tokens
-    //     As you encounter a non -
-    //     space character,
-    //     start identifying it as part of a command or an argument.Example : bash echo hello > test
-    //     Start at e,
-    //     continue until you hit a space.You've now identified the command echo.
+        // As you encounter a non - or space character, start identifying it as part of a command or an 
+            //argument.Example : bash echo hello > test
+        // Start at e, continue until you hit a space.You've now identified the command echo.
     //  3. Handle Flags / Options(e.g., -la) Once you've captured the command, look for flags/options: A flag is typically a string starting with a - , e.g., -la.Treat it as a special case and store it as a separate token.Implementation:
         // After capturing a command, check if the next character after the space is -.
         // Capture the flag as part of the argument list for the command.
