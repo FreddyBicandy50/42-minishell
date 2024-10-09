@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/10/08 17:21:51 by amokdad          ###   ########.fr       */
-=======
-/*   Updated: 2024/10/08 22:46:45 by fbicandy         ###   ########.fr       */
->>>>>>> origin/main
+/*   Updated: 2024/10/09 11:04:45 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
@@ -50,15 +47,12 @@ typedef struct s_data
 void lexering(t_data *data);
 int ft_strlen(const char *str);
 char *ft_strncpy(size_t start, size_t end, char *src);
-<<<<<<< HEAD
 void	handle_sigint(int sig);
 void	handle_eof(void);
 void	handle_sigquit(__attribute__((unused)) int sig);
 void	signals(void);
-=======
 void handle_sigint(int sig);
 void handle_eof(void);
 char *skip_spaces(char *str);
->>>>>>> origin/main
 
 #endif
