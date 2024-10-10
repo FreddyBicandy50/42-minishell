@@ -6,12 +6,13 @@
 #    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2024/10/03 16:28:20 by fbicandy         ###   ########.fr        #
+#    Updated: 2024/10/10 16:45:48 by fbicandy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 SOURCES = \
+ft_cmd_lst.c \
 ft_strlen.c \
 ft_strncpy.c 
 

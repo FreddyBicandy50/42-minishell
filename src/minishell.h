@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/09 11:04:45 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/10 23:01:40 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
 typedef struct s_cmd
 {
-    char *cmd;
-} s_data;
+    char *command;
+    char *flag;
+    char *arg;
+    struct s_cmd *next;
+} t_cmd;
 
 typedef struct s_data
 {
@@ -44,15 +46,25 @@ typedef struct s_data
 #include <readline/readline.h>
 #include <readline/history.h>
 
-void lexering(t_data *data);
-int ft_strlen(const char *str);
-char *ft_strncpy(size_t start, size_t end, char *src);
-void	handle_sigint(int sig);
-void	handle_eof(void);
-void	handle_sigquit(__attribute__((unused)) int sig);
-void	signals(void);
+// signals
 void handle_sigint(int sig);
 void handle_eof(void);
+void handle_sigquit(__attribute__((unused)) int sig);
+void handle_sigint(int sig);
+void signals(void);
+void handle_eof(void);
+
+// libft
+t_cmd *ft_cmd_lst_new(char *command);
+void ft_cmd_add_back(t_cmd **lst, t_cmd *new);
+int ft_strlen(const char *str);
+char *ft_strncpy(size_t start, size_t end, char *src);
+
+// utils
 char *skip_spaces(char *str);
+int printable(char c);
+
+// lexering
+void lexering(t_data *data);
 
 #endif
