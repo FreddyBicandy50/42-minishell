@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/10 23:20:30 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/11 09:46:36 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ char *get_next_command(t_cmd **cmd, char *prompt)
 	*cmd = ft_cmd_lst_new(command);
 	if (!*cmd)
 		return (NULL);
-	//TODO handle all flags edge cases and also join all string
-	get_next_flag(cmd, (prompt + i) + 1);
+	// TODO handle all flags edge cases and also join all string
+	//get_next_flag(cmd, (prompt + i) + 1);
 	return (prompt + i);
 }
 
