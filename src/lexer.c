@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/11 09:46:36 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:18:25 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,38 @@ char *get_next_flag(t_cmd **cmd, char *prompt)
 {
 	int i;
 	char *flag;
+	char *all_flags;
 
-	i = 0;
-	flag = NULL;
-	printf("reset=%s$\n", prompt);
-	prompt = skip_spaces(prompt);
-	if (prompt[i] == '-')
+	all_flags = NULL;
+	while (*prompt != '\0' && !prd(*prompt))
 	{
-		i++;
-		while (prompt[i] != '\0' && (prompt[i] >= 33 && prompt[i] <= 126))
+		prompt = skip_spaces(prompt);
+		i = 0;
+		if (prompt[i] == '-')
+		{
 			i++;
-		flag = ft_strncpy(1, i, prompt);
-		if (!flag)
-			return (NULL);
-		(*cmd)->flag = flag;
+			while (printable(prompt[i]) && (prompt[i] != '\0' && prompt[i] != ' '))
+			{
+				if (prd(prompt[i]))
+					break;
+				i++;
+			}
+			flag = ft_strncpy(1, i, prompt);
+			if (all_flags == NULL)
+				all_flags = ft_strcat("-", flag);
+			else
+				all_flags = ft_strcat(all_flags, flag);
+			free(flag);
+			prompt += i;
+		}
+		else
+		{
+			// get_next_str(prompt);
+			prompt++;
+		}
 	}
-	return (prompt + i);
+	(*cmd)->flag = all_flags;
+	return (prompt);
 }
 
 char *get_next_command(t_cmd **cmd, char *prompt)
@@ -45,10 +61,6 @@ char *get_next_command(t_cmd **cmd, char *prompt)
 		return (prompt);
 	while (prompt[i] != '\0' && printable(prompt[i]))
 		i++;
-	if (i == 0)
-		return (NULL);
-	if (prompt[i] == ' ' || prompt[i] == '\0')
-		i--;
 	command = ft_strncpy(0, i, prompt);
 	if (!command)
 		return (NULL);
@@ -56,22 +68,9 @@ char *get_next_command(t_cmd **cmd, char *prompt)
 	if (!*cmd)
 		return (NULL);
 	// TODO handle all flags edge cases and also join all string
-	//get_next_flag(cmd, (prompt + i) + 1);
+	prompt = get_next_flag(cmd, (prompt + i) + 1);
+	printf("prompt=%s$\n", prompt);
 	return (prompt + i);
-}
-
-void print_cmd_list(t_cmd *cmd)
-{
-	while (cmd != NULL)
-	{
-		if (cmd->command)
-			printf("Command: %s\n", cmd->command);
-		if (cmd->flag)
-			printf("Flag: %s\n", cmd->flag);
-		if (cmd->arg)
-			printf("Argument: %s\n", cmd->arg);
-		cmd = cmd->next;
-	}
 }
 
 void lexering(t_data *data)

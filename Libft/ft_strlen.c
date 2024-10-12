@@ -6,16 +6,16 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 16:27:03 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/03 16:27:56 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:16:27 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-    int len;
-    
-    len=0;
-    while(str[len])
-        len++;
-    return (len);
+	int	len;
+
+	len = 0;
+	while (str[len])
+		len++;
+	return (len);
 }

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/10 17:29:28 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:10:19 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@
 
 int	main(void)
 {
+	char	*prompt;
 	t_data	data;
 
+	prompt = "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002";
 	signals();
 	while (1)
 	{
-		data.input = readline(PROMPT);
-		if (data.input == NULL) // Detect EOF (Ctrl+D)
-		handle_eof();
-		// TODO
-		// Ali : SIGNALS
-		// Fredy : lexering & parsing
+		data.input = readline(prompt);
+		if (data.input == NULL)
+			handle_eof();
 		add_history(data.input);
 		lexering(&data);
 	}
 	return (0);
 }
+
+//TODO
+	//fredy lexering 
+	//Ali command exec 

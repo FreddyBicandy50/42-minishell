@@ -1,8 +1,10 @@
 {
     "files.associations": {
+        "*.embeddedhtml": "html",
         "minishell.h": "c",
         "stdio.h": "c",
         "stdlib.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "termios.h": "c"
     }
 }

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:49:04 by amokdad           #+#    #+#             */
-/*   Updated: 2024/10/09 10:46:41 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/12 16:10:46 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//if ^d exit minishell
 void	handle_eof(void)
 {
 	printf("\nExiting minishell...\n");
@@ -20,7 +19,6 @@ void	handle_eof(void)
 	exit(0);
 }
 
-//if ^c stop prompt && \n
 void	handle_sigint(__attribute__((unused)) int sig)
 {
 	printf("\n");
@@ -29,17 +27,13 @@ void	handle_sigint(__attribute__((unused)) int sig)
 	rl_redisplay();
 }
 
-// // Handle SIGQUIT (Ctrl+\)
-// void	handle_sigquit(__attribute__((unused)) int sig)
-// {
-// 	signal(SIGQUIT, SIG_IGN);
-// 	//do nothing
-// }
+void	handle_sigquit(__attribute__((unused)) int sig)
+{
+	signal(SIGQUIT, SIG_IGN);
+}
 
 void	signals(void)
 {
-	// Handle (Ctrl+c)
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	// Handle (Ctrl+\) //do nothing
 }
