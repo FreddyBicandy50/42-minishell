@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/12 23:02:06 by fbicandy         ###   ########.fr       */
+/*   Created: 2024/10/12 20:31:40 by fbicandy          #+#    #+#             */
+/*   Updated: 2024/10/12 20:32:02 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-char	*skip_spaces(char *str)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	if (!str || *str == '\0' || *str == '\n')
-		return (str);
-	while (!(*str >= 33 && *str <= 126) && *str != '\0')
-		str++;
-	return (str);
-}
+	size_t	i;
 
-int	printable(char c)
-{
-	if (c >= 33 && c <= 126)
-		return (1);
-	return (0);
-}
-
-int	prd(char c)
-{
-	if (c == '>' || c == '<' || c == '|')
-		return (1);
+	i = 0;
+	while (i < n)
+	{
+		if ((unsigned char)s1[i] != (unsigned char)s2[i] || s1[i] == '\0' || s2[i] == '\0')
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
 	return (0);
 }

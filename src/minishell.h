@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/12 16:07:37 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:15:03 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ t_cmd	*ft_cmd_lst_new(char *command);
 void	ft_cmd_add_back(t_cmd **lst, t_cmd *new);
 char	*ft_strcat(const char *dest, const char *src);
 char	*ft_strncpy(size_t start, size_t end, char *src);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char *ft_strsub(const char *s, unsigned int start, size_t len);
 
 // utils
-int		prd(char c);
+int prd(char c);
 int		printable(char c);
 char	*skip_spaces(char *str);
 

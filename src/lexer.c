@@ -6,17 +6,58 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/12 16:21:43 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/12 23:09:11 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_next_flag(t_cmd **cmd, char *prompt)
+char *get_next_str(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	char	*flag;
-	char	*all_flags;
+	int i;
+	char *arg;
+	int in_quotes;
+	char quote_type;
+
+	i = 0;
+	in_quotes = 0;
+	quote_type = '\0';
+	prompt = skip_spaces(prompt);
+	while (prompt[i] != '\0' && !prd(prompt[i]))
+	{
+		if (ft_strncmp((*cmd)->command, "echo", 4) != 0 && prompt[i] == ' ')
+			break;
+		if (prompt[i] == '"' || prompt[i] == '\'')
+		{
+			if (in_quotes && prompt[i] == quote_type)
+				in_quotes = 0;
+			else if (!in_quotes)
+			{
+				in_quotes = 1;
+				quote_type = prompt[i];
+			}
+		}
+		else if (!in_quotes && (prd(prompt[i])==1))
+			break;
+		i++;
+	}
+	arg = ft_strncpy(0, i, prompt);
+	if ((arg[0] == '\'' || arg[0] == '"') && arg[i - 1] == arg[0] && i > 1)
+	{
+		char *stripped_arg = ft_strsub(arg, 1, i - 2);
+		free(arg);
+		arg = stripped_arg;
+	}
+
+	(*cmd)->arg = arg;
+	return prompt += i;
+}
+
+char *get_next_flag(t_cmd **cmd, char *prompt)
+{
+	int i;
+	char *flag;
+	char *all_flags;
 
 	all_flags = NULL;
 	while (*prompt != '\0' && !prd(*prompt))
@@ -29,20 +70,25 @@ char	*get_next_flag(t_cmd **cmd, char *prompt)
 			while (printable(prompt[i]) && (prompt[i] != '\0' && prompt[i] != ' '))
 			{
 				if (prd(prompt[i]))
-					break ;
+					break;
 				i++;
 			}
 			flag = ft_strncpy(1, i, prompt);
+			char *tmp;
 			if (all_flags == NULL)
 				all_flags = ft_strcat("-", flag);
 			else
-				all_flags = ft_strcat(all_flags, flag);
+			{
+				tmp = ft_strcat(all_flags, flag);
+				free(all_flags);
+				all_flags = tmp;
+			}
 			free(flag);
 			prompt += i;
 		}
 		else
 		{
-			// get_next_str(prompt);
+			prompt = get_next_str(cmd, prompt);
 			prompt++;
 		}
 	}
@@ -50,10 +96,10 @@ char	*get_next_flag(t_cmd **cmd, char *prompt)
 	return (prompt);
 }
 
-char	*get_next_command(t_cmd **cmd, char *prompt)
+char *get_next_command(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	char	*command;
+	int i;
+	char *command;
 
 	prompt = skip_spaces(prompt);
 	i = 0;
@@ -67,25 +113,23 @@ char	*get_next_command(t_cmd **cmd, char *prompt)
 	*cmd = ft_cmd_lst_new(command);
 	if (!*cmd)
 		return (NULL);
-	// TODO handle all flags edge cases and also join all string
-	prompt = get_next_flag(cmd, (prompt + i) + 1);
-	printf("prompt=%s$\n", prompt);
+	if (!prompt[i] == '\0')
+		prompt = get_next_flag(cmd, (prompt + i) + 1);
 	return (prompt + i);
 }
 
-void	lexering(t_data *data)
+void lexering(t_data *data)
 {
-	t_cmd	*cmd;
+	t_cmd *cmd;
 
 	cmd = NULL;
 	if (!data->input || *data->input == '\0')
-		return ;
+		return;
 	data->input = get_next_command(&cmd, data->input);
 	if (cmd)
 		print_cmd_list(cmd);
 }
 
-// Skip leading spaces or tabs to avoid empty tokens .
 // 4. Handle Strings and Quoted Sections
 // For handling quoted strings:
 // If you encounter a ", start capturing the string inside the quotes, treating it as a single token.
