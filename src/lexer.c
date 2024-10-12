@@ -6,17 +6,17 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/12 16:18:25 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:21:43 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_next_flag(t_cmd **cmd, char *prompt)
+char	*get_next_flag(t_cmd **cmd, char *prompt)
 {
-	int i;
-	char *flag;
-	char *all_flags;
+	int		i;
+	char	*flag;
+	char	*all_flags;
 
 	all_flags = NULL;
 	while (*prompt != '\0' && !prd(*prompt))
@@ -29,7 +29,7 @@ char *get_next_flag(t_cmd **cmd, char *prompt)
 			while (printable(prompt[i]) && (prompt[i] != '\0' && prompt[i] != ' '))
 			{
 				if (prd(prompt[i]))
-					break;
+					break ;
 				i++;
 			}
 			flag = ft_strncpy(1, i, prompt);
@@ -50,10 +50,10 @@ char *get_next_flag(t_cmd **cmd, char *prompt)
 	return (prompt);
 }
 
-char *get_next_command(t_cmd **cmd, char *prompt)
+char	*get_next_command(t_cmd **cmd, char *prompt)
 {
-	int i;
-	char *command;
+	int		i;
+	char	*command;
 
 	prompt = skip_spaces(prompt);
 	i = 0;
@@ -73,13 +73,13 @@ char *get_next_command(t_cmd **cmd, char *prompt)
 	return (prompt + i);
 }
 
-void lexering(t_data *data)
+void	lexering(t_data *data)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = NULL;
 	if (!data->input || *data->input == '\0')
-		return;
+		return ;
 	data->input = get_next_command(&cmd, data->input);
 	if (cmd)
 		print_cmd_list(cmd);
