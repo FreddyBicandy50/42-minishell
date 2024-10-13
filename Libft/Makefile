@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
+#    By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2024/10/10 16:45:48 by fbicandy         ###   ########.fr        #
+#    Updated: 2024/10/13 13:52:14 by amokdad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME = libft.a
 SOURCES = \
 ft_cmd_lst.c \
 ft_strlen.c \
-ft_strncpy.c 
+ft_strncpy.c \
+ft_strcmp.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
