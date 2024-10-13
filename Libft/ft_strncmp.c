@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/03 16:28:39 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/12 16:16:15 by fbicandy         ###   ########.fr       */
+/*   Created: 2024/10/12 20:31:40 by fbicandy          #+#    #+#             */
+/*   Updated: 2024/10/12 20:32:02 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stdlib.h"
-#include "stdio.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-char	*ft_strncpy(int start, int end, char *src)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int		i;
-	char	*dst;
+	size_t	i;
 
-	dst = (char *)malloc(sizeof(char) * (end - start + 1));
-	if (!dst)
-		return (NULL);
 	i = 0;
-	while (start < end)
+	while (i < n)
 	{
-		dst[i] = src[start];
-		start++;
+		if ((unsigned char)s1[i] != (unsigned char)s2[i] || s1[i] == '\0' || s2[i] == '\0')
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
-	dst[i] = '\0';
-	return (dst);
+	return (0);
 }

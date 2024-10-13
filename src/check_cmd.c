@@ -6,13 +6,13 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:37:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/10/13 14:10:13 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/13 14:14:20 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_cmd_if_in(t_cmd cmd)
+void	check_cmd_if_included(t_cmd cmd)
 {
 	if (ft_strcmp(cmd.command, "echo") == 0)
 		printf("\necho //\n");

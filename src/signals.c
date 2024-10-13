@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:49:04 by amokdad           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/10/11 10:25:07 by amokdad          ###   ########.fr       */
+=======
+/*   Updated: 2024/10/12 16:10:46 by fbicandy         ###   ########.fr       */
+>>>>>>> refs/remotes/origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//if ^d exit minishell
 void	handle_eof(void)
 {
 	printf("\nExiting minishell...\n");
@@ -20,7 +23,6 @@ void	handle_eof(void)
 	exit(0);
 }
 
-//if ^c stop prompt && \n
 void	handle_sigint(__attribute__((unused)) int sig)
 {
 	printf("\n");
@@ -29,8 +31,16 @@ void	handle_sigint(__attribute__((unused)) int sig)
 	rl_redisplay();
 }
 
+<<<<<<< HEAD
 // Handle (Ctrl+c)
 // Handle (Ctrl+\) //do nothing
+=======
+void	handle_sigquit(__attribute__((unused)) int sig)
+{
+	signal(SIGQUIT, SIG_IGN);
+}
+
+>>>>>>> refs/remotes/origin/main
 void	signals(void)
 {
 	signal(SIGINT, handle_sigint);
