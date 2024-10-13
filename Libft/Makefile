@@ -6,7 +6,7 @@
 #    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2024/10/13 14:44:39 by fbicandy         ###   ########.fr        #
+#    Updated: 2024/10/13 17:07:11 by fbicandy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ ft_strlen.c \
 ft_strcat.c \
 ft_strncmp.c \
 ft_strsub.c \
+ft_split.c \
+ft_strjoin.c \
 ft_strncpy.c 
 
 OBJECTS = $(SOURCES:.c=.o)

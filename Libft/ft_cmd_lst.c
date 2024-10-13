@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/12 23:07:28 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:28:39 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,40 @@ void ft_cmd_add_back(t_cmd **lst, t_cmd *new)
 	temp->next = new;
 }
 
+void free_cmd(t_cmd *cmd)
+{
+	t_cmd *temp;
+
+	temp = cmd;
+	while (temp != NULL)
+	{
+		free(temp->command);
+		free(temp->flag);
+		free(temp->arg);
+		temp = temp->next;
+	}
+	free(cmd);
+}
+
 void print_cmd_list(t_cmd *cmd)
 {
 	while (cmd != NULL)
 	{
 		if (cmd->command)
-		{
 			printf("Command:%s\n", cmd->command);
-			free(cmd->command);
-		}
 		if (cmd->flag)
-		{
 			printf("Flag:%s\n", cmd->flag);
-			free(cmd->flag);
-		}
+
 		if (cmd->arg)
 		{
-			printf("Argument:%s\n", cmd->arg);
-			free(cmd->arg);
+			int i = 0;
+			while (cmd->arg[i] != NULL) // Loop through all arguments
+			{
+				printf("Argument[%d]: %s\n", i, cmd->arg[i]);
+				i++;
+			}
 		}
+
 		cmd = cmd->next;
 	}
 }

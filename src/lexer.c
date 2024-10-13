@@ -6,51 +6,60 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/12 23:09:11 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:34:56 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// fix weird last argument 
 char *get_next_str(t_cmd **cmd, char *prompt)
 {
-	int i;
-	char *arg;
-	int in_quotes;
-	char quote_type;
+    int i = 0;
+    char *command = NULL;
 
-	i = 0;
-	in_quotes = 0;
-	quote_type = '\0';
-	prompt = skip_spaces(prompt);
-	while (prompt[i] != '\0' && !prd(prompt[i]))
-	{
-		if (ft_strncmp((*cmd)->command, "echo", 4) != 0 && prompt[i] == ' ')
-			break;
-		if (prompt[i] == '"' || prompt[i] == '\'')
-		{
-			if (in_quotes && prompt[i] == quote_type)
-				in_quotes = 0;
-			else if (!in_quotes)
-			{
-				in_quotes = 1;
-				quote_type = prompt[i];
-			}
-		}
-		else if (!in_quotes && (prd(prompt[i])==1))
-			break;
-		i++;
-	}
-	arg = ft_strncpy(0, i, prompt);
-	if ((arg[0] == '\'' || arg[0] == '"') && arg[i - 1] == arg[0] && i > 1)
-	{
-		char *stripped_arg = ft_strsub(arg, 1, i - 2);
-		free(arg);
-		arg = stripped_arg;
-	}
+    // Find the end of the argument (space or end of prompt)
+    while (prompt[i] != '\0' && prompt[i] != ' ')
+        i++;
 
-	(*cmd)->arg = arg;
-	return prompt += i;
+    // Allocate memory and copy the argument
+    command = ft_strncpy(0, i, skip_spaces(prompt));
+
+    // Append the argument to cmd->arg
+    if (!(*cmd)->arg)  // If no arguments yet
+    {
+        (*cmd)->arg = malloc(sizeof(char *) * 2);  // Allocate for one argument + NULL
+        if (!(*cmd)->arg)
+            return NULL;
+        (*cmd)->arg[0] = command;
+        (*cmd)->arg[1] = NULL;
+    }
+    else  // If arguments already exist, expand the array
+    {
+        int j = 0;
+        while ((*cmd)->arg[j] != NULL)
+            j++;
+
+        // Allocate new space for additional argument and NULL terminator
+        char **new_arg = malloc(sizeof(char *) * (j + 2));
+        if (!new_arg)
+            return NULL;
+
+        // Copy old arguments
+        for (int k = 0; k < j; k++)
+            new_arg[k] = (*cmd)->arg[k];
+
+        // Add new argument and null-terminate
+        new_arg[j] = command;
+        new_arg[j + 1] = NULL;
+
+        // Free old arguments array and point to the new one
+        free((*cmd)->arg);
+        (*cmd)->arg = new_arg;
+    }
+
+    // Move prompt pointer to the next character after the argument
+    return (prompt + i);
 }
 
 char *get_next_flag(t_cmd **cmd, char *prompt)
@@ -128,6 +137,7 @@ void lexering(t_data *data)
 	data->input = get_next_command(&cmd, data->input);
 	if (cmd)
 		print_cmd_list(cmd);
+	free_cmd(cmd);
 }
 
 // 4. Handle Strings and Quoted Sections

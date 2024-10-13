@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 12:49:04 by amokdad           #+#    #+#             */
-/*   Updated: 2024/10/13 15:49:48 by fbicandy         ###   ########.fr       */
+/*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
+/*   Updated: 2024/10/12 20:12:23 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "src/minishell.h"
 
-void	handle_eof(void)
+int	main(void)
 {
-	printf("\nExiting minishell...\n");
-	rl_clear_history();
-	exit(0);
+	char	*prompt;
+	t_data	data;
+
+	prompt = "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002";
+	signals();
+	while (1)
+	{
+		data.input = readline(prompt);
+		if (data.input == NULL)
+			handle_eof();
+		add_history(data.input);
+		lexering(&data);
+	}
+	return (0);
 }
 
-void	handle_sigint(__attribute__((unused)) int sig)
-{
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	signals(void)
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-}
+//TODO
+	//fredy lexering 
+	//Ali command exec 
