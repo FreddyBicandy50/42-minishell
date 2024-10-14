@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/13 17:28:39 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/14 22:07:19 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ t_cmd *ft_cmd_lst_new(char *command)
 	if (!new_cmd)
 		return (NULL);
 	new_cmd->command = command;
-	new_cmd->arg = NULL;  // Initialize to NULL
-	new_cmd->flag = NULL; // Initialize to NULL
+	new_cmd->arg = NULL;	 // Initialize to NULL
+	new_cmd->flag = NULL;	 // Initialize to NULL
+	new_cmd->arg_number = 0; // Initialize to NULL
 	new_cmd->next = NULL;
 	return (new_cmd);
 }
@@ -70,13 +71,14 @@ void print_cmd_list(t_cmd *cmd)
 		if (cmd->arg)
 		{
 			int i = 0;
-			while (cmd->arg[i] != NULL) // Loop through all arguments
+			while (i < cmd->arg_number)
 			{
-				printf("Argument[%d]: %s\n", i, cmd->arg[i]);
+				if (cmd->arg != NULL)
+					printf("Argument[%d]:%s$\n", i, cmd->arg[i]);
 				i++;
 			}
+			printf("n=%d\n", cmd->arg_number);
 		}
-
 		cmd = cmd->next;
 	}
 }

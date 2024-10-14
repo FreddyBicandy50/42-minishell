@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/13 17:07:17 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/14 21:58:00 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_cmd
 	char *command;
 	char *flag;
 	char **arg;
+	int	 arg_number;
 	struct s_cmd *next;
 } t_cmd;
 

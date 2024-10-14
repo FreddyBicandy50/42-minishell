@@ -6,28 +6,26 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 16:28:39 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/12 16:16:15 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:23:02 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "stdlib.h"
 #include "stdio.h"
 
-char	*ft_strncpy(int start, int end, char *src)
+char *ft_strncpy(int start, int len, const char *src)
 {
-	int		i;
-	char	*dst;
+	char *dest = malloc(sizeof(char) * (len + 1)); // Allocate space for the string
+	if (!dest)
+		return NULL;
 
-	dst = (char *)malloc(sizeof(char) * (end - start + 1));
-	if (!dst)
-		return (NULL);
-	i = 0;
-	while (start < end)
+	int i = 0;
+	while (i < len && src[start + i])
 	{
-		dst[i] = src[start];
-		start++;
+		dest[i] = src[start + i];
 		i++;
 	}
-	dst[i] = '\0';
-	return (dst);
+	dest[i] = '\0'; // Null-terminate the string
+
+	return dest;
 }

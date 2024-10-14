@@ -6,60 +6,78 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/13 17:34:56 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/14 22:20:25 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// fix weird last argument 
 char *get_next_str(t_cmd **cmd, char *prompt)
 {
-    int i = 0;
-    char *command = NULL;
+	int i = 0;
+	int j = 0;
+	char *command = NULL;
+	int quote = 0;
 
-    // Find the end of the argument (space or end of prompt)
-    while (prompt[i] != '\0' && prompt[i] != ' ')
-        i++;
+	// Find the end of the argument (space or end of prompt)
+	while (prompt[i] != '\0')
+	{
+		if ((prompt[i] == '"' || prompt[i] == '\'') && quote==0)
+			quote = 1;
+		else if ((prompt[i] == '"' || prompt[i] == '\'') && quote==1)
+			quote = 0;
+		if (prompt[i] == 32 && quote==0)
+			break;
+		i++;
+	}
+	if (i == 1 && prompt[0] == ' ')
+		return (prompt);
+	// Allocate and copy the argument
+	command = ft_strncpy(0, i, prompt);
+	if (!command)
+		return (NULL);
 
-    // Allocate memory and copy the argument
-    command = ft_strncpy(0, i, skip_spaces(prompt));
+	// Append the argument to cmd->arg
+	if (!(*cmd)->arg) // If no arguments yet
+	{
+		(*cmd)->arg = malloc(sizeof(char *) * j + 1); // One argument + NULL
+		if (!(*cmd)->arg)
+		{
+			free(command); // Free if malloc fails
+			return NULL;
+		}
+		(*cmd)->arg[j] = command;
+		(*cmd)->arg[j + 1] = NULL;
+		(*cmd)->arg_number = j + 1;
+	}
+	else // If arguments already exist, expand the array
+	{
+		while ((*cmd)->arg[j] != NULL)
+			j++;
+		(*cmd)->arg_number = j + 1;
 
-    // Append the argument to cmd->arg
-    if (!(*cmd)->arg)  // If no arguments yet
-    {
-        (*cmd)->arg = malloc(sizeof(char *) * 2);  // Allocate for one argument + NULL
-        if (!(*cmd)->arg)
-            return NULL;
-        (*cmd)->arg[0] = command;
-        (*cmd)->arg[1] = NULL;
-    }
-    else  // If arguments already exist, expand the array
-    {
-        int j = 0;
-        while ((*cmd)->arg[j] != NULL)
-            j++;
+		// Allocate new space for additional argument and NULL terminator
+		char **new_arg = malloc(sizeof(char *) * (j + 2));
+		if (!new_arg)
+		{
+			free(command); // Free command if allocation fails
+			return NULL;
+		}
 
-        // Allocate new space for additional argument and NULL terminator
-        char **new_arg = malloc(sizeof(char *) * (j + 2));
-        if (!new_arg)
-            return NULL;
+		// Copy old arguments
+		for (int k = 0; k < j; k++)
+			new_arg[k] = (*cmd)->arg[k];
 
-        // Copy old arguments
-        for (int k = 0; k < j; k++)
-            new_arg[k] = (*cmd)->arg[k];
+		// Add new argument and null-terminate
+		new_arg[j] = command;
+		new_arg[j + 1] = NULL;
 
-        // Add new argument and null-terminate
-        new_arg[j] = command;
-        new_arg[j + 1] = NULL;
+		// Free old arguments array and point to the new one
+		free((*cmd)->arg);
+		(*cmd)->arg = new_arg;
+	}
 
-        // Free old arguments array and point to the new one
-        free((*cmd)->arg);
-        (*cmd)->arg = new_arg;
-    }
-
-    // Move prompt pointer to the next character after the argument
-    return (prompt + i);
+	return (prompt + i);
 }
 
 char *get_next_flag(t_cmd **cmd, char *prompt)
@@ -82,14 +100,15 @@ char *get_next_flag(t_cmd **cmd, char *prompt)
 					break;
 				i++;
 			}
+
 			flag = ft_strncpy(1, i, prompt);
-			char *tmp;
+
 			if (all_flags == NULL)
 				all_flags = ft_strcat("-", flag);
 			else
 			{
-				tmp = ft_strcat(all_flags, flag);
-				free(all_flags);
+				char *tmp = ft_strcat(all_flags, flag);
+				free(all_flags); // Free the old flag string
 				all_flags = tmp;
 			}
 			free(flag);
