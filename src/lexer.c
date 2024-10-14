@@ -6,78 +6,74 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/14 22:20:25 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/14 23:43:13 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_next_str(t_cmd **cmd, char *prompt)
+int get_next_str(t_cmd **cmd, char *prompt)
 {
-	int i = 0;
-	int j = 0;
-	char *command = NULL;
-	int quote = 0;
+	int i;
+	int j;
+	int k;
+	char *command;
+	int quote;
 
-	// Find the end of the argument (space or end of prompt)
+	k = 0;
+	i = 0;
+	j = 0;
+	quote = 0;
+	command = NULL;
 	while (prompt[i] != '\0')
 	{
-		if ((prompt[i] == '"' || prompt[i] == '\'') && quote==0)
+		if ((prompt[i] == '"' || prompt[i] == '\'') && quote == 0)
 			quote = 1;
-		else if ((prompt[i] == '"' || prompt[i] == '\'') && quote==1)
+		else if ((prompt[i] == '"' || prompt[i] == '\'') && quote == 1)
 			quote = 0;
-		if (prompt[i] == 32 && quote==0)
+		if (prompt[i] == 32 && quote == 0)
 			break;
 		i++;
 	}
-	if (i == 1 && prompt[0] == ' ')
-		return (prompt);
-	// Allocate and copy the argument
+	if (prompt[0] == 32 || prompt[0] == '\0')
+		return (0);
 	command = ft_strncpy(0, i, prompt);
 	if (!command)
-		return (NULL);
-
-	// Append the argument to cmd->arg
-	if (!(*cmd)->arg) // If no arguments yet
+		return (-1);
+	if (!(*cmd)->arg)
 	{
 		(*cmd)->arg = malloc(sizeof(char *) * j + 1); // One argument + NULL
 		if (!(*cmd)->arg)
 		{
-			free(command); // Free if malloc fails
-			return NULL;
+			free(command);
+			return -1;
 		}
 		(*cmd)->arg[j] = command;
 		(*cmd)->arg[j + 1] = NULL;
 		(*cmd)->arg_number = j + 1;
 	}
-	else // If arguments already exist, expand the array
+	else
 	{
 		while ((*cmd)->arg[j] != NULL)
 			j++;
 		(*cmd)->arg_number = j + 1;
-
-		// Allocate new space for additional argument and NULL terminator
 		char **new_arg = malloc(sizeof(char *) * (j + 2));
 		if (!new_arg)
 		{
-			free(command); // Free command if allocation fails
-			return NULL;
+			free(command);
+			return (-1);
 		}
-
-		// Copy old arguments
-		for (int k = 0; k < j; k++)
+		while (k < j)
+		{
 			new_arg[k] = (*cmd)->arg[k];
-
-		// Add new argument and null-terminate
+			k++;
+		}
 		new_arg[j] = command;
 		new_arg[j + 1] = NULL;
-
-		// Free old arguments array and point to the new one
 		free((*cmd)->arg);
 		(*cmd)->arg = new_arg;
 	}
-
-	return (prompt + i);
+	return (i);
 }
 
 char *get_next_flag(t_cmd **cmd, char *prompt)
@@ -116,8 +112,18 @@ char *get_next_flag(t_cmd **cmd, char *prompt)
 		}
 		else
 		{
-			prompt = get_next_str(cmd, prompt);
-			prompt++;
+			int n = 0;
+			n = get_next_str(cmd, prompt);
+			if (n > 0)
+			{
+				prompt += n;
+			}
+			else
+			{
+				if (prompt[i] == '\0')
+					break;
+				prompt++;
+			}
 		}
 	}
 	(*cmd)->flag = all_flags;
