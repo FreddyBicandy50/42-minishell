@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 10:07:17 by amokdad           #+#    #+#             */
-/*   Updated: 2024/10/13 13:52:25 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/15 00:47:42 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    echo(char **echo_input)
+void	echo(char **echo_input)
 {
-	
+	return ;
 }
