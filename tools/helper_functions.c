@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/15 13:30:17 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:43:01 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	printable(char c)
 	return (0);
 }
 
-int pipe_redirections(char c)
+int	pipe_redirections(char c)
 {
 	return (c == '>' || c == '<' || c == '|');
 }

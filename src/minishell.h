@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/15 13:28:02 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:44:24 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@
 
 typedef struct s_cmd
 {
-	char *command;
-	char **arg;
-	char *flag;
-	int arg_number;		   
-	int pipe;		   
-	int redir_in;	   
-	int redir_out;	   
-	int redir_append;  
-	int redir_heredoc; 
-	struct s_cmd *next;
-} t_cmd;
+	char			*command;
+	char			**arg;
+	char			*flag;
+	int				arg_number;
+	int				pipe;
+	int				redir_in;
+	int				redir_out;
+	int				redir_append;
+	int				redir_heredoc;
+	struct s_cmd	*next;
+}	t_cmd;
 
 typedef struct s_data
 {
@@ -59,8 +59,8 @@ void	handle_sigint(int sig);
 void	handle_sigquit(__attribute__((unused)) int sig);
 
 // libft
-void	add_first_cmd(t_cmd **cmd, char *command);
 int		ft_strlen(const char *str);
+void	add_first_cmd(t_cmd **cmd, char *command);
 void	print_cmd_list(t_cmd *cmd);
 t_cmd	*ft_cmd_lst_new(char *command);
 void	ft_cmd_add_back(t_cmd **lst, t_cmd *new);
@@ -74,8 +74,8 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s);
 
 // lexer utils
-void handle_pipe_redirection(t_cmd **cmd, char *prompt);
-int update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags);
+void	handle_pipe_redirection(t_cmd **cmd, char *prompt);
+int		update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags);
 char	*get_args(t_cmd **cmd, int i, char *prompt);
 void	append_cmd(t_cmd **cmd, char *command);
 int		check_quote(char c, int quote);
