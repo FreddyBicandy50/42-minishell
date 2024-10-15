@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/15 00:44:20 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:38:26 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	append_cmd(t_cmd **cmd, char *command)
 			j++;
 		(*cmd)->arg_number = j + 1;
 		new_arg = malloc(sizeof(char *) * (j + 2));
-		if (!new_arg)
-			free(command);
 		while (k++ < j)
 			new_arg[k] = (*cmd)->arg[k];
 		new_arg[j] = command;
@@ -43,6 +41,7 @@ int	update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags)
 {
 	char	*tmp;
 	char	*flag;
+	int		j;
 
 	while (printable(prompt[i]) && (prompt[i] != '\0' && prompt[i] != ' '))
 		if (prd(prompt[i++]))
@@ -58,6 +57,12 @@ int	update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags)
 	}
 	free(flag);
 	(*cmd)->flag = all_flags;
+	j = -1;
+	while ((*cmd)->flag[++j] != '\0')
+	{
+		if ((*cmd)->flag[j] == 32)
+			(*cmd)->flag[j] = (*cmd)->flag[j + 1];
+	}
 	return (i);
 }
 

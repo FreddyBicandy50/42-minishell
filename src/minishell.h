@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/15 00:46:19 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:29:54 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	*ft_strsub(const char *s, unsigned int start, size_t len);
 void	free_cmd(t_cmd *cmd);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strdup(const char *s);
 
 // lexer utils
 int		update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags);

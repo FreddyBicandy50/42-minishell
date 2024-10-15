@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/15 00:49:00 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/15 12:28:21 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,26 @@ void	ft_cmd_add_back(t_cmd **lst, t_cmd *new)
 void	free_cmd(t_cmd *cmd)
 {
 	t_cmd	*temp;
+	int		i;
 
-	temp = cmd;
-	while (temp != NULL)
+	while (cmd != NULL)
 	{
+		temp = cmd;
 		free(temp->command);
 		free(temp->flag);
-		free(temp->arg);
-		temp = temp->next;
+		if (temp->arg)
+		{
+			i = 0;
+			while (temp->arg[i] != NULL)
+			{
+				free(temp->arg[i]);
+				i++;
+			}
+			free(temp->arg);
+		}
+		cmd = cmd->next;
+		free(temp);
 	}
-	free(cmd);
 }
 
 void	print_cmd_list(t_cmd *cmd)
