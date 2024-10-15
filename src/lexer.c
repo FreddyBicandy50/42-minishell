@@ -6,29 +6,26 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/15 10:33:31 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:31:29 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_next_str(t_cmd **cmd, char *prompt)
+int get_next_str(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	int		quote;
-	char	*command;
+	int i;
+	int quote_flag;
+	char *command;
 
 	i = 0;
-	quote = 0;
+	quote_flag = 0;
 	command = NULL;
 	while (prompt[i] != '\0')
 	{
-		if ((prompt[i] == '"' || prompt[i] == '\'') && quote == 0)
-			quote = 1;
-		else if ((prompt[i] == '"' || prompt[i] == '\'') && quote == 1)
-			quote = 0;
-		if (prompt[i] == 32 && quote == 0)
-			break ;
+		quote_flag = check_quote(prompt[i], quote_flag);
+		if (ft_strncmp((*cmd)->command, "echo", 4) != 0 && prompt[i] == 32 && quote_flag == 0)
+			break;
 		i++;
 	}
 	if (prompt[0] == 32 || prompt[0] == '\0')
@@ -40,12 +37,12 @@ int	get_next_str(t_cmd **cmd, char *prompt)
 	return (i);
 }
 
-char	*get_next_flag(t_cmd **cmd, char *prompt)
+char *get_next_flag(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	char	*new_prompt;
+	int i;
+	char *new_prompt;
 
-	while (*prompt != '\0' && !prd(*prompt))
+	while (*prompt != '\0')
 	{
 		prompt = skip_spaces(prompt);
 		i = 0;
@@ -58,17 +55,17 @@ char	*get_next_flag(t_cmd **cmd, char *prompt)
 		{
 			new_prompt = get_args(cmd, i, prompt);
 			if (!new_prompt)
-				break ;
+				break;
 			prompt = new_prompt;
 		}
 	}
 	return (prompt);
 }
 
-char	*get_next_command(t_cmd **cmd, char *prompt)
+char *get_next_command(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	char	*command;
+	int i;
+	char *command;
 
 	prompt = skip_spaces(prompt);
 	i = 0;
@@ -87,13 +84,13 @@ char	*get_next_command(t_cmd **cmd, char *prompt)
 	return (prompt + i);
 }
 
-void	lexering(t_data *data)
+void lexering(t_data *data)
 {
-	t_cmd	*cmd;
+	t_cmd *cmd;
 
 	cmd = NULL;
 	if (!data->input || *data->input == '\0')
-		return ;
+		return;
 	data->input = get_next_command(&cmd, data->input);
 	if (cmd)
 		print_cmd_list(cmd);

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   helper_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/12 23:02:06 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:30:17 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../src/minishell.h"
 
 char	*skip_spaces(char *str)
 {
@@ -28,9 +28,16 @@ int	printable(char c)
 	return (0);
 }
 
-int	prd(char c)
+int pipe_redirections(char c)
 {
-	if (c == '>' || c == '<' || c == '|')
+	return (c == '>' || c == '<' || c == '|');
+}
+
+int	check_quote(char c, int quote)
+{
+	if ((c == '"' || c == '\'') && quote == 0)
 		return (1);
+	else if ((c == '"' || c == '\'') && quote == 1)
+		return (0);
 	return (0);
 }

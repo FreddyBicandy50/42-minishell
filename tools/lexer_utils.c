@@ -6,17 +6,17 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/15 10:38:26 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:27:15 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void	append_cmd(t_cmd **cmd, char *command)
+void append_cmd(t_cmd **cmd, char *command)
 {
-	char	**new_arg;
-	int		j;
-	int		k;
+	char **new_arg;
+	int j;
+	int k;
 
 	j = 0;
 	k = -1;
@@ -37,15 +37,15 @@ void	append_cmd(t_cmd **cmd, char *command)
 	}
 }
 
-int	update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags)
+int update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags)
 {
-	char	*tmp;
-	char	*flag;
-	int		j;
+	char *tmp;
+	char *flag;
+	int j;
 
 	while (printable(prompt[i]) && (prompt[i] != '\0' && prompt[i] != ' '))
-		if (prd(prompt[i++]))
-			break ;
+		if (pipe_redirections(prompt[i++]))
+			break;
 	flag = ft_strncpy(1, i, prompt);
 	if (all_flags == NULL)
 		all_flags = ft_strcat("-", flag);
@@ -66,9 +66,9 @@ int	update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags)
 	return (i);
 }
 
-char	*get_args(t_cmd **cmd, int i, char *prompt)
+char *get_args(t_cmd **cmd, int i, char *prompt)
 {
-	int	n;
+	int n;
 
 	n = 0;
 	n = get_next_str(cmd, prompt);
@@ -81,4 +81,33 @@ char	*get_args(t_cmd **cmd, int i, char *prompt)
 		prompt++;
 	}
 	return (prompt);
+}
+
+void handle_pipe_redirection(t_cmd **cmd, char *prompt)
+{
+	int i;
+
+	i = 0;
+	if (prompt[i] == '>' && prompt[i + 1] == '>')
+	{
+		(*cmd)->redir_append = 1;
+		i += 2;
+	}
+	else if (prompt[i++] == '>')
+		(*cmd)->redir_out = 1;
+	else if (prompt[i] == '<' && prompt[i + 1] == '<')
+	{
+		(*cmd)->redir_heredoc = 1;
+		i += 2;
+	}
+	else if (prompt[i++] == '<')
+		(*cmd)->redir_in = 1;
+	else if (prompt[i++] == '|')
+		(*cmd)->pipe = 1;
+	prompt += i;
+	prompt = skip_spaces(prompt);
+	if ((*cmd)->pipe)
+		return;
+	else
+		get_next_str(cmd, prompt);
 }
