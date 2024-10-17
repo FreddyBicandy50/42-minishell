@@ -6,7 +6,7 @@
 #    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2024/10/15 10:29:28 by fbicandy         ###   ########.fr        #
+#    Updated: 2024/10/16 14:39:08 by fbicandy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,8 @@ NAME = libft.a
 SOURCES = \
 ft_cmd_lst.c \
 ft_strlen.c \
+ft_strndup.c \
+ft_data_lst.c \
 ft_strcat.c \
 ft_strncmp.c \
 ft_strsub.c \
