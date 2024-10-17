@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/17 20:44:41 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/17 20:53:00 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,22 @@ int	printable(char c)
 	return (0);
 }
 
-int pipe_redirections(char *str, int *is_double)
+int	pipe_redirections(char *str, int *is_double)
 {
 	if (is_double != NULL)
 		*is_double = 0;
 	if (*str == '>' || *str == '<' || *str == '|')
 	{
-		if ((*str == '>' && *(str + 1) == '>') || (*str == '<' && *(str + 1) == '<'))
+		if ((*str == '>' && *(str + 1) == '>')
+			|| (*str == '<' && *(str + 1) == '<'))
 		{
 			if (is_double != NULL)
 				*is_double = 1;
-			return 2;
+			return (2);
 		}
-		return 1;
+		return (1);
 	}
-	return 0;
+	return (0);
 }
 
 int	check_quote(char c, int quote)

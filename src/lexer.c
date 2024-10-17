@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/17 20:51:33 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/17 20:53:12 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*get_next_flag(t_cmd **cmd, char *prompt)
 	return (prompt);
 }
 
-char *get_next_command(t_cmd **cmd, char *prompt)
+char	*get_next_command(t_cmd **cmd, char *prompt)
 {
 	int		i;
 	char	*command;
