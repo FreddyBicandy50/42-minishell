@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/16 14:41:54 by fbicandy         ###   ########.fr       */
+/*   Created: 2024/10/16 14:32:30 by fbicandy          #+#    #+#             */
+/*   Updated: 2024/10/16 14:32:50 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "src/minishell.h"
+#include <stdlib.h>
+#include <string.h>
 
-int	main(void)
+char *ft_strndup(const char *s, size_t n)
 {
-	char	*prompt;
-	t_data	data;
+    char *dup;
+    size_t len;
 
-	prompt = "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002";
-	signals();
-	while (1)
-	{
-		data.input = readline(prompt);
-		if (data.input == NULL)
-			handle_eof();
-		add_history(data.input);
-		lexering(&data);
-	}
-	return (0);
+    len = strnlen(s, n);
+    dup = (char *)malloc(len + 1);
+    if (!dup)
+        return (NULL);
+    strncpy(dup, s, len);
+    dup[len] = '\0'; // Ensure null-termination
+    return (dup);
 }
-
-//TODO
-	//fredy lexering 
-	//Ali command exec 
