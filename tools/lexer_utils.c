@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/16 14:25:24 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/17 20:47:31 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags)
 	int		j;
 
 	while (printable(prompt[i]) && (prompt[i] != '\0' && prompt[i] != ' '))
-		if (pipe_redirections(&prompt[i], NULL) > 0)
+		if (pipe_redirections(&prompt[i++], NULL) > 0)
 			break ;
 	flag = ft_strncpy(1, i, prompt);
 	if (all_flags == NULL)
@@ -59,10 +59,8 @@ int	update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags)
 	(*cmd)->flag = all_flags;
 	j = -1;
 	while ((*cmd)->flag[++j] != '\0')
-	{
 		if ((*cmd)->flag[j] == 32)
 			(*cmd)->flag[j] = (*cmd)->flag[j + 1];
-	}
 	return (i);
 }
 
@@ -110,21 +108,4 @@ void	handle_pipe_redirection(t_cmd **cmd, char *prompt)
 		return ;
 	else
 		get_next_str(cmd, prompt);
-}
-
-void append_data_node(t_data **lst, t_data *new)
-{
-	t_data *temp;
-
-	if (!new || !lst)
-		return;
-	if (*lst == NULL)
-	{
-		*lst = new;
-		return;
-	}
-	temp = *lst;
-	while (temp->next != NULL)
-		temp = temp->next;
-	temp->next = new;
 }
