@@ -6,7 +6,7 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:37:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/10/15 17:17:34 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/18 12:31:09 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ char	*find_path(char *cmd, char **envp)
 void	check_cmd_in_envp(t_cmd *cmd, char *envp[])
 {
 	char	*path;
-	int		i;
 
 	path = find_path(cmd->command, envp);
-	i = -1;
 	if (!path)
 	{
 		perror("Error");

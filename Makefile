@@ -7,7 +7,7 @@ CFLAGS = -Wall -Wextra -Werror  -I$(INCLUDES)
 
 SRCS = main.c \
 	tools/lexer_utils.c tools/helper_functions.c  \
-	src/lexer.c  src/signals.c
+	src/lexering.c  src/parsering.c  src/signals.c src/check_cmd.c
 
 OBJECTS = $(SRCS:.c=.o)
 

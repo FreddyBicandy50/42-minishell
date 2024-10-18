@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
+#    By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2024/10/16 14:39:08 by fbicandy         ###   ########.fr        #
+#    Updated: 2024/10/18 12:27:06 by amokdad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,14 +15,15 @@ SOURCES = \
 ft_cmd_lst.c \
 ft_strlen.c \
 ft_strndup.c \
-ft_data_lst.c \
 ft_strcat.c \
 ft_strncmp.c \
+ft_strcmp.c \
 ft_strsub.c \
 ft_strdup.c \
 ft_split.c \
 ft_strjoin.c \
-ft_strncpy.c 
+ft_strncpy.c \
+ft_strnstr.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

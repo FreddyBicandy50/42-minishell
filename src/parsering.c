@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   parsering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/13 13:50:47 by amokdad           #+#    #+#             */
-/*   Updated: 2024/10/18 12:25:07 by amokdad          ###   ########.fr       */
+/*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
+/*   Updated: 2024/10/18 12:19:10 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+// TODO ALI : check command
+#include "minishell.h"
 
-int	ft_strcmp(char *s1, char *s2)
+int	check_cmd(t_cmd *cmd, char *envp[])
 {
-	while (*s1 && *s2)
-	{
-		if (*s1 != *s2)
-			return (*s1 - *s2);
-		s1++;
-		s2++;
-	}
-	return (*s1 - *s2);
+	check_cmd_if_included(cmd, envp);
+	return (0);
+}
+
+void	parser(t_cmd *cmd, char *envp[])
+{
+	(void) *cmd;
+	print_cmd_list(cmd);
+	check_cmd(cmd, envp);
 }
