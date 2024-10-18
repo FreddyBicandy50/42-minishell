@@ -6,16 +6,16 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 16:40:15 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/15 00:51:18 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:01:38 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "stdlib.h"
 
-static size_t	ft_wordcount(const char *s, char c)
+static size_t ft_wordcount(const char *s, char c)
 {
-	size_t	count;
-	int		in_word;
+	size_t count;
+	int in_word;
 
 	count = 0;
 	in_word = 0;
@@ -33,10 +33,10 @@ static size_t	ft_wordcount(const char *s, char c)
 	return (count);
 }
 
-static char	*ft_strndup(const char *s, size_t n)
+static char *ft_strndup(const char *s, size_t n)
 {
-	char	*copy;
-	size_t	i;
+	char *copy;
+	size_t i;
 
 	copy = malloc(n + 1);
 	if (!copy)
@@ -52,11 +52,11 @@ static char	*ft_strndup(const char *s, size_t n)
 	return (copy);
 }
 
-char	**ft_split(char const *s, char c)
+char **ft_split(char const *s, char c)
 {
-	const char	*word_start;
-	char		**tab;
-	size_t		i;
+	const char *word_start;
+	char **tab;
+	size_t i;
 
 	tab = malloc((ft_wordcount(s, c) + 1) * sizeof(char *));
 	if (!s || !tab)
@@ -79,4 +79,17 @@ char	**ft_split(char const *s, char c)
 	}
 	tab[i] = NULL;
 	return (tab);
+}
+
+void	free_split(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i] != NULL)
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
 }

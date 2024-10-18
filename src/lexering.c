@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexering.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/17 20:53:12 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:03:32 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,20 @@ char	*get_next_command(t_cmd **cmd, char *prompt)
 	return (prompt + i);
 }
 
-void	lexering( char *input)
+t_cmd	*lexer( char *input)
 {
 	char	**segments;
 	int		i;
 	t_cmd	*cmd;
 
 	if (!input || *input == '\0')
-		return ;
+		return (NULL);
 	cmd = NULL;
 	segments = NULL;
 	segments = ft_split(input, '|');
 	i = -1;
 	while (segments[++i] != NULL)
 		get_next_command(&cmd, segments[i]);
-	if (cmd)
-		print_cmd_list(cmd);
-	free_cmd(cmd);
-	return ;
+	free_split(segments);
+	return (cmd);
 }
