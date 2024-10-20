@@ -6,7 +6,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror  -I$(INCLUDES)
 
 SRCS = main.c \
-	tools/helper_parser.c tools/lexer_utils.c tools/helper_functions.c  \
+	tools/helper_parser.c tools/helper_lexer.c tools/helper_functions.c  \
 	src/lexering.c  src/parsering.c  src/signals.c \
 	built_in/echo.c
 
