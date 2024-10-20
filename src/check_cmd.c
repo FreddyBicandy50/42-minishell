@@ -6,7 +6,7 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:37:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/10/18 12:31:09 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:45:58 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	check_cmd_in_envp(t_cmd *cmd, char *envp[])
 void	check_cmd_if_included(t_cmd *cmd, char *envp[])
 {
 	if (ft_strcmp(cmd->command, "echo") == 0)
-		printf("\necho //\n");
+		echo_cmd(cmd);
 	else if (ft_strcmp(cmd->command, "cd") == 0)
 		printf("\ncd\n");
 	else if (ft_strcmp(cmd->command, "pwd") == 0)

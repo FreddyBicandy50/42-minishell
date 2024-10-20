@@ -6,7 +6,7 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/18 12:31:51 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:20:11 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,8 @@ char	*skip_spaces(char *str);
 
 // check_cmd
 void	check_cmd_if_included(t_cmd *cmd, char *envp[]);
+
+// echo
+void	echo_cmd(t_cmd *cmd);
 
 #endif
