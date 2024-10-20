@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/20 15:39:14 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/20 16:21:25 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	cmd = (t_cmd *)calloc(1, sizeof(t_cmd));
 	prompt = "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002";
 	signals();
 	while (1)

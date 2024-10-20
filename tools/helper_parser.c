@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_cmd.c                                        :+:      :+:    :+:   */
+/*   helper_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:37:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/10/20 15:45:58 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/20 16:47:19 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,7 @@ char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-void	check_cmd_in_envp(t_cmd *cmd, char *envp[])
-{
-	char	*path;
-
-	path = find_path(cmd->command, envp);
-	if (!path)
-	{
-		perror("Error");
-	}
-}
-
-//check cmd if included in our code or include in sys 
-void	check_cmd_if_included(t_cmd *cmd, char *envp[])
+int	built_in_functions(t_cmd *cmd)
 {
 	if (ft_strcmp(cmd->command, "echo") == 0)
 		echo_cmd(cmd);
@@ -70,5 +58,6 @@ void	check_cmd_if_included(t_cmd *cmd, char *envp[])
 	else if (ft_strcmp(cmd->command, "exit") == 0)
 		printf("\nexit\n");
 	else
-		check_cmd_in_envp(cmd, envp);
+		return (1);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/20 15:20:11 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/20 16:47:24 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,9 @@ int		pipe_redirections(char *str, int *is_double);
 int		printable(char c);
 char	*skip_spaces(char *str);
 
-// check_cmd
-void	check_cmd_if_included(t_cmd *cmd, char *envp[]);
+// helper_parser
+int		built_in_functions(t_cmd *cmd);
+char	*find_path(char *cmd, char **envp);
 
 // echo
 void	echo_cmd(t_cmd *cmd);
