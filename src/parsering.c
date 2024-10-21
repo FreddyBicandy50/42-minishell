@@ -6,7 +6,7 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/21 17:27:53 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/21 17:54:17 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	check_cmd(t_cmd *cmd, char *envp[])
 	char	*path;
 	pid_t	pid;
 
-	if (built_in_functions(cmd) == 1)
+	if (built_in_functions(cmd, envp) == 1)
 	{
 		path = find_path(cmd->command, envp);
 		if (!path)

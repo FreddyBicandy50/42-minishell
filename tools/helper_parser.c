@@ -6,7 +6,7 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:37:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/10/21 17:36:49 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/10/21 17:56:33 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-int	built_in_functions(t_cmd *cmd)
+int	built_in_functions(t_cmd *cmd, char **envp)
 {
 	if (ft_strcmp(cmd->command, "echo") == 0)
 		echo_cmd(cmd);
 	else if (ft_strcmp(cmd->command, "cd") == 0)
 		printf("\ncd\n");
 	else if (ft_strcmp(cmd->command, "pwd") == 0)
-		printf("\npwd\n");
+		pwd_cmd(cmd, envp);
 	else if (ft_strcmp(cmd->command, "export") == 0)
 		printf("\nexport\n");
 	else if (ft_strcmp(cmd->command, "unset") == 0)

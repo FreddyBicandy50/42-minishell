@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/20 17:01:09 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/21 17:55:04 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,13 @@ int		printable(char c);
 char	*skip_spaces(char *str);
 
 // helper_parser
-int		built_in_functions(t_cmd *cmd);
+int		built_in_functions(t_cmd *cmd, char **envp);
 char	*find_path(char *cmd, char **envp);
 
 // echo
 void	echo_cmd(t_cmd *cmd);
+
+//PWD
+void	pwd_cmd(t_cmd *cmd, char **envp);
 
 #endif
