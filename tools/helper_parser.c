@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:37:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/10/20 17:06:37 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/10/21 17:36:49 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ char	*find_path(char *cmd, char **envp)
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
 		if (access(path, F_OK) == 0)
-			return (path);
+			return (free_split(paths), path);
 		free(path);
 		i++;
 	}
+	i = -1;
 	free_split(paths);
 	return (0);
 }
