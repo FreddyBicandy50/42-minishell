@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexering.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/20 16:59:23 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/04 23:18:12 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,15 @@ char	*get_next_command(t_cmd **cmd, char *prompt)
 
 t_cmd	*lexer( char *input)
 {
+	// INIT
 	char	**segments;
 	int		i;
 	t_cmd	*cmd;
 
+	// skip the user input its null
 	if (!input || *input == '\0')
 		return (NULL);
+	// skip the user input if null
 	cmd = NULL;
 	segments = NULL;
 	segments = ft_split(input, '|');

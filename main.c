@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/20 16:21:25 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/04 23:19:55 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/minishell.h"
 
-int	main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
-	char	*prompt;
-	char	*input;
-	t_cmd	*cmd;
+	char *prompt;
+	char *input;
+	t_cmd *cmd;
 
 	(void)argc;
 	(void)argv;
@@ -36,7 +36,4 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	return (0);
 }
-
-//TODO
-	//fredy lexering 
-	//Ali command exec 
+ 
