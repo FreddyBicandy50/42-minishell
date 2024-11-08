@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   helper_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:37:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/10/21 17:56:33 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/11/01 19:56:54 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../src/minishell.h"
 
 char	*find_path(char *cmd, char **envp)
 {

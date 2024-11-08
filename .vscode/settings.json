@@ -7,5 +7,7 @@
         "unistd.h": "c",
         "termios.h": "c",
         "readline.h": "c"
-    }
+    },
+    "files.autoSave": "afterDelay",
+    "editor.fontSize": 20
 }
