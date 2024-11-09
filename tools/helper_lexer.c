@@ -6,7 +6,7 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 17:32:53 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/09 23:33:52 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,46 +145,40 @@ void append_redirection(t_cmd **cmd, int type, char *filename)
 
 int handle_pipe_redirection(t_cmd **cmd, char *prompt)
 {
-	int i;
-	char *new_prompt;
 	char redirection;
+	int type;
+	int redir_count;
 
 	while (*prompt != '\0')
 	{
 		prompt = skip_spaces(prompt);
-		i = 0;
-
-		if (prompt[i] == '>' || prompt[i] == '<')
+		if (*prompt == '>' || *prompt == '<')
 		{
-			redirection = prompt[i];
-			i++;
-			if ((prompt[i] == '>' || prompt[i] == '<') && redirection != prompt[i])
+			redirection = *prompt;
+			redir_count = 1;
+			while (*(prompt + redir_count) == redirection)
+				redir_count++;
+			if (redir_count > 2)
 			{
-				printf("error near %c", redirection);
-				exit(0);
+				printf("Error: parse error near `%c`\n", redirection);
+				exit(EXIT_FAILURE);
 			}
-			else
-			{
-				// Set the redirection type
-				int type = 0;
-				if (redirection == '>' && i == 2)
-					type = 2; // >>
-				else if (redirection == '>' && i == 1)
-					type = 1; // >
-				else if (redirection == '<' && i == 2)
-					type = 3; // <<
-				else if (redirection == '<' && i == 1)
-					type = 4; // <
-				prompt = get_last_word(cmd, type, prompt + i);
-			}
-		}
-		if (prompt != NULL || *prompt != '\0')
-			return (-1);
-		new_prompt = get_args(cmd, i, prompt);
+			if (redirection == '>' && redir_count == 2)
+				type = 2; // >>
+			else if (redirection == '>' && redir_count == 1)
+				type = 1; // >
+			else if (redirection == '<' && redir_count == 2)
+				type = 3; // <<
+			else if (redirection == '<' && redir_count == 1)
+				type = 4; // <
 
-		if (!new_prompt)
-			break;
-		prompt = new_prompt;
+			// Move prompt past the redirection symbols
+			prompt += redir_count;
+			// Extract the filename associated with the redirection
+			prompt = get_last_word(cmd, type, prompt);
+		}
+		else
+			prompt++; // Move to the next character if not a redirection
 	}
-	return (-1);
+	return -1;
 }

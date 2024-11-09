@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cmd_lst.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 14:48:12 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/09 23:36:05 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,29 +64,36 @@ void free_cmd(t_cmd *cmd)
 void print_cmd_list(t_cmd *cmd)
 {
 	int i;
+	t_redir *redir;
 
 	while (cmd != NULL)
 	{
 		if (cmd->command)
-			printf("Command:%s\n", cmd->command);
+			printf("Command: %s\n", cmd->command);
 		if (cmd->flag)
-			printf("Flag:%s\n", cmd->flag);
+			printf("Flag: %s\n", cmd->flag);
 		if (cmd->arg)
 		{
 			i = 0;
 			while (i < cmd->arg_number)
 			{
-				if (cmd->arg != NULL)
-					printf("Argument[%d]:%s$\n", i, cmd->arg[i]);
+				if (cmd->arg[i] != NULL)
+					printf("Argument[%d]: %s$\n", i, cmd->arg[i]);
 				i++;
 			}
-			printf("n=%d\n", cmd->arg_number);
+			printf("Argument count: %d\n", cmd->arg_number);
 		}
-		if (cmd->filename && cmd->redirections->type != -1)
+
+		// Print redirections in the linked list
+		redir = cmd->redirections;
+		while (redir != NULL)
 		{
-			printf("redirection type=%d\n", cmd->redirections->type);
-			printf("filename=%s\n", cmd->filename);
+			printf("Redirection type: %d\n", redir->type);
+			if (redir->filename)
+				printf("Filename: %s\n", redir->filename);
+			redir = redir->next;
 		}
+
 		cmd = cmd->next;
 	}
 }
