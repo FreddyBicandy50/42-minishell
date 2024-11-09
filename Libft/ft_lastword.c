@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 22:42:31 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 13:03:48 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:17:33 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ char *get_last_word(t_cmd **cmd, char *prompt)
 {
     char *last_word = NULL;
 
-    prompt = skip_spaces(prompt);
-
     // Loop through prompt until we encounter a space or redirection
     while (*prompt && *prompt != '<' && *prompt != '>')
     {
@@ -33,10 +31,10 @@ char *get_last_word(t_cmd **cmd, char *prompt)
             while (*prompt && !ft_isspace(*prompt) && *prompt != '<' && *prompt != '>')
                 prompt++;
         }
+        if (*prompt == '>' || *prompt == '<')
+            break;
         else
-        {
             prompt++;
-        }
     }
 
     // If no valid word was found, return NULL

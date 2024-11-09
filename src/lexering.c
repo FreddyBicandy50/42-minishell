@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 12:25:10 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:33:57 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,33 +18,25 @@ int get_next_str(t_cmd **cmd, char *prompt)
 	int quote_flag = 0;
 	char *command = NULL;
 
-	// Loop until we find a space (indicating next arg) or a redirection symbol
 	while (prompt[i] != '\0')
 	{
 		quote_flag = check_quote(prompt[i], quote_flag);
-
-		// Stop parsing if a redirection symbol or unquoted space is found
 		if ((ft_strncmp((*cmd)->command, "echo", 4) != 0 && prompt[i] == ' ' && quote_flag == 0) ||
 			(prompt[i] == '>' || prompt[i] == '<'))
 			break;
 		i++;
 	}
-
 	if (prompt[0] == 32 || prompt[0] == '\0')
 		return 0;
-
-	// If a redirection symbol is found, handle it and stop further parsing
 	if (prompt[i] == '>' || prompt[i] == '<')
 	{
 		printf("Redirection detected\n");
 		return handle_pipe_redirection(cmd, prompt + i);
  	}
-
-	// Copy the argument found until space or redirection
 	command = ft_strncpy(0, i, prompt);
 	append_cmd(cmd, command);
 
-	return i;
+	return (i);
 }
 
 char *get_next_flag(t_cmd **cmd, char *prompt)

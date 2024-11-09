@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 12:55:08 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:41:50 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef struct s_redir
+{
+	int type;
+	char *filename;
+	struct s_redir *next;
+} t_redir;
 typedef struct s_cmd
 {
 	char			**pwd;
@@ -39,10 +45,12 @@ typedef struct s_cmd
 	char			*flag;
 	int				arg_number;
 	int				pipe;
-	int				redirect;
 	char			*filename;
-	struct s_cmd *next;
+	t_redir			*redirections;
+	struct s_cmd	*next;
 }	t_cmd;
+
+
 
 // signals
 void	signals(void);

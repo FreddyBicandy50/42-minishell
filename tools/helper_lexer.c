@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 13:03:34 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:17:03 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,37 +80,98 @@ char *get_args(t_cmd **cmd, int i, char *prompt)
 
 	return prompt;
 }
+void append_redirection(t_cmd **cmd, int type, char *filename)
+{
+	t_redir *new_redir = malloc(sizeof(t_redir));
+	if (!new_redir)
+	{
+		perror("malloc failed");
+		exit(EXIT_FAILURE);
+	}
+	new_redir->type = type;
+	new_redir->filename = filename;
+	new_redir->next = NULL;
+
+	// Check if this is the first redirection for the command
+	if (!(*cmd)->redirections)
+	{
+		(*cmd)->redirections = new_redir;
+	}
+	else
+	{
+		t_redir *temp = (*cmd)->redirections;
+		while (temp->next)
+		{
+			temp = temp->next;
+		}
+		temp->next = new_redir;
+	}
+}
+
+// int handle_pipe_redirection(t_cmd **cmd, char *prompt)
+// {
+// 	int i = 0;
+// 	char redirection = prompt[0];
+
+// 	// Identify consecutive redirection symbols
+// 	while ((prompt[i] == '>' || prompt[i] == '<') && prompt[i] != '\0')
+// 	{
+// 		if (prompt[i] != redirection)
+// 		{
+// 			printf("Error: parse error near `%c`\n", prompt[i]);
+// 			exit(EXIT_FAILURE);
+// 		}
+// 		i++;
+// 	}
+
+// 	// Set the redirection type
+// 	int type = 0;
+// 	if (redirection == '>' && i == 2)
+// 		type = 2; // >>
+// 	else if (redirection == '>' && i == 1)
+// 		type = 1; // >
+// 	else if (redirection == '<' && i == 2)
+// 		type = 3; // <<
+// 	else if (redirection == '<' && i == 1)
+// 		type = 4; // <
+
+// 	// Obtain the filename following the redirection
+// 	prompt = get_last_word(cmd, skip_spaces(prompt + i));
+// 	printf("filename=%s\n", (*cmd)->filename);
+// 	exit(0);
+// 	// Append the redirection to the command's list
+// 	append_redirection(cmd, type, ft_strdup((*cmd)->filename)); // Duplicate filename to avoid pointer issues
+
+// 	// Check if additional redirections exist
+// 	if (*prompt != '\0')
+// 		handle_pipe_redirection(cmd, prompt);
+
+// 	return -1;
+// }
 
 int handle_pipe_redirection(t_cmd **cmd, char *prompt)
 {
-	int i = 0;
-	char redirection = prompt[0]; // Initialize with first redirection character
+	int i;
+	char *new_prompt;
 
-	// Identify consecutive redirection symbols and confirm valid type
-	while ((prompt[i] == '>' || prompt[i] == '<') && prompt[i] != '\0')
+	while (*prompt != '\0')
 	{
-		if (prompt[i] != redirection) // Check for mismatched symbols (e.g., "><")
+		prompt = skip_spaces(prompt);
+		i = 0;
+
+		if (prompt[i] == '>' || prompt[i] == '<')
 		{
-			printf("Error: parse error near `%c`\n", prompt[i]);
-			exit(1);
+			i++;
+			prompt = get_last_word(cmd, prompt + i);
 		}
-		i++;
+		else
+		{
+			new_prompt = get_args(cmd, i, prompt);
+			if (!new_prompt)
+				break;
+			prompt = new_prompt;
+		}
 	}
 
-	// Determine redirection type based on symbol and count
-	if (redirection == '>' && i == 2)
-		(*cmd)->redirect = 2; // >>
-	else if (redirection == '>' && i == 1)
-		(*cmd)->redirect = 1; // >
-	else if (redirection == '<' && i == 2)
-		(*cmd)->redirect = 3; // <<
-	else if (redirection == '<' && i == 1)
-		(*cmd)->redirect = 4; // <
-
-	prompt = get_last_word(cmd, skip_spaces(prompt + i));
-	// Recursively process any additional redirections in the remaining prompt
-	if (*prompt != '\0')
-		return handle_pipe_redirection(cmd, prompt);
-	return -1;
+	return prompt;
 }
-

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 10:44:13 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:48:12 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_cmd *ft_cmd_lst_new(char *command)
 	new_cmd->arg = NULL;
 	new_cmd->flag = NULL;
 	new_cmd->arg_number = 0;
-	new_cmd->redirect = -1;
 	new_cmd->filename = NULL;
 	new_cmd->next = NULL;
 	return (new_cmd);
@@ -83,9 +82,9 @@ void print_cmd_list(t_cmd *cmd)
 			}
 			printf("n=%d\n", cmd->arg_number);
 		}
-		if (cmd->filename && cmd->redirect != -1)
+		if (cmd->filename && cmd->redirections->type != -1)
 		{
-			printf("redirection type=%d\n", cmd->redirect);
+			printf("redirection type=%d\n", cmd->redirections->type);
 			printf("filename=%s\n", cmd->filename);
 		}
 		cmd = cmd->next;
