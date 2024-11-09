@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_lexer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 15:17:03 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:32:53 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,18 @@ void append_cmd(t_cmd **cmd, char *command)
 		(*cmd)->arg = new_arg;
 	}
 }
-
+// when you open back write a detailed comments here
 int update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags)
 {
 	char *tmp;
 	char *flag;
 	int j;
 
+	// block 1
 	while (printable(prompt[i]) && (prompt[i] != '\0' && prompt[i] != ' '))
-		if (pipe_redirections(&prompt[i++], NULL) > 0)
+		if (prompt[i] == '>' || prompt[i++] == '<')
 			break;
+	// block 2
 	flag = ft_strncpy(1, i, prompt);
 	if (all_flags == NULL)
 		all_flags = ft_strcat("-", flag);
@@ -72,12 +74,10 @@ char *get_args(t_cmd **cmd, int i, char *prompt)
 		prompt += n;
 	else
 	{
-		// Stop processing if redirection was detected
 		if (prompt[i] == '\0' || n == -1)
 			return NULL;
 		prompt++;
 	}
-
 	return prompt;
 }
 void append_redirection(t_cmd **cmd, int type, char *filename)
@@ -91,19 +91,13 @@ void append_redirection(t_cmd **cmd, int type, char *filename)
 	new_redir->type = type;
 	new_redir->filename = filename;
 	new_redir->next = NULL;
-
-	// Check if this is the first redirection for the command
 	if (!(*cmd)->redirections)
-	{
 		(*cmd)->redirections = new_redir;
-	}
 	else
 	{
 		t_redir *temp = (*cmd)->redirections;
 		while (temp->next)
-		{
 			temp = temp->next;
-		}
 		temp->next = new_redir;
 	}
 }
@@ -153,6 +147,7 @@ int handle_pipe_redirection(t_cmd **cmd, char *prompt)
 {
 	int i;
 	char *new_prompt;
+	char redirection;
 
 	while (*prompt != '\0')
 	{
@@ -161,17 +156,35 @@ int handle_pipe_redirection(t_cmd **cmd, char *prompt)
 
 		if (prompt[i] == '>' || prompt[i] == '<')
 		{
+			redirection = prompt[i];
 			i++;
-			prompt = get_last_word(cmd, prompt + i);
+			if ((prompt[i] == '>' || prompt[i] == '<') && redirection != prompt[i])
+			{
+				printf("error near %c", redirection);
+				exit(0);
+			}
+			else
+			{
+				// Set the redirection type
+				int type = 0;
+				if (redirection == '>' && i == 2)
+					type = 2; // >>
+				else if (redirection == '>' && i == 1)
+					type = 1; // >
+				else if (redirection == '<' && i == 2)
+					type = 3; // <<
+				else if (redirection == '<' && i == 1)
+					type = 4; // <
+				prompt = get_last_word(cmd, type, prompt + i);
+			}
 		}
-		else
-		{
-			new_prompt = get_args(cmd, i, prompt);
-			if (!new_prompt)
-				break;
-			prompt = new_prompt;
-		}
-	}
+		if (prompt != NULL || *prompt != '\0')
+			return (-1);
+		new_prompt = get_args(cmd, i, prompt);
 
-	return prompt;
+		if (!new_prompt)
+			break;
+		prompt = new_prompt;
+	}
+	return (-1);
 }

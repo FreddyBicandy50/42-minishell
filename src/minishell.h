@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 14:41:50 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/09 16:49:04 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*ft_strdup_until_space(const char *str);
 char	*ft_strncpy(size_t start, size_t end, char *src);
 char	*ft_strsub(const char *s, unsigned int start, size_t len);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
-char	*get_last_word(t_cmd **cmd, char *prompt);
+char	*get_last_word(t_cmd **cmd,int type, char *prompt);
 char	*get_next_word(char *prompt);
 // parse
 void parser(t_cmd *cmd, char *envp[]);
@@ -94,6 +94,7 @@ t_cmd	*lexer( char *input);
 int		check_quote(char c, int quote);
 int		update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags);
 
+void	append_redirection(t_cmd **cmd, int type, char *filename);
 void	append_cmd(t_cmd **cmd, char *command);
 int		handle_pipe_redirection(t_cmd **cmd, char *prompt);
 

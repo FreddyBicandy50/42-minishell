@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lastword.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 22:42:31 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 15:17:33 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/09 16:49:59 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@ int ft_isspace(char c)
     return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r');
 }
 
-char *get_last_word(t_cmd **cmd, char *prompt)
+char *get_last_word(t_cmd **cmd, int type, char *prompt)
 {
-    char *last_word = NULL;
+    char *last_word;
 
-    // Loop through prompt until we encounter a space or redirection
+    last_word = NULL;
     while (*prompt && *prompt != '<' && *prompt != '>')
     {
         if (!ft_isspace(*prompt))
         {
-            last_word = prompt; // Set the start of the last word
-            // Move through the word until space or redirection is encountered
+            last_word = prompt;
             while (*prompt && !ft_isspace(*prompt) && *prompt != '<' && *prompt != '>')
                 prompt++;
         }
@@ -36,14 +35,8 @@ char *get_last_word(t_cmd **cmd, char *prompt)
         else
             prompt++;
     }
-
-    // If no valid word was found, return NULL
     if (!last_word)
         return (NULL);
-
-    // Copy the last word up to the space or redirection
-    (*cmd)->filename = ft_strdup_until_space(last_word);
-
-    // Return the updated prompt position
+    append_redirection(cmd, type, ft_strdup_until_space(last_word));
     return prompt;
 }
