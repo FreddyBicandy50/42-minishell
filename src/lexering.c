@@ -3,50 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   lexering.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/04 23:18:12 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/09 12:25:10 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_next_str(t_cmd **cmd, char *prompt)
+int get_next_str(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	int		quote_flag;
-	char	*command;
+	int i = 0;
+	int quote_flag = 0;
+	char *command = NULL;
 
-	i = 0;
-	quote_flag = 0;
-	command = NULL;
+	// Loop until we find a space (indicating next arg) or a redirection symbol
 	while (prompt[i] != '\0')
 	{
 		quote_flag = check_quote(prompt[i], quote_flag);
-		if (ft_strncmp((*cmd)->command, "echo", 4) != 0
-			&& prompt[i] == 32 && quote_flag == 0)
-			break ;
+
+		// Stop parsing if a redirection symbol or unquoted space is found
+		if ((ft_strncmp((*cmd)->command, "echo", 4) != 0 && prompt[i] == ' ' && quote_flag == 0) ||
+			(prompt[i] == '>' || prompt[i] == '<'))
+			break;
 		i++;
 	}
+
 	if (prompt[0] == 32 || prompt[0] == '\0')
-		return (0);
+		return 0;
+
+	// If a redirection symbol is found, handle it and stop further parsing
+	if (prompt[i] == '>' || prompt[i] == '<')
+	{
+		printf("Redirection detected\n");
+		return handle_pipe_redirection(cmd, prompt + i);
+ 	}
+
+	// Copy the argument found until space or redirection
 	command = ft_strncpy(0, i, prompt);
-	if (!command)
-		return (-1);
 	append_cmd(cmd, command);
-	return (i);
+
+	return i;
 }
 
-char	*get_next_flag(t_cmd **cmd, char *prompt)
+char *get_next_flag(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	char	*new_prompt;
+	int i;
+	char *new_prompt;
 
 	while (*prompt != '\0')
 	{
 		prompt = skip_spaces(prompt);
 		i = 0;
+
 		if (prompt[i] == '-')
 		{
 			i++;
@@ -56,19 +66,20 @@ char	*get_next_flag(t_cmd **cmd, char *prompt)
 		{
 			new_prompt = get_args(cmd, i, prompt);
 			if (!new_prompt)
-				break ;
+				break;
 			prompt = new_prompt;
 		}
 	}
-	return (prompt);
+
+	return prompt;
 }
 
-char	*get_next_command(t_cmd **cmd, char *prompt)
+char *get_next_command(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	char	*command;
-	t_cmd	*new_cmd;
-	t_cmd	*current;
+	int i;
+	char *command;
+	t_cmd *new_cmd;
+	t_cmd *current;
 
 	prompt = skip_spaces(prompt);
 	i = 0;
@@ -92,17 +103,14 @@ char	*get_next_command(t_cmd **cmd, char *prompt)
 	return (prompt + i);
 }
 
-t_cmd	*lexer( char *input)
+t_cmd *lexer(char *input)
 {
-	// INIT
-	char	**segments;
-	int		i;
-	t_cmd	*cmd;
+	char **segments;
+	int i;
+	t_cmd *cmd;
 
-	// skip the user input its null
 	if (!input || *input == '\0')
 		return (NULL);
-	// skip the user input if null
 	cmd = NULL;
 	segments = NULL;
 	segments = ft_split(input, '|');

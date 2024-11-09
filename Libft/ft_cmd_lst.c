@@ -6,15 +6,15 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/18 10:01:24 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/09 10:44:13 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-t_cmd	*ft_cmd_lst_new(char *command)
+t_cmd *ft_cmd_lst_new(char *command)
 {
-	t_cmd	*new_cmd;
+	t_cmd *new_cmd;
 
 	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_cmd)
@@ -23,20 +23,22 @@ t_cmd	*ft_cmd_lst_new(char *command)
 	new_cmd->arg = NULL;
 	new_cmd->flag = NULL;
 	new_cmd->arg_number = 0;
+	new_cmd->redirect = -1;
+	new_cmd->filename = NULL;
 	new_cmd->next = NULL;
 	return (new_cmd);
 }
 
-void	ft_cmd_add_back(t_cmd **lst, t_cmd *new)
+void ft_cmd_add_back(t_cmd **lst, t_cmd *new)
 {
-	t_cmd	*temp;
+	t_cmd *temp;
 
 	if (!new || !lst)
-		return ;
+		return;
 	if (*lst == NULL)
 	{
 		*lst = new;
-		return ;
+		return;
 	}
 	temp = *lst;
 	while (temp->next != NULL)
@@ -44,9 +46,9 @@ void	ft_cmd_add_back(t_cmd **lst, t_cmd *new)
 	temp->next = new;
 }
 
-void	free_cmd(t_cmd *cmd)
+void free_cmd(t_cmd *cmd)
 {
-	t_cmd	*temp;
+	t_cmd *temp;
 
 	while (cmd != NULL)
 	{
@@ -60,9 +62,9 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
-void	print_cmd_list(t_cmd *cmd)
+void print_cmd_list(t_cmd *cmd)
 {
-	int	i;
+	int i;
 
 	while (cmd != NULL)
 	{
@@ -81,11 +83,16 @@ void	print_cmd_list(t_cmd *cmd)
 			}
 			printf("n=%d\n", cmd->arg_number);
 		}
+		if (cmd->filename && cmd->redirect != -1)
+		{
+			printf("redirection type=%d\n", cmd->redirect);
+			printf("filename=%s\n", cmd->filename);
+		}
 		cmd = cmd->next;
 	}
 }
 
-void	add_first_cmd(t_cmd **cmd, char *command)
+void add_first_cmd(t_cmd **cmd, char *command)
 {
 	(*cmd)->arg = malloc(sizeof(char *) * 2);
 	if (!(*cmd)->arg)

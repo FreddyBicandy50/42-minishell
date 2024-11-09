@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/11/08 13:31:35 by amokdad          ###   ########.fr       */
-=======
-/*   Updated: 2024/11/01 20:06:12 by fredybicand      ###   ########.fr       */
->>>>>>> 3027b86a02b950b0a9d079d35fec5f1ceea59e1d
+/*   Updated: 2024/11/09 12:55:08 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +39,9 @@ typedef struct s_cmd
 	char			*flag;
 	int				arg_number;
 	int				pipe;
-	int				redir_in;
-	int				redir_out;
-	int				redir_append;
-	int				redir_heredoc;
-	struct s_cmd	*next;
+	int				redirect;
+	char			*filename;
+	struct s_cmd *next;
 }	t_cmd;
 
 // signals
@@ -60,7 +54,7 @@ void	handle_sigquit(__attribute__((unused)) int sig);
 
 // libft
 t_cmd	*ft_cmd_lst_new(char *command);
-
+char	*get_next_command(t_cmd **cmd, char *prompt);
 int		ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	free_split(char **args);
@@ -71,16 +65,18 @@ void	add_first_cmd(t_cmd **cmd, char *command);
 
 char	*ft_strdup(const char *s);
 char	**ft_split(char const *s, char c);
+int		ft_strcmp(char *s1, char *s2);
 char	*ft_strndup(const char *s, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strcat(const char *dest, const char *src);
+char	*ft_strdup_until_space(const char *str);
 char	*ft_strncpy(size_t start, size_t end, char *src);
 char	*ft_strsub(const char *s, unsigned int start, size_t len);
-int		ft_strcmp(char *s1, char *s2);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
-
+char	*get_last_word(t_cmd **cmd, char *prompt);
+char	*get_next_word(char *prompt);
 // parse
-void	parser(t_cmd *cmd, char *envp[]);
+void parser(t_cmd *cmd, char *envp[]);
 
 // lexering
 int		get_next_str(t_cmd **cmd, char *prompt);
@@ -91,7 +87,7 @@ int		check_quote(char c, int quote);
 int		update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags);
 
 void	append_cmd(t_cmd **cmd, char *command);
-void	handle_pipe_redirection(t_cmd **cmd, char *prompt);
+int		handle_pipe_redirection(t_cmd **cmd, char *prompt);
 
 char	*get_args(t_cmd **cmd, int i, char *prompt);
 
