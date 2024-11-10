@@ -6,7 +6,7 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 23:33:52 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/10 11:00:18 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,47 +102,6 @@ void append_redirection(t_cmd **cmd, int type, char *filename)
 	}
 }
 
-// int handle_pipe_redirection(t_cmd **cmd, char *prompt)
-// {
-// 	int i = 0;
-// 	char redirection = prompt[0];
-
-// 	// Identify consecutive redirection symbols
-// 	while ((prompt[i] == '>' || prompt[i] == '<') && prompt[i] != '\0')
-// 	{
-// 		if (prompt[i] != redirection)
-// 		{
-// 			printf("Error: parse error near `%c`\n", prompt[i]);
-// 			exit(EXIT_FAILURE);
-// 		}
-// 		i++;
-// 	}
-
-// 	// Set the redirection type
-// 	int type = 0;
-// 	if (redirection == '>' && i == 2)
-// 		type = 2; // >>
-// 	else if (redirection == '>' && i == 1)
-// 		type = 1; // >
-// 	else if (redirection == '<' && i == 2)
-// 		type = 3; // <<
-// 	else if (redirection == '<' && i == 1)
-// 		type = 4; // <
-
-// 	// Obtain the filename following the redirection
-// 	prompt = get_last_word(cmd, skip_spaces(prompt + i));
-// 	printf("filename=%s\n", (*cmd)->filename);
-// 	exit(0);
-// 	// Append the redirection to the command's list
-// 	append_redirection(cmd, type, ft_strdup((*cmd)->filename)); // Duplicate filename to avoid pointer issues
-
-// 	// Check if additional redirections exist
-// 	if (*prompt != '\0')
-// 		handle_pipe_redirection(cmd, prompt);
-
-// 	return -1;
-// }
-
 int handle_pipe_redirection(t_cmd **cmd, char *prompt)
 {
 	char redirection;
@@ -158,11 +117,14 @@ int handle_pipe_redirection(t_cmd **cmd, char *prompt)
 			redir_count = 1;
 			while (*(prompt + redir_count) == redirection)
 				redir_count++;
+
 			if (redir_count > 2)
 			{
 				printf("Error: parse error near `%c`\n", redirection);
 				exit(EXIT_FAILURE);
 			}
+
+			// Set the redirection type
 			if (redirection == '>' && redir_count == 2)
 				type = 2; // >>
 			else if (redirection == '>' && redir_count == 1)
@@ -172,13 +134,21 @@ int handle_pipe_redirection(t_cmd **cmd, char *prompt)
 			else if (redirection == '<' && redir_count == 1)
 				type = 4; // <
 
-			// Move prompt past the redirection symbols
 			prompt += redir_count;
-			// Extract the filename associated with the redirection
-			prompt = get_last_word(cmd, type, prompt);
+			prompt = skip_spaces(prompt);
+
+			// Check for missing filename after redirection
+			if (*prompt == '\0' || *prompt == '>' || *prompt == '<')
+			{
+				printf("Error: missing filename after `%c`\n", redirection);
+				exit(EXIT_FAILURE);
+			}
+
+			// Retrieve and store the filename, handling quoted filenames
+			prompt = ft_last_word(cmd, type, prompt);
 		}
 		else
-			prompt++; // Move to the next character if not a redirection
+			prompt++;
 	}
 	return -1;
 }
