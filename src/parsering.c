@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/08 21:31:13 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/11/10 13:32:35 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void excute_with_flags(char *path, t_cmd *cmd, char *envp[])
 {
-	char	**exec_args;
-	int		i;
-	int		j;
+	char **exec_args;
+	int i;
+	int j;
 
 	j = 0;
 	i = 1;
@@ -43,10 +43,10 @@ void excute_with_flags(char *path, t_cmd *cmd, char *envp[])
 	free(exec_args);
 }
 
-void	check_cmd(t_cmd *cmd, char *envp[])
+void check_cmd(t_cmd *cmd, char *envp[])
 {
-	char	*path;
-	pid_t	pid;
+	char *path;
+	pid_t pid;
 
 	if (built_in_functions(cmd, envp) == 1)
 	{
@@ -63,8 +63,9 @@ void	check_cmd(t_cmd *cmd, char *envp[])
 					perror("Error executing command");
 					exit(EXIT_FAILURE);
 				}
-			} else
-			excute_with_flags(path, cmd, envp);
+			}
+			else
+				excute_with_flags(path, cmd, envp);
 		}
 		else if (pid < 0)
 			perror("Error forking");

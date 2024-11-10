@@ -6,7 +6,7 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/10 09:23:51 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/10 13:39:09 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@
 
 typedef struct s_redir
 {
-	int type;
-	char *filename;
-	struct s_redir *next;
-} t_redir;
+	int				type;
+	char			*filename;
+	struct s_redir	*next;
+}	t_redir;
+
 typedef struct s_cmd
 {
 	char			**pwd;
@@ -49,8 +50,6 @@ typedef struct s_cmd
 	t_redir			*redirections;
 	struct s_cmd	*next;
 }	t_cmd;
-
-
 
 // signals
 void	signals(void);
@@ -70,7 +69,7 @@ void	free_cmd(t_cmd *cmd);
 void	print_cmd_list(t_cmd *cmd);
 void	ft_cmd_add_back(t_cmd **lst, t_cmd *new);
 void	add_first_cmd(t_cmd **cmd, char *command);
-
+void	ft_error(t_cmd **cmd, char *message, char *str);
 char	*ft_strdup(const char *s);
 char	**ft_split(char const *s, char c);
 int		ft_strcmp(char *s1, char *s2);
@@ -81,16 +80,17 @@ char	*ft_strdup_until_space(const char *str);
 char	*ft_strncpy(size_t start, size_t end, char *src);
 char	*ft_strsub(const char *s, unsigned int start, size_t len);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
-char	*ft_last_word(t_cmd **cmd,int type, char *prompt);
+char	*ft_last_word(t_cmd **cmd, int type, char *prompt);
 char	*get_next_word(char *prompt);
+
 // parse
-void parser(t_cmd *cmd, char *envp[]);
+void	parser(t_cmd *cmd, char *envp[]);
 
 // lexering
 int		get_next_str(t_cmd **cmd, char *prompt);
-t_cmd	*lexer( char *input);
 
-// lexer utils
+	// lexer utils
+int		type_redirection(char redirection, int redirection_count);
 int		check_quote(char c, int quote);
 int		update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags);
 

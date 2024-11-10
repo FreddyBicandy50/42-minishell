@@ -6,15 +6,15 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/09 23:36:05 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/10 13:38:14 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-t_cmd *ft_cmd_lst_new(char *command)
+t_cmd	*ft_cmd_lst_new(char *command)
 {
-	t_cmd *new_cmd;
+	t_cmd	*new_cmd;
 
 	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_cmd)
@@ -28,16 +28,16 @@ t_cmd *ft_cmd_lst_new(char *command)
 	return (new_cmd);
 }
 
-void ft_cmd_add_back(t_cmd **lst, t_cmd *new)
+void	ft_cmd_add_back(t_cmd **lst, t_cmd *new)
 {
-	t_cmd *temp;
+	t_cmd	*temp;
 
 	if (!new || !lst)
-		return;
+		return ;
 	if (*lst == NULL)
 	{
 		*lst = new;
-		return;
+		return ;
 	}
 	temp = *lst;
 	while (temp->next != NULL)
@@ -45,9 +45,22 @@ void ft_cmd_add_back(t_cmd **lst, t_cmd *new)
 	temp->next = new;
 }
 
-void free_cmd(t_cmd *cmd)
+void	free_redirections(t_redir *redirections)
 {
-	t_cmd *temp;
+	t_redir	*temp;
+
+	while (redirections != NULL)
+	{
+		temp = redirections;
+		free(temp->filename);
+		redirections = redirections->next;
+		free(temp);
+	}
+}
+
+void	free_cmd(t_cmd *cmd)
+{
+	t_cmd	*temp;
 
 	while (cmd != NULL)
 	{
@@ -56,15 +69,17 @@ void free_cmd(t_cmd *cmd)
 		free(temp->flag);
 		if (temp->arg)
 			free_split(temp->arg);
+		if (temp->redirections)
+			free_redirections(temp->redirections);
 		cmd = cmd->next;
 		free(temp);
 	}
 }
 
-void print_cmd_list(t_cmd *cmd)
+void	print_cmd_list(t_cmd *cmd)
 {
-	int i;
-	t_redir *redir;
+	int		i;
+	t_redir	*redir;
 
 	while (cmd != NULL)
 	{
@@ -83,8 +98,6 @@ void print_cmd_list(t_cmd *cmd)
 			}
 			printf("Argument count: %d\n", cmd->arg_number);
 		}
-
-		// Print redirections in the linked list
 		redir = cmd->redirections;
 		while (redir != NULL)
 		{
@@ -93,12 +106,11 @@ void print_cmd_list(t_cmd *cmd)
 				printf("Filename: %s\n", redir->filename);
 			redir = redir->next;
 		}
-
 		cmd = cmd->next;
 	}
 }
 
-void add_first_cmd(t_cmd **cmd, char *command)
+void	add_first_cmd(t_cmd **cmd, char *command)
 {
 	(*cmd)->arg = malloc(sizeof(char *) * 2);
 	if (!(*cmd)->arg)
