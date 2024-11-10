@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 22:42:31 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/10 11:05:21 by fredybicand      ###   ########.fr       */
+/*   Created: 2024/11/10 11:52:20 by fredybicand       #+#    #+#             */
+/*   Updated: 2024/11/10 11:54:52 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,49 @@ int ft_isspace(char c)
 char *ft_last_word(t_cmd **cmd, int type, char *prompt)
 {
     char *last_word;
-    int j;
-    int i;
+    int j = -1;
+    int i = 0;
+    int start;
+    char quote_char = '\0';
 
-    i = 0;
-    j = -1;
     while (prompt[i] && prompt[i] != '<' && prompt[i] != '>')
     {
-        if ((prompt[i] >= 33 && prompt[i] <= 126) &&
-            (ft_isspace(prompt[i + 1]) || prompt[i + 1] == '<' || prompt[i + 1] == '>' || prompt[i + 1] == '\0'))
+        if (prompt[i] == '\'' || prompt[i] == '\"')
+        {
+            // Handle quoted text
+            quote_char = prompt[i++];
+            start = i;
+            while (prompt[i] && prompt[i] != quote_char)
+                i++;
+            if (prompt[i] == quote_char)
+                i++;
+            j = i - 1;
+        }
+        else if (!ft_isspace(prompt[i]) &&
+                 (ft_isspace(prompt[i + 1]) || prompt[i + 1] == '<' || prompt[i + 1] == '>' || prompt[i + 1] == '\0'))
+        {
+            // Handle unquoted last word
             j = i;
-        i++;
+            i++;
+        }
+        else
+        {
+            i++;
+        }
     }
+
     if (j == -1)
         return (NULL);
-    int start = j;
-    while (start > 0 && prompt[start - 1] >= 33 && prompt[start - 1] <= 126)
+    start = j;
+    while (start > 0 && !ft_isspace(prompt[start - 1]) && prompt[start - 1] != '<' && prompt[start - 1] != '>')
         start--;
+
+    // Copy the last word or quoted section
     last_word = ft_strndup(prompt + start, j - start + 1);
     if (!last_word)
         return (NULL);
+
+    // Append to redirections list
     append_redirection(cmd, type, last_word);
     return (prompt + i);
 }
