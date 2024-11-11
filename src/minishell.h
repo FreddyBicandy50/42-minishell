@@ -6,7 +6,7 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/10 13:39:09 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/11 22:32:45 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*ft_last_word(t_cmd **cmd, int type, char *prompt);
 char	*get_next_word(char *prompt);
 
 // parse
-void	parser(t_cmd *cmd, char *envp[]);
+void	parser(t_cmd **cmd, char *envp[]);
 
 // lexering
 int		get_next_str(t_cmd **cmd, char *prompt);
@@ -106,14 +106,14 @@ int		printable(char c);
 char	*skip_spaces(char *str);
 
 // helper_parser
-int		built_in_functions(t_cmd *cmd, char **envp);
+int		built_in_functions(t_cmd **cmd, char **envp);
 char	*find_path(char *cmd, char **envp);
-void	excute_with_flags(char *path, t_cmd *cmd, char*envp[]);
+void	excute_with_flags(char *path, t_cmd **cmd, char*envp[]);
 
 // echo
-void	echo_cmd(t_cmd *cmd);
+void	echo_cmd(t_cmd **cmd);
 
 //PWD
-void	pwd_cmd(t_cmd *cmd, char **envp);
+void	pwd_cmd(t_cmd **cmd, char **envp);
 
 #endif

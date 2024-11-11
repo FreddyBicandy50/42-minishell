@@ -6,7 +6,7 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:37:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/11/01 19:56:54 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/11 22:30:44 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,21 @@ char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-int	built_in_functions(t_cmd *cmd, char **envp)
+int	built_in_functions(t_cmd **cmd, char **envp)
 {
-	if (ft_strcmp(cmd->command, "echo") == 0)
+	if (ft_strcmp((*cmd)->command, "echo") == 0)
 		echo_cmd(cmd);
-	else if (ft_strcmp(cmd->command, "cd") == 0)
+	else if (ft_strcmp((*cmd)->command, "cd") == 0)
 		printf("\ncd\n");
-	else if (ft_strcmp(cmd->command, "pwd") == 0)
-		pwd_cmd(cmd, envp);
-	else if (ft_strcmp(cmd->command, "export") == 0)
+	else if (ft_strcmp((*cmd)->command, "pwd") == 0)
+		pwd_cmd(*cmd, envp);
+	else if (ft_strcmp((*cmd)->command, "export") == 0)
 		printf("\nexport\n");
-	else if (ft_strcmp(cmd->command, "unset") == 0)
+	else if (ft_strcmp((*cmd)->command, "unset") == 0)
 		printf("\nunset\n");
-	else if (ft_strcmp(cmd->command, "env") == 0)
+	else if (ft_strcmp((*cmd)->command, "env") == 0)
 		printf("\nenv\n");
-	else if (ft_strcmp(cmd->command, "exit") == 0)
+	else if (ft_strcmp((*cmd)->command, "exit") == 0)
 		printf("\nexit\n");
 	else
 		return (1);

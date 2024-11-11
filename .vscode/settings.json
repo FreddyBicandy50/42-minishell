@@ -9,5 +9,6 @@
         "readline.h": "c"
     },
     "files.autoSave": "afterDelay",
-    "editor.fontSize": 20
+    "editor.fontSize": 16,
+    "terminal.integrated.fontSize": 14
 }

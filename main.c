@@ -6,7 +6,7 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/10 14:37:10 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/11 22:27:28 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char *argv[], char *envp[])
 		add_history(input);
 		cmd = lexer(input);
 		if (cmd)
-			parser(cmd, envp);
+			parser(&cmd, envp);
 		free_cmd(cmd);
 	}
 	return (0);

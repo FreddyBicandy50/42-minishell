@@ -6,7 +6,7 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/10 14:20:34 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/11 22:11:56 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	get_next_str(t_cmd **cmd, char *prompt)
 		return (get_next_redirection(cmd, prompt + i));
 	command = ft_strncpy(0, i, prompt);
 	append_cmd(cmd, command);
-
 	return (i);
 }
 
@@ -78,7 +77,6 @@ char	*get_next_flag(t_cmd **cmd, char *prompt)
 	{
 		prompt = skip_spaces(prompt);
 		i = 0;
-
 		if (prompt[i] == '-')
 		{
 			i++;
@@ -102,8 +100,8 @@ char	*get_next_command(t_cmd **cmd, char *prompt)
 	t_cmd	*new_cmd;
 	t_cmd	*current;
 
-	prompt = skip_spaces(prompt);
 	i = 0;
+	prompt = skip_spaces(prompt);
 	if (prompt[i] == '\0')
 		return (prompt);
 	while (prompt[i] != '\0' && printable(prompt[i]))

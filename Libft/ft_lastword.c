@@ -6,59 +6,58 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 11:52:20 by fredybicand       #+#    #+#             */
-/*   Updated: 2024/11/10 17:33:19 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/11 22:22:12 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-int ft_isspace(char c)
+void	find_last_word(int *i, int *j, int *end, char *prompt)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r');
+	while ((prompt[*j] != '>' && prompt[*j] != '<') && prompt[*j] != '\0')
+		(*j)++;
+	*i = *j - 1;
+	while (!(prompt[*i] >= 33 && prompt[*i] <= 126) && *i > 0)
+		(*i)--;
+	*end = *i;
 }
 
-// char *ft_last_word(t_cmd **cmd, int type, char *prompt)
-// {
-// 	char *last_word;
-// 	int j;
-// 	int i;
-// 	int start;
-// 	char quote_char;
+int	reset(char quote, int dequote)
+{
+	(void)quote;
+	if (dequote == 2)
+	{
+		quote = ' ';
+		dequote = 0;
+	}
+	return (dequote);
+}
 
-// 	i = 0;
-// 	j = -1;
-// 	quote_char = '\0';
+char	*ft_last_word(t_cmd **cmd, int type, char *prompt)
+{
+	int		i;
+	int		j;
+	int		end;
+	int		dequote;
+	char	quote;
 
-// 	while (prompt[i] && prompt[i] != '<' && prompt[i] != '>')
-// 	{
-// 		if (prompt[i] == '\'' || prompt[i] == '\"')
-// 		{
-// 			quote_char = prompt[i++];
-// 			start = i;
-// 			while (prompt[i] && prompt[i] != quote_char)
-// 				i++;
-// 			if (prompt[i] == quote_char)
-// 				i++;
-// 			j = i - 1;
-// 		}
-// 		// If not inside quotes, handle redirection and spaces
-// 		else if (!ft_isspace(prompt[i]) && (ft_isspace(prompt[i + 1]) || prompt[i + 1] == '<' || prompt[i + 1] == '>' || prompt[i + 1] == '\0'))
-// 		{
-// 			j = i;
-// 			i++;
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	if (j == -1)
-// 		return (NULL);
-// 	start = j;
-// 	while (start > 0 && !ft_isspace(prompt[start - 1]) && prompt[start - 1] != '<' && prompt[start - 1] != '>')
-// 		start--;
-// 	last_word = ft_strndup(prompt + start, j - start + 1);
-// 	if (!last_word)
-// 		return (NULL);
-// 	append_redirection(cmd, type, last_word);
-// 	return (prompt + i);
-// }
-
+	dequote = 0;
+	i = 0;
+	j = 0;
+	quote = ' ';
+	find_last_word(&i, &j, &end, prompt);
+	while (i > 0)
+	{
+		if (prompt[i] == '\'' || prompt[i] == '\"')
+		{
+			quote = prompt[i];
+			dequote++;
+		}
+		dequote = reset(quote, dequote);
+		if (!printable(prompt[i]) && quote == ' ')
+			break ;
+		i--;
+	}
+	append_redirection(cmd, type, ft_strndup(prompt + i, end - i + 1));
+	return (prompt + j);
+}
