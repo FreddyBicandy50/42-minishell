@@ -6,7 +6,7 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/11 22:27:28 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/26 11:27:51 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	main(int argc, char *argv[], char *envp[])
 	char	*prompt;
 	char	*input;
 	t_cmd	*cmd;
-
 	(void) argc;
 	(void) argv;
 	(void) envp;

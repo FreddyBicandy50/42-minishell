@@ -6,7 +6,7 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/11 22:34:33 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/26 11:30:29 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ void	check_cmd(t_cmd **cmd, char *envp[])
 	{
 		path = find_path((*cmd)->command, envp);
 		if (!path)
-			return (perror("Error: command not found"));
+			return (ft_error(cmd, "command not found:", (*cmd)->command));
 		pid = fork();
 		if (pid == 0)
 		{
 			if ((*cmd)->flag == NULL || *(*cmd)->flag == '\0')
 			{
 				if (execve(path, (*cmd)->arg, envp) == -1)
-					ft_error(cmd, "Error executing command", NULL);
+					ft_error(cmd, "command not found:", (*cmd)->command);
 			}
 			else
 				excute_with_flags(path, cmd, envp);

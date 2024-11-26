@@ -6,7 +6,7 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 13:32:57 by fredybicand       #+#    #+#             */
-/*   Updated: 2024/11/11 22:14:59 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/15 18:07:14 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	ft_error(t_cmd **cmd, char *message, char *str)
 {
 	if (str)
-		printf("%s %s", message, str);
+		printf("%s%s\n", message, str);
 	else
-		printf("%s", message);
+		printf("%s\n", message);
 	free_cmd(*cmd);
 	exit(EXIT_FAILURE);
 }

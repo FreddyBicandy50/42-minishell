@@ -6,7 +6,7 @@
 /*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/11 22:32:45 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/11/26 11:36:43 by fredybicand      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,11 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*ft_last_word(t_cmd **cmd, int type, char *prompt);
 char	*get_next_word(char *prompt);
 
+// get_next_line
+char *get_next_line(int fd);
+
 // parse
-void	parser(t_cmd **cmd, char *envp[]);
+void parser(t_cmd **cmd, char *envp[]);
 
 // lexering
 int		get_next_str(t_cmd **cmd, char *prompt);
