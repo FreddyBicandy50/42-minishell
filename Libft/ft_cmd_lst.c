@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cmd_lst.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/11 22:22:12 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/12/12 22:27:51 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	free_cmd(t_cmd *cmd)
 		free(temp->flag);
 		if (temp->arg)
 			free_split(temp->arg);
-		if (temp->redirections)
-			free_redirections(temp->redirections);
+		// if (temp->redirections)
+		// 	free_redirections(temp->redirections);
 		cmd = cmd->next;
 		free(temp);
 	}
@@ -81,6 +81,7 @@ void	print_cmd_list(t_cmd *cmd)
 	int		i;
 	t_redir	*redir;
 
+	(void)*redir;
 	while (cmd != NULL)
 	{
 		if (cmd->command)
@@ -98,15 +99,15 @@ void	print_cmd_list(t_cmd *cmd)
 			}
 			printf("Argument count: %d\n", cmd->arg_number);
 		}
-		redir = cmd->redirections;
-		while (redir != NULL)
-		{
-			printf("Redirection type: %d\n", redir->type);
-			if (redir->filename)
-				printf("Filename: %s\n", redir->filename);
-			redir = redir->next;
-		}
-		cmd = cmd->next;
+		// redir = cmd->redirections;
+		// while (redir != NULL)
+		// {
+		// 	printf("Redirection type: %d\n", redir->type);
+		// 	if (redir->filename)
+		// 		printf("Filename: %s\n", redir->filename);
+		// 	redir = redir->next;
+		// }
+		 cmd = cmd->next;
 	}
 }
 
