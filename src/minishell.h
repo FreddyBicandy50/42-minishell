@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
+/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/26 11:36:43 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/12/14 11:57:11 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+extern char **environ;
+
 typedef struct s_redir
 {
 	int				type;
@@ -40,7 +42,7 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-	char			**pwd;
+	char			*pwd;
 	char			*command;
 	char			**arg;
 	char			*flag;
@@ -118,5 +120,8 @@ void	echo_cmd(t_cmd **cmd);
 
 //PWD
 void	pwd_cmd(t_cmd **cmd, char **envp);
+
+//ENV
+void	env_cmd();
 
 #endif
