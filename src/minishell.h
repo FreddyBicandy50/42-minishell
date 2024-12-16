@@ -6,7 +6,7 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/14 11:57:11 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/12/16 17:53:40 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,8 @@ void	pwd_cmd(t_cmd **cmd, char **envp);
 
 //ENV
 void	env_cmd();
+
+//CD
+void	cd_cmd(t_cmd **cmd);
 
 #endif

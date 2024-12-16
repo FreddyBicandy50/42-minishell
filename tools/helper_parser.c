@@ -6,7 +6,7 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:37:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/14 11:53:36 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/12/16 18:04:44 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	built_in_functions(t_cmd **cmd, char **envp)
 	if (ft_strcmp((*cmd)->command, "echo") == 0)
 		echo_cmd(cmd);
 	else if (ft_strcmp((*cmd)->command, "cd") == 0)
-		printf("\ncd\n");
+		cd_cmd(cmd);
 	else if (ft_strcmp((*cmd)->command, "pwd") == 0)
 		pwd_cmd(cmd, envp);
 	else if (ft_strcmp((*cmd)->command, "export") == 0)
