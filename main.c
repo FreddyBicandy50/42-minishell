@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/12 22:18:45 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:16:47 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ int	main(int argc, char *argv[], char *envp[])
 			handle_eof();
 		add_history(input);
 		cmd = lexer(input);
-		if (cmd)
+		if (cmd){
 			parser(&cmd, envp);
-		free_cmd(cmd);
+			free_cmd(cmd);
+		}
 	}
 	return (0);
 }

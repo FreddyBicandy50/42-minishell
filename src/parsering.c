@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/03 17:35:13 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/12/20 18:24:11 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	excute_with_flags(char *path, t_cmd **cmd, char *envp[])
+void	execute(char *path, t_cmd **cmd, char *envp[])
 {
 	char	**exec_args;
 	int		i;
@@ -52,15 +52,7 @@ void	check_cmd(t_cmd **cmd, char *envp[])
 			return ;
 		pid = fork();
 		if (pid == 0)
-		{
-			if ((*cmd)->flag == NULL || *(*cmd)->flag == '\0')
-			{
-				if (execve(path, (*cmd)->arg, envp) == -1)
-					printf("command not found");
-			}
-			else
-				excute_with_flags(path, cmd, envp);
-		}
+			execute(path, cmd, envp);
 		else if (pid < 0)
 			ft_error(cmd, "Error forking", NULL);
 		else
