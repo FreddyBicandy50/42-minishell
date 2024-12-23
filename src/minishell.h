@@ -6,7 +6,7 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/16 17:53:40 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/12/21 17:53:04 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-	char			*pwd;
 	char			*command;
 	char			**arg;
 	char			*flag;
@@ -119,7 +118,7 @@ void	excute_with_flags(char *path, t_cmd **cmd, char*envp[]);
 void	echo_cmd(t_cmd **cmd);
 
 //PWD
-void	pwd_cmd(t_cmd **cmd, char **envp);
+void	pwd_cmd();
 
 //ENV
 void	env_cmd();

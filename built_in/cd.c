@@ -6,26 +6,58 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 17:49:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/20 23:46:56 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/12/21 17:58:58 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-//we want to make a our function named setenv to set env 
+static void	update_pwd_value(int i, const char *new_pwd)
+{
+	size_t	new_len;
+
+	new_len = strlen("PWD=") + strlen(new_pwd) + 1;
+	environ[i] = (char *)malloc(new_len);
+	if (environ[i] == NULL)
+	{
+		perror("malloc");
+		return ;
+	}
+	strcpy(environ[i], "PWD=");
+	strcat(environ[i], new_pwd);
+}
+
+static void	set_new_pwd_at_env(const char *new_pwd)
+{
+	int		i;
+	size_t	len;
+
+	len = strlen("PWD=");
+	i = 0;
+	while (environ[i])
+	{
+		if (strncmp(environ[i], "PWD=", len) == 0)
+		{
+			update_pwd_value(i, new_pwd);
+			return ;
+		}
+		i++;
+	}
+	update_pwd_value(i, new_pwd);
+	environ[i + 1] = NULL;
+}
+ 
 void	update_pwd(t_cmd **cmd)
 {
 	char *new_pwd;
-	
+
+	if (!cmd || !(*cmd))
+		return ;
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd != NULL)
 	{
-		 if ((*cmd)->pwd == NULL)
-			(*cmd)->pwd = new_pwd;
-		else
-			(*cmd)->pwd = new_pwd;
-		if (setenv("PWD", new_pwd, 1) == -1)
-			perror("bash: cd: setenv failed");
+		set_new_pwd_at_env(new_pwd);
+		free(new_pwd);
 	}
 	else
 		perror("bash: cd: getcwd failed");
@@ -33,8 +65,13 @@ void	update_pwd(t_cmd **cmd)
 
 void	cd_cmd(t_cmd **cmd)
 {
+	if (!cmd || !(*cmd))
+        return;
 	if ((*cmd)->arg == NULL || (*cmd)->arg[0] == NULL)
-		chdir(getenv("HOME"));
+	{
+		if (chdir(getenv("HOME")) == -1)
+			perror("bash: cd: ");
+	}
 	else if (chdir((*cmd)->arg[0]) == -1)
 		perror("bash: cd");
 	update_pwd(cmd);
