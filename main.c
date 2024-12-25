@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/23 14:52:05 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/23 17:28:20 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/minishell.h"
 
-t_cmd *dequote_handler(t_cmd *cmd)
-{
-	dequote(cmd->command);
-	return (cmd);
-}
+// t_cmd *dequote_handler(t_cmd *cmd)
+// {
+// 	dequote(cmd->command);
+// 	return (cmd);
+// }
 
 t_cmd	*lexer(char *input)
 {
@@ -54,7 +54,7 @@ int	main(int argc, char *argv[], char *envp[])
 		add_history(input);
 		cmd = lexer(input);
 		if (cmd){
-			dequote_handle(cmd);
+//			dequote_handle(cmd);
 			parser(&cmd, envp);
 			free_cmd(cmd);
 		}
