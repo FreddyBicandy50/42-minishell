@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_quote_identifier.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/12 20:31:40 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/15 00:50:05 by fbicandy         ###   ########.fr       */
+/*   Created: 2024/12/23 14:52:13 by fbicandy          #+#    #+#             */
+/*   Updated: 2024/12/27 00:02:31 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "../src/minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+char *isprintable_quote(char *s)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < n)
+	if (*s == '\\' && isquote(*(s + 1)))
 	{
-		if ((unsigned char)s1[i] != (unsigned char)s2[i]
-			|| s1[i] == '\0' || s2[i] == '\0')
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
+		s++;
+		s++;
 	}
-	return (0);
+	return (s);
+}
+
+int isquote(char c)
+{
+	return (c == '`' || c == '\'' || c == '\"');
 }

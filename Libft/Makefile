@@ -6,29 +6,28 @@
 #    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2024/12/26 12:56:12 by fbicandy         ###   ########.fr        #
+#    Updated: 2024/12/27 00:26:22 by fbicandy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 SOURCES = \
-ft_cmd_lst.c \
-ft_strlen.c \
-ft_strndup.c \
-ft_strcat.c \
-ft_strncmp.c \
-ft_strcmp.c \
-ft_strsub.c \
-ft_strdup.c \
-ft_split.c \
-ft_strjoin.c \
-ft_strncpy.c \
-ft_lastword.c \
-ft_error.c \
-ft_dequote.c \
-ft_command_split.c \
-ft_is_in.c \
-ft_strnstr.c
+ft_cmd_lst.c\
+ft_error.c\
+ft_lastword.c\
+ft_lst.c\
+ft_quote_handler.c\
+ft_quote_identifier.c\
+ft_split.c\
+ft_strcat.c\
+ft_strcmp.c\
+ft_strdup.c\
+ft_strjoin.c\
+ft_strlen.c\
+ft_strncpy.c\
+ft_strnstr.c\
+ft_strsub.c\
+ft_word_count.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

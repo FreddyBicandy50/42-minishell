@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/25 21:33:58 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/27 00:45:11 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,30 +93,28 @@ char	*get_next_flag(t_cmd **cmd, char *prompt)
 	return (prompt);
 }
 
+/*
+	take the segments of commands splitted by pipes
+	*skip str begining spaces
+		if the segment is just spaces we return to get next one
+	loop threw the prompt if its printable
+
+*/
 char	*get_next_command(t_cmd **cmd, char *prompt)
 {
 	int		i;
 	char	*command;
 	t_cmd	*new_cmd;
-	t_cmd	*current;
-
+	
 	i = 0;
 	prompt = skip_spaces(prompt);
 	if (prompt[i] == '\0')
 		return (prompt);
-	while (prompt[i] != '\0' && printable(prompt[i]))
+	while (prompt[i] != '\0' && printable(prompt[i]) && !isquote(prompt[i]))
 		i++;
 	command = ft_strncpy(0, i, prompt);
 	new_cmd = ft_cmd_lst_new(command);
-	if (*cmd == NULL)
-		*cmd = new_cmd;
-	else
-	{
-		current = *cmd;
-		while (current->next != NULL)
-			current = current->next;
-		current->next = new_cmd;
-	}
+	ft_append_command(cmd, new_cmd);
 	if (prompt[i] != '\0')
 		prompt = get_next_flag(&new_cmd, (prompt + i) + 1);
 	return (prompt + i);

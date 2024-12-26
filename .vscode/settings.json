@@ -6,9 +6,10 @@
         "stdlib.h": "c",
         "unistd.h": "c",
         "termios.h": "c",
-        "readline.h": "c"
+        "readline.h": "c",
+        "get_next_line.h": "c"
     },
     "files.autoSave": "afterDelay",
-    "editor.fontSize": 16,
+    "editor.fontSize": 18,
     "terminal.integrated.fontSize": 14
 }

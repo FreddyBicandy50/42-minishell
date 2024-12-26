@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/26 15:46:01 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:59:58 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,6 @@ void	ft_cmd_add_back(t_cmd **lst, t_cmd *new)
 	temp->next = new;
 }
 
-void	free_redirections(t_redir *redirections)
-{
-	t_redir	*temp;
-
-	while (redirections != NULL)
-	{
-		temp = redirections;
-		free(temp->filename);
-		redirections = redirections->next;
-		free(temp);
-	}
-}
 
 void	free_cmd(t_cmd *cmd)
 {
@@ -119,4 +107,17 @@ void	add_first_cmd(t_cmd **cmd, char *command)
 	(*cmd)->arg[0] = command;
 	(*cmd)->arg[1] = NULL;
 	(*cmd)->arg_number = 1;
+}
+
+void	free_redirections(t_redir *redirections)
+{
+	t_redir	*temp;
+
+	while (redirections != NULL)
+	{
+		temp = redirections;
+		free(temp->filename);
+		redirections = redirections->next;
+		free(temp);
+	}
 }

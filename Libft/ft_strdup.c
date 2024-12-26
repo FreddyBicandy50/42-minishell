@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:26:52 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/11 22:21:43 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/12/26 23:46:59 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
+
+char	*ft_strndup(const char *s, size_t n)
+{
+	char	*dup;
+	size_t	len;
+
+	len = strnlen(s, n);
+	dup = (char *)malloc(len + 1);
+	if (!dup)
+		return (NULL);
+	strncpy(dup, s, len);
+	dup[len] = '\0';
+	return (dup);
+}
 
 char	*ft_strdup_until_space(const char *str)
 {

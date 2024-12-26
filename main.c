@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/26 15:58:07 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:16:20 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ t_cmd	*lexer(char *input)
 		return (NULL);
 	cmd = NULL;
 	segments = NULL;
-	segments = ft_command_split(input, '|');
+	segments = ft_command_split(skip_spaces(input), '|');
 	i = -1;
 	while (segments[++i] != NULL)
 	{
-		printf("%s\n", segments[i]);
-		// get_next_command(&cmd, segments[i]);
+		printf("seg[%d]->%s\n",i, segments[i]);
+		get_next_command(&cmd, segments[i]);
 	}
 	free_split(segments);
 	return (cmd);
