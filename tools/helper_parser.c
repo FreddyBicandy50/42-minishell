@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/13 13:37:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/26 15:40:14 by fbicandy         ###   ########.fr       */
+/*   Created: 2024/12/26 18:48:39 by fbicandy          #+#    #+#             */
+/*   Updated: 2024/12/26 18:48:51 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	built_in_functions(t_cmd **cmd, char **envp)
 	else if (ft_strcmp((*cmd)->command, "export") == 0)
 		printf("\nexport\n");
 	else if (ft_strcmp((*cmd)->command, "unset") == 0)
-		printf("\nunset\n");
+		my_unset(cmd);
 	else if (ft_strcmp((*cmd)->command, "env") == 0)
 		env_cmd();
 	else if (ft_strcmp((*cmd)->command, "exit") == 0)

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 11:59:05 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/26 15:44:39 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:49:24 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ static size_t	ft_wordcount(char *s, char c)
 	return (count);
 }
 
+/*
+	get the string example "ls -la | grep"test | wc -l
+	
+	loop threw (s and ( [s is not a pipe] or [is not in a quote]))
+		if we spot a \ and we have quote after
+			skip it
+		else if (quote and (s = word_start) or (the prev char of s is not \))
+			flip quote signal
+			save the quote shape
+*/
 char	*skip_quoted(char *s, char c, char *word_start)
 {
 	char	quote_char;
@@ -71,6 +81,20 @@ int	dup_err(char **tabs, int i)
 	return (0);
 }
 
+/*
+	takes the initial input => "ls -la | test"hello world | grep test
+	
+	count the words and intilize the tabs
+		safety check on tabs and *s
+	loop threw > s 
+		if s !a pipe 
+			mark a word begining
+			if s is a quote skip all the inside
+			place this string in the tabs
+				check for error while duplicating
+		else skip the pipe
+	return these values
+*/
 char	**ft_command_split(char *s, char c)
 {
 	char	*word_start;

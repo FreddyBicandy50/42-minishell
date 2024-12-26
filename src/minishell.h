@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/26 15:33:52 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:53:49 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,9 @@ void	handle_sigint(int sig);
 void	handle_sigquit(__attribute__((unused)) int sig);
 
 // libft
-int		quote_check(char *str);
-int		isquote(char c);
-int		ft_is_in(char c, char *str);
 t_cmd	*ft_cmd_lst_new(char *command);
+char	**ft_command_split(char *s, char c);
+int		isquote(char c);
 char	*get_next_command(t_cmd **cmd, char *prompt);
 int		ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -76,7 +75,6 @@ void	add_first_cmd(t_cmd **cmd, char *command);
 void	ft_error(t_cmd **cmd, char *message, char *str);
 char	*ft_strdup(const char *s);
 char	**ft_split(char const *s, char c);
-char	**ft_command_split(char *s, char c);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strndup(const char *s, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -132,5 +130,8 @@ void	cd_cmd(t_cmd **cmd);
 
 //EXIT
 void	exit_minishell(void);
+
+//UNSET
+void	my_unset(t_cmd **cmd);
 
 #endif
