@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_is_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/23 17:43:13 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/26 15:36:33 by fbicandy         ###   ########.fr       */
+/*   Created: 2024/12/26 12:48:55 by fbicandy          #+#    #+#             */
+/*   Updated: 2024/12/26 15:45:16 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void	exit_minishell(void)
+int	ft_is_in(char c, char *str)
 {
-	printf("\n\nexit minishell ... \n\n");
-	exit (0);
+	while (*str != '\0')
+	{
+		if (*str == c)
+			return (1);
+		str++;
+	}
+	return (0);
 }

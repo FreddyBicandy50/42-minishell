@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+         #
+#    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2024/11/10 13:38:41 by fredybicand      ###   ########.fr        #
+#    Updated: 2024/12/26 12:56:12 by fbicandy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,9 @@ ft_strjoin.c \
 ft_strncpy.c \
 ft_lastword.c \
 ft_error.c \
+ft_dequote.c \
+ft_command_split.c \
+ft_is_in.c \
 ft_strnstr.c
 
 OBJECTS = $(SOURCES:.c=.o)

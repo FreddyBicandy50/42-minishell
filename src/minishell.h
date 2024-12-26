@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/23 18:05:10 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/12/26 15:33:52 by fbicandy         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -31,7 +31,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-extern char **environ;
+extern char	**environ;
 
 typedef struct s_redir
 {
@@ -61,6 +61,9 @@ void	handle_sigint(int sig);
 void	handle_sigquit(__attribute__((unused)) int sig);
 
 // libft
+int		quote_check(char *str);
+int		isquote(char c);
+int		ft_is_in(char c, char *str);
 t_cmd	*ft_cmd_lst_new(char *command);
 char	*get_next_command(t_cmd **cmd, char *prompt);
 int		ft_strlen(const char *str);
@@ -73,6 +76,7 @@ void	add_first_cmd(t_cmd **cmd, char *command);
 void	ft_error(t_cmd **cmd, char *message, char *str);
 char	*ft_strdup(const char *s);
 char	**ft_split(char const *s, char c);
+char	**ft_command_split(char *s, char c);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strndup(const char *s, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -85,10 +89,10 @@ char	*ft_last_word(t_cmd **cmd, int type, char *prompt);
 char	*get_next_word(char *prompt);
 
 // get_next_line
-char *get_next_line(int fd);
+char	*get_next_line(int fd);
 
 // parse
-void parser(t_cmd **cmd, char *envp[]);
+void	parser(t_cmd **cmd, char *envp[]);
 
 // lexering
 int		get_next_str(t_cmd **cmd, char *prompt);
@@ -118,15 +122,15 @@ void	excute_with_flags(char *path, t_cmd **cmd, char*envp[]);
 void	echo_cmd(t_cmd **cmd);
 
 //PWD
-void	pwd_cmd();
+void	pwd_cmd(void);
 
 //ENV
-void	env_cmd();
+void	env_cmd(void);
 
 //CD
 void	cd_cmd(t_cmd **cmd);
 
 //EXIT
-void	exit_minishell();
+void	exit_minishell(void);
 
 #endif

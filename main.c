@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/23 17:28:20 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/12/26 15:33:56 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/minishell.h"
-
-// t_cmd *dequote_handler(t_cmd *cmd)
-// {
-// 	dequote(cmd->command);
-// 	return (cmd);
-// }
 
 t_cmd	*lexer(char *input)
 {
@@ -28,10 +22,13 @@ t_cmd	*lexer(char *input)
 		return (NULL);
 	cmd = NULL;
 	segments = NULL;
-	segments = ft_split(input, '|');
+	segments = ft_command_split(input, '|');
 	i = -1;
 	while (segments[++i] != NULL)
-		get_next_command(&cmd, segments[i]);
+	{
+		printf("%s\n", segments[i]);
+		// get_next_command(&cmd, segments[i]);
+	}
 	free_split(segments);
 	return (cmd);
 }
@@ -41,9 +38,10 @@ int	main(int argc, char *argv[], char *envp[])
 	char	*prompt;
 	char	*input;
 	t_cmd	*cmd;
-	(void) argc;
-	(void) argv;
-	(void) envp;
+
+	(void)argc;
+	(void)argv;
+	(void)envp;
 	prompt = "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002";
 	signals();
 	while (1)
@@ -53,8 +51,8 @@ int	main(int argc, char *argv[], char *envp[])
 			handle_eof();
 		add_history(input);
 		cmd = lexer(input);
-		if (cmd){
-//			dequote_handle(cmd);
+		if (cmd)
+		{
 			parser(&cmd, envp);
 			free_cmd(cmd);
 		}

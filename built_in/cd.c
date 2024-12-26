@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 17:49:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/21 17:58:58 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/12/26 15:36:11 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ static void	set_new_pwd_at_env(const char *new_pwd)
 	update_pwd_value(i, new_pwd);
 	environ[i + 1] = NULL;
 }
- 
+
 void	update_pwd(t_cmd **cmd)
 {
-	char *new_pwd;
+	char	*new_pwd;
 
 	if (!cmd || !(*cmd))
 		return ;
@@ -66,7 +66,7 @@ void	update_pwd(t_cmd **cmd)
 void	cd_cmd(t_cmd **cmd)
 {
 	if (!cmd || !(*cmd))
-        return;
+		return ;
 	if ((*cmd)->arg == NULL || (*cmd)->arg[0] == NULL)
 	{
 		if (chdir(getenv("HOME")) == -1)

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/20 16:20:43 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/26 15:46:01 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	free_cmd(t_cmd *cmd)
 
 void	print_cmd_list(t_cmd *cmd)
 {
-	int		i;
-	//t_redir	*redir;
+	int	i;
+	// t_redir	*redir;
 
 	//(void)*redir;
 	while (cmd != NULL)
@@ -107,7 +107,7 @@ void	print_cmd_list(t_cmd *cmd)
 		// 		printf("Filename: %s\n", redir->filename);
 		// 	redir = redir->next;
 		// }
-		 cmd = cmd->next;
+		cmd = cmd->next;
 	}
 }
 

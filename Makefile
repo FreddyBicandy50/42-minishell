@@ -23,11 +23,11 @@ $(LIBFT):
 clean:
 	@make clean -C ./Libft
 	rm -f $(OBJECTS)
-
+	clear
 fclean: clean
 	@make fclean -C ./Libft
 	rm -f $(NAME)
-
+	clear
 re: fclean all
 
 .PHONY: all clean fclean re
