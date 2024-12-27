@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/27 00:45:09 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/27 15:35:05 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
+	char			**var;
 	char			*command;
 	char			**arg;
 	char			*flag;
@@ -71,6 +72,9 @@ void	env_cmd(void);
 void	cd_cmd(t_cmd **cmd);
 	//EXIT
 void	exit_minishell(void);
+	//EXPORT
+void	my_export(t_cmd **cmd);
+void	set_env(char *var, char *value);
 	//UNSET
 void	my_unset(t_cmd **cmd);
 
@@ -95,7 +99,7 @@ char	*skip_quoted(char *s, char c);
 char	*skip_inside(char quote, char *s);
 	//FT QUOTE IDENTIFIER
 int		isquote(char c);
-char 	*isprintable_quote(char *s);
+char	*isprintable_quote(char *s);
 	//GNL
 char	*get_next_command(t_cmd **cmd, char *prompt);
 	//FT STRLEN
