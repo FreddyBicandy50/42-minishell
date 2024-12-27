@@ -8,7 +8,8 @@ SRCS = main.c \
 	tools/helper_parser.c tools/helper_lexer.c tools/helper_functions.c  \
 	src/lexering.c  src/parsering.c  src/signals.c \
 	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
-	built_in/echo.c built_in/pwd.c built_in/env.c built_in/cd.c built_in/exit.c built_in/unset.c
+	built_in/echo.c built_in/pwd.c built_in/env.c built_in/cd.c built_in/exit.c built_in/unset.c \
+	built_in/export.c tools/set_env.c
 
 OBJECTS = $(SRCS:.c=.o)
 

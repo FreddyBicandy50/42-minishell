@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 17:49:16 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/26 15:36:11 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/27 16:41:15 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	update_pwd_value(int i, const char *new_pwd)
 		perror("malloc");
 		return ;
 	}
-	strcpy(environ[i], "PWD=");
+	ft_strlcpy(environ[i], "PWD=", sizeof("PWD="));
 	strcat(environ[i], new_pwd);
 }
 

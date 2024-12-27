@@ -1,20 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/23 17:43:06 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/27 16:06:36 by aal-mokd         ###   ########.fr       */
+/*   Created: 2024/04/22 18:07:52 by aal-mokd          #+#    #+#             */
+/*   Updated: 2024/12/27 15:57:21 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void	my_export(t_cmd **cmd)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	if (!cmd || !(*cmd))
-		return ;
-	set_env((*cmd)->var[0], (*cmd)->var[1]);
+	unsigned int	i;
+	unsigned int	count;
+
+	i = 0;
+	count = 0;
+	while (src[count])
+		count++;
+	if (size < 1)
+		return (count);
+	while (src[i] && i < size - 1)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (count);
 }

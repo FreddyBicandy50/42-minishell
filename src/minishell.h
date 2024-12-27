@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/27 15:35:05 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2024/12/27 16:07:43 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	cd_cmd(t_cmd **cmd);
 void	exit_minishell(void);
 	//EXPORT
 void	my_export(t_cmd **cmd);
-void	set_env(char *var, char *value);
 	//UNSET
 void	my_unset(t_cmd **cmd);
 
@@ -84,6 +83,7 @@ char	*get_next_line(int fd);
 // Libft
 	//FT CMD_LST
 t_cmd	*ft_cmd_lst_new(char *command);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 void	ft_cmd_add_back(t_cmd **lst, t_cmd *new);
 void	add_first_cmd(t_cmd **cmd, char *command);
 void	print_cmd_list(t_cmd *cmd);
@@ -153,5 +153,7 @@ int		type_redirection(char redirection, int redirection_count);
 	//HELPER_PARSER
 char	*find_path(char *cmd, char **envp);
 int		built_in_functions(t_cmd **cmd, char **envp);
+	//set_env
+void	set_env(char *var, char *value);
 
 #endif
