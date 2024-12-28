@@ -6,34 +6,44 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/26 23:16:20 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/28 15:07:27 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/minishell.h"
 
 /*
-	*takes the input= ls -la "test" | grep something
-	*checks if the input is empty
-	*split the commands by pipes and takes quoting into considerations
-	*loops threw the commands segment to get its characteristques
-*/
-t_cmd	*lexer(char *input)
+ *takes the input= ls -la "test" | grep something
+ *checks if the input is empty
+ *split the commands by pipes and takes quoting into considerations
+ *loops threw the commands segment to get its characteristques
+ */
+t_cmd *lexical_analysis(char *input)
 {
-	int		i;
-	char	**segments;
-	t_cmd	*cmd;
-
+	int i;
+	char **segments;
+	t_cmd *cmd;
+	printf("*****************LOGS***************");
+	printf("\n\t\tPHASE1");
+	printf("\n\n1.(LEXICAL ANALYSIS GOT ->[INPUT])\n");
 	if (!input || *input == '\0')
 		return (NULL);
 	cmd = NULL;
 	segments = NULL;
-	segments = ft_command_split(skip_spaces(input), '|');
+	if (input[0] == '|')
+	{
+		printf("minishell:error unexpected token near:%c\n", input[0]);
+		return (cmd);
+	}
+	segments = ft_command_split(input, '|');
+	if (segments == NULL)
+		return (NULL);
 	i = -1;
 	while (segments[++i] != NULL)
 	{
-		printf("seg[%d]->%s\n",i, segments[i]);
-		get_next_command(&cmd, segments[i]);
+		printf("seg[%d]->%s\n", i, segments[i]);
+		printf("********************************\n");
+		// get_next_command(&cmd, segments[i]);
 	}
 	free_split(segments);
 	return (cmd);
@@ -46,7 +56,7 @@ t_cmd	*lexer(char *input)
 
 	*input phase handle signals and user string
 	*lexical analysis:
-		-takes the whole input and degridate it to mutlitple commnads 
+		-takes the whole input and degridate it to mutlitple commnads
 			depending on pipes
 		-each command then will be analysized to determine the:
 			.command Name
@@ -55,11 +65,11 @@ t_cmd	*lexer(char *input)
 		-handle neccesary dequoting
 	*parser phase pass all data and fetch environment to execute
 */
-int	main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
-	char	*prompt;
-	char	*input;
-	t_cmd	*cmd;
+	char *prompt;
+	char *input;
+	t_cmd *cmd;
 
 	(void)argc;
 	(void)argv;
@@ -72,7 +82,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (input == NULL)
 			handle_eof();
 		add_history(input);
-		cmd = lexer(input);
+		cmd = lexical_analysis(skip_spaces(input));
 		if (cmd)
 		{
 			parser(&cmd, envp);
