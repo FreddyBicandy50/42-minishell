@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:50:37 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/28 15:17:45 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/29 23:45:31 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,25 +67,26 @@ char *skip_to_c(char *s, char c)
 
 char *dequotencpy(int start, int end, char *s)
 {
-	char *dest;
 	int i;
+	char *dest;
+	char in_quote;
 
-	printf("\n7.(DEQUOTE AND COPY GOT [%s]", s);
 	i = 0;
+	in_quote = 0;
 	dest = malloc(sizeof(char) * (end + 1));
-	if (!dest)
-		return (NULL);
-	while (i < end && s[start + i])
+	while (i < end && s[start])
 	{
-		if (isquote(*s))
-			s = skip_inside(*s, s + 1);
-		if (*s == '\0')
+		if (in_quote && s[start] == in_quote)
+			in_quote = 0;
+		if (!in_quote && isquote(s[start]))
+		{
+			in_quote = s[start++];
+		}
+		if (i >= end || s[start] == '\0')
 			break;
-		s++;
-		dest[i] = s[start + i];
+		dest[i] = s[start++];
 		i++;
 	}
 	dest[i] = '\0';
-	printf("AND COPIED [%s])\n", dest);
 	return (dest);
 }

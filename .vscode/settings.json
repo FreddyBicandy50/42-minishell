@@ -14,6 +14,6 @@
         "new": "c"
     },
     "files.autoSave": "afterDelay",
-    "editor.fontSize": 18,
-    "terminal.integrated.fontSize": 14
+    "editor.fontSize": 21,
+    "terminal.integrated.fontSize": 21
 }

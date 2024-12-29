@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/28 15:18:12 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/30 00:12:10 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char *get_next_command(t_cmd **cmd, char *prompt)
 	t_cmd *new_cmd;
 	size_t len;
 
-	printf("\n\nI AM GNC I GOT=%s\n", prompt);
+	printf("\n\nIn get_next_command i got=%s\n", prompt);
 	len = 0;
 	if (prompt[0] == '\0')
 		return (prompt);
@@ -114,11 +114,9 @@ char *get_next_command(t_cmd **cmd, char *prompt)
 		// prompt=get filename first
 	}
 	command = skip_to_c(prompt, ' ');
-	printf("\nCOMMAND IS NOW %s", command);
 	len = command - prompt;
-	printf("so len is %ld", len);
 	command = dequotencpy(0, len, prompt);
-	exit(0);
+	printf("\nget next command got is -> %s\n", command);
 	new_cmd = ft_cmd_lst_new(command);
 	ft_append_command(cmd, new_cmd);
 	if (prompt[len] != '\0')

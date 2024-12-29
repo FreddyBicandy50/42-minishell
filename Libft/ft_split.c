@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 16:40:15 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/28 15:18:20 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/30 00:11:24 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void free_split(char **args)
 		free(args[i]);
 		i++;
 	}
-	if(args!=NULL)
+	if (args != NULL)
 		free(args);
 }
 
 /*
-	takes the initial input => "ls -la | test"hello world | grep test
+	takes the initial input => "ls -la | test" hello world | grep test
 
 	count the words and intilize the tabs
 		safety check on tabs and *s
@@ -55,18 +55,19 @@ char **ft_command_split(char *s, char c)
 			word_start = s;
 			s = skip_to_c(s, c);
 			// remove this later
-				printf("\t split[%ld]=", i);
-				int j = 0;
-				while (j < (s - word_start))
-				{
-					printf("%c", word_start[j]);
-					j++;
-				}
-				printf("\n");
+			printf("\t split[%ld]=", i);
+			int j = 0;
+			while (j < (s - word_start))
+			{
+				printf("%c", word_start[j]);
+				j++;
+			}
+			printf("\n");
 			//...
 			if (s == NULL)
 				return (NULL);
 			tabs[i] = ft_strndup(word_start, s - word_start);
+			printf("\n6.(DUPLICATED [%s])\n", tabs[i]);
 			i++;
 		}
 		else
