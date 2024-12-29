@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/27 16:07:43 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2024/12/29 12:24:28 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,15 @@ void	echo_cmd(t_cmd **cmd);
 	//PWD
 void	pwd_cmd(void);
 	//ENV
-void	env_cmd(void);
+void	env_cmd(char **envp);
 	//CD
-void	cd_cmd(t_cmd **cmd);
+void	cd_cmd(t_cmd **cmd, char **envp);
 	//EXIT
 void	exit_minishell(void);
 	//EXPORT
 void	my_export(t_cmd **cmd);
 	//UNSET
-void	my_unset(t_cmd **cmd);
+void	my_unset(t_cmd **cmd, char **envp);
 
 //GET NEXT LINE
 char	*get_next_line(int fd);
@@ -94,6 +94,8 @@ size_t	ft_wordcount(char *s, char c);
 char	**ft_split(char *s, char c);
 char	**ft_command_split(char *s, char c);
 void	free_split(char **args);
+	//FT STRLCAT
+size_t	ft_strlcat(char *dst, const char *src, size_t size);
 	//FT QUOTE HANDLER
 char	*skip_quoted(char *s, char c);
 char	*skip_inside(char quote, char *s);
@@ -116,7 +118,7 @@ char	*ft_strdup_until_space(const char *str);
 	//FT STRJOIN
 char	*ft_strjoin(char const *s1, char const *s2);
 	//FT STRCAT
-char	*ft_strcat(const char *dest, const char *src);
+char	*ft_strcat(char *dest, const char *src);
 	//FT STRNCPY
 char	*ft_strncpy(size_t start, size_t end, char *src);
 	//FT STRSUB
@@ -154,6 +156,6 @@ int		type_redirection(char redirection, int redirection_count);
 char	*find_path(char *cmd, char **envp);
 int		built_in_functions(t_cmd **cmd, char **envp);
 	//set_env
-void	set_env(char *var, char *value);
+void	set_env(char *var, char *value, char **envp);
 
 #endif

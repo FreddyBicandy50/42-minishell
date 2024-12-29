@@ -1,36 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/23 17:43:06 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/29 11:31:47 by aal-mokd         ###   ########.fr       */
+/*   Created: 2024/04/23 13:09:30 by aal-mokd          #+#    #+#             */
+/*   Updated: 2024/12/29 12:10:15 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void	my_unset(t_cmd **cmd, char **envp)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	int		i;
-	size_t	len;
+	size_t	ldest;
+	size_t	lsrc;
+	size_t	i;
+	size_t	space_left;
 
-	len = strlen((*cmd)->arg[0]);
 	i = 0;
-	while (environ[i])
+	ldest = 0;
+	lsrc = 0;
+	while (dst[ldest] != '\0' && ldest < size)
+		ldest++;
+	while (src[lsrc] != '\0')
+		lsrc++;
+	space_left = 0;
+	if (size > ldest)
+		space_left = size - ldest - 1;
+	while (src[i] != '\0' && i < space_left)
 	{
-		if (strncmp(envp[i], (*cmd)->arg[0], len) == 0 && envp[i][len] == '=')
-		{
-			while (envp[i])
-			{
-				envp[i] = envp[i + 1];
-				i++;
-			}
-			envp[i] = NULL;
-			break ;
-		}
+		dst[ldest + i] = src[i];
 		i++;
 	}
+	if (ldest < size)
+	{
+		dst[ldest + i] = '\0';
+	}
+	return (ldest + lsrc);
 }

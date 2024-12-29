@@ -6,7 +6,7 @@
 #    By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2024/12/27 15:54:26 by aal-mokd         ###   ########.fr        #
+#    Updated: 2024/12/29 12:10:36 by aal-mokd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ ft_strncpy.c\
 ft_strnstr.c\
 ft_strsub.c\
 ft_word_count.c\
-ft_strlcpy.c
+ft_strlcpy.c\
+ft_strlcat.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
