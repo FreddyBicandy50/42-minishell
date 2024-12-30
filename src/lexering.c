@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/30 00:12:10 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/31 00:37:47 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,17 @@ int get_next_str(t_cmd **cmd, char *prompt)
 	return (i);
 }
 
+/*
+	get the rest of prompt from get_next_command
+	loop threw prompt
+		skip all leading spaces between the first command caught by gnc
+		if prompt is a -
+			coppy all the after to cmd->flag as flag
+		else
+			they are arguments go get them (whoof whoof)
+		IF YOU READ THIS TOMORROW KNOW YOUR ARE KING AND JESUS LOVES YOU
+*/
+
 char *get_next_flag(t_cmd **cmd, char *prompt)
 {
 	int i;
@@ -76,10 +87,9 @@ char *get_next_flag(t_cmd **cmd, char *prompt)
 		prompt = skip_spaces(prompt);
 		i = 0;
 		if (prompt[i] == '-')
-		{
-			i++;
-			prompt += update_flags(cmd, i, prompt, (*cmd)->flag);
-		}
+			prompt += copy_quoted_flag(cmd, i + 1, prompt);
+		else if (isquote(prompt[i]) && prompt[i + 1] == '-')
+			prompt += copy_quoted_flag(cmd, i + 2, prompt);
 		else
 		{
 			new_prompt = get_args(cmd, i, prompt);
@@ -93,9 +103,7 @@ char *get_next_flag(t_cmd **cmd, char *prompt)
 
 /*
 	take the segments of commands splitted by pipes
-	*skip str begining spaces
-		if the segment is just spaces we return to get next one
-	loop threw the prompt if its printable
+	skip the prompt to the first space and calculate how many words skipped
 
 */
 char *get_next_command(t_cmd **cmd, char *prompt)

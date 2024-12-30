@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/28 15:18:01 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/31 00:36:40 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,13 +140,14 @@ void	parser(t_cmd **cmd, char *envp[]);
 
 //TOOLS
 	//HELPER_FUNCTIONS
+int		copy_quoted_flag(t_cmd **cmd,int i, char *prompt);
 char	*skip_spaces(char *str);
 int		printable(char c);
 int		pipe_redirections(char *str, int *is_double);
 int		check_quote(char c, int quote);
 	//HELPER_LEXER
 void	append_cmd(t_cmd **cmd, char *command);
-int		update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags);
+void	update_flags(t_cmd **cmd, char *flag, char *all_flags);
 char	*get_args(t_cmd **cmd, int i, char *prompt);
 void	append_redirection(t_cmd **cmd, int type, char *filename);
 int		type_redirection(char redirection, int redirection_count);

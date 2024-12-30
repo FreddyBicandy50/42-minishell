@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_lexer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/10 13:41:33 by fredybicand      ###   ########.fr       */
+/*   Updated: 2024/12/31 00:31:29 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,15 @@ void	append_cmd(t_cmd **cmd, char *command)
 	}
 }
 
-int	update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags)
+void update_flags(t_cmd **cmd, char *flag, char *all_flags)
 {
 	char	*tmp;
-	char	*flag;
 	int		j;
 
-	while (printable(prompt[i]) && (prompt[i] != '\0' && prompt[i] != ' '))
-		if (prompt[i] == '>' || prompt[i++] == '<')
-			break ;
-	flag = ft_strncpy(1, i, prompt);
-	if (all_flags == NULL)
+	if (all_flags == NULL){
+		printf("TRUE");
 		all_flags = ft_strcat("-", flag);
+	}
 	else
 	{
 		tmp = ft_strcat(all_flags, flag);
@@ -61,7 +58,6 @@ int	update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags)
 	while ((*cmd)->flag[++j] != '\0')
 		if ((*cmd)->flag[j] == 32)
 			(*cmd)->flag[j] = (*cmd)->flag[j + 1];
-	return (i);
 }
 
 char	*get_args(t_cmd **cmd, int i, char *prompt)

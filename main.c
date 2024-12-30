@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/30 00:17:43 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/30 23:05:17 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int main(int argc, char *argv[], char *envp[])
 		cmd = lexical_analysis(skip_spaces(input));
 		if (cmd)
 		{
-			parser(&cmd, envp);
+			//parser(&cmd, envp);
+			print_cmd_list(cmd);
 			free_cmd(cmd);
 		}
 	}
