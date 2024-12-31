@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2024/12/29 12:23:43 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2024/12/31 13:18:41 by amokdad          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../src/minishell.h"
 
@@ -24,7 +24,7 @@ static void	update_value(int i, char *var, char *value, char **envp)
 		return ;
 	}
 	ft_strlcpy(envp[i], var, sizeof(var));
-	ft_strcat(envp[i], value);
+	ft_stralicat(envp[i], value);
 }
 
 void	set_env(char *var, char *value, char **envp)

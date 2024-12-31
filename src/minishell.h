@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/29 12:24:28 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2024/12/31 15:45:41 by amokdad          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -30,8 +30,6 @@
 # include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-extern char	**environ;
 
 typedef struct s_redir
 {
@@ -94,8 +92,8 @@ size_t	ft_wordcount(char *s, char c);
 char	**ft_split(char *s, char c);
 char	**ft_command_split(char *s, char c);
 void	free_split(char **args);
-	//FT STRLCAT
-size_t	ft_strlcat(char *dst, const char *src, size_t size);
+	//FT STRALICAT
+char	*ft_stralicat(char *dst, const char *src);
 	//FT QUOTE HANDLER
 char	*skip_quoted(char *s, char c);
 char	*skip_inside(char quote, char *s);
