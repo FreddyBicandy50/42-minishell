@@ -95,9 +95,10 @@ void	free_split(char **args);
 	//FT STRALICAT
 char	*ft_stralicat(char *dst, const char *src);
 	//FT QUOTE HANDLER
-char	*skip_quoted(char *s, char c);
+char	*skip_to_c(char *s, char c);
 char	*skip_inside(char quote, char *s);
 	//FT QUOTE IDENTIFIER
+char	*dequotencpy(int start,int end, char *s);
 int		isquote(char c);
 char	*isprintable_quote(char *s);
 	//GNL
@@ -110,15 +111,15 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 	//FT ERROR.c
 void	ft_error(t_cmd **cmd, char *message, char *str);
 	//FT STRDUP.c
-char	*ft_strdup(const char *s);
+char	*ft_strdup(char *s);
 char	*ft_strndup(const char *s, size_t n);
-char	*ft_strdup_until_space(const char *str);
+char	*ft_strdup_until_space(char *str);
 	//FT STRJOIN
 char	*ft_strjoin(char const *s1, char const *s2);
 	//FT STRCAT
 char	*ft_strcat(char *dest, const char *src);
 	//FT STRNCPY
-char	*ft_strncpy(size_t start, size_t end, char *src);
+char	*ft_strncpy(size_t start, size_t end, char const *src);
 	//FT STRSUB
 char	*ft_strsub(const char *s, unsigned int start, size_t len);
 	//FT STRNSTR
@@ -139,13 +140,14 @@ void	parser(t_cmd **cmd, char *envp[]);
 
 //TOOLS
 	//HELPER_FUNCTIONS
+int		copy_quoted_flag(t_cmd **cmd,int i, char *prompt);
 char	*skip_spaces(char *str);
 int		printable(char c);
 int		pipe_redirections(char *str, int *is_double);
 int		check_quote(char c, int quote);
 	//HELPER_LEXER
 void	append_cmd(t_cmd **cmd, char *command);
-int		update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags);
+void	update_flags(t_cmd **cmd, char *flag, char *all_flags);
 char	*get_args(t_cmd **cmd, int i, char *prompt);
 void	append_redirection(t_cmd **cmd, int type, char *filename);
 int		type_redirection(char redirection, int redirection_count);
