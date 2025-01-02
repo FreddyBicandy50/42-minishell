@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/31 00:37:47 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/02 15:27:19 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ char *get_next_command(t_cmd **cmd, char *prompt)
 	command = skip_to_c(prompt, ' ');
 	len = command - prompt;
 	command = dequotencpy(0, len, prompt);
-	printf("\nget next command got is -> %s\n", command);
+	printf("\nget next command got is -> %s$\n", command);
 	new_cmd = ft_cmd_lst_new(command);
 	ft_append_command(cmd, new_cmd);
 	if (prompt[len] != '\0')

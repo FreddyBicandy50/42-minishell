@@ -1,4 +1,10 @@
 ### TODO::catch flags after the redirections
+# Jan 2/2025
+    BUG FIXED 
+    we have an error in get_next_command 
+        case command quote and args
+        "l"s "Fredy"
+        out ls F
 ## Dec/30/2024
 
 FIXED: 

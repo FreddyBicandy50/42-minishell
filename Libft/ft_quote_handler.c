@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:50:37 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/30 23:27:51 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/02 15:31:41 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,26 +67,26 @@ char *skip_to_c(char *s, char c)
 
 char *dequotencpy(int start, int end, char *s)
 {
-	int i;
+	int i, j;
 	char *dest;
 	char in_quote;
 
 	i = 0;
-	in_quote = 0;
-	dest = malloc(sizeof(char) * (end + 1));
-	while (i < end && s[start])
+	j = 0;
+	in_quote = '\0';
+	dest = malloc(sizeof(char) * (end - start + 1)); // Allocate enough memory
+	if (!dest)
+		return NULL;
+	while (i < (end - start) && s[start + i])
 	{
-		if (in_quote && s[start] == in_quote)
-			in_quote = 0;
-		if (!in_quote && isquote(s[start]))
-		{
-			in_quote = s[start++];
-		}
-		if (i >= end || s[start] == '\0')
-			break;
-		dest[i] = s[start++];
+		if (in_quote != '\0' && s[start + i] == in_quote)
+			in_quote = '\0';
+		else if (in_quote == '\0' && isquote(s[start + i]))
+			in_quote = s[start + i];
+		else
+			dest[j++] = s[start + i];
 		i++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	dest[j] = '\0';
+	return dest;
 }
