@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:50:37 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/26 23:59:23 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/30 23:27:51 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 /*
 	get the string example "ls -la | grep"test | wc -l
-	
+
 	loop threw (s and ( [s is not a pipe] or [is not in a quote]))
 		if we spot a \ and we have quote after
 			skip it
@@ -26,15 +26,15 @@
 */
 char *skip_inside(char quote, char *s)
 {
-	while (*s != '\0')
+	printf("\n3.(QUOTES SKIPED [");
+	while (*s != '\0' && *s != quote)
 	{
-		s = isprintable_quote(s);
-		if (*s == '\0')
-			break;
-		if (*s == quote)
-			return (s);
+		printf("%c", *s);
 		s++;
 	}
+	printf("])\n");
+	if (*s == '\0')
+		return (NULL);
 	return (s);
 }
 
@@ -48,22 +48,45 @@ char *skip_inside(char quote, char *s)
 			flip quote signal
 			save the quote shape
 */
-char *skip_quoted(char *s, char c)
+char *skip_to_c(char *s, char c)
 {
-	printf("I GOT=%s", s);
 	while (*s != '\0' && *s != c)
 	{
-		s = isprintable_quote(s);
-		if (*s == '\0')
-			break;
 		if (isquote(*s))
-		{
-			printf("\nENTERED QUOTE ON:%c$\n", *s);
 			s = skip_inside(*s, s + 1);
-			if (*s == '\0')
-				return (s);
+		if (s == NULL)
+		{
+			printf("minishell:error near `\"\' unmatched quotes\n");
+			return (NULL);
 		}
 		s++;
 	}
+	printf("\n4.(SCOND COMMAND WILL BE [%s])\n", s);
 	return (s);
+}
+
+char *dequotencpy(int start, int end, char *s)
+{
+	int i;
+	char *dest;
+	char in_quote;
+
+	i = 0;
+	in_quote = 0;
+	dest = malloc(sizeof(char) * (end + 1));
+	while (i < end && s[start])
+	{
+		if (in_quote && s[start] == in_quote)
+			in_quote = 0;
+		if (!in_quote && isquote(s[start]))
+		{
+			in_quote = s[start++];
+		}
+		if (i >= end || s[start] == '\0')
+			break;
+		dest[i] = s[start++];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }

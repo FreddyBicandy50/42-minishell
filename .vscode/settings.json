@@ -7,9 +7,13 @@
         "unistd.h": "c",
         "termios.h": "c",
         "readline.h": "c",
-        "get_next_line.h": "c"
+        "get_next_line.h": "c",
+        "*.tcc": "c",
+        "cstdlib": "c",
+        "memory": "c",
+        "new": "c"
     },
     "files.autoSave": "afterDelay",
-    "editor.fontSize": 18,
-    "terminal.integrated.fontSize": 14
+    "editor.fontSize": 21,
+    "terminal.integrated.fontSize": 21
 }

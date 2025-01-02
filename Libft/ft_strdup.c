@@ -6,31 +6,29 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:26:52 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/26 23:46:59 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/30 00:10:49 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-char	*ft_strndup(const char *s, size_t n)
+char *ft_strndup(const char *s, size_t n)
 {
-	char	*dup;
-	size_t	len;
+	char *dup;
+	size_t len;
 
-	len = strnlen(s, n);
-	dup = (char *)malloc(len + 1);
-	if (!dup)
-		return (NULL);
-	strncpy(dup, s, len);
-	dup[len] = '\0';
+	len = 0;
+	while (s[len] != '\0' && len < n)
+		len++;
+	dup = ft_strncpy(0, len, s);
 	return (dup);
 }
 
-char	*ft_strdup_until_space(const char *str)
+char *ft_strdup_until_space(char *str)
 {
-	int		i;
-	int		len;
-	char	*copy;
+	int i;
+	int len;
+	char *copy;
 
 	i = 0;
 	len = 0;
@@ -48,11 +46,11 @@ char	*ft_strdup_until_space(const char *str)
 	return (copy);
 }
 
-char	*ft_strdup(const char *s)
+char *ft_strdup(char *s)
 {
-	size_t	len;
-	size_t	i;
-	char	*dup;
+	size_t len;
+	size_t i;
+	char *dup;
 
 	if (s == NULL)
 		return (NULL);

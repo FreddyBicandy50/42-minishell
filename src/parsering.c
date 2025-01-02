@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/02 11:25:56 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/01/02 11:36:15 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,5 @@ void	check_cmd(t_cmd **cmd, char *envp[])
 
 void	parser(t_cmd **cmd, char *envp[])
 {
-	print_cmd_list(*cmd);
 	check_cmd(cmd, envp);
 }

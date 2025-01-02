@@ -6,17 +6,17 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/27 00:45:11 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/31 00:37:47 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_next_redirection(t_cmd **cmd, char *prompt)
+int get_next_redirection(t_cmd **cmd, char *prompt)
 {
-	char	redirection;
-	int		type;
-	int		redir_count;
+	char redirection;
+	int type;
+	int redir_count;
 
 	while (*prompt != '\0')
 	{
@@ -41,11 +41,11 @@ int	get_next_redirection(t_cmd **cmd, char *prompt)
 	return (-1);
 }
 
-int	get_next_str(t_cmd **cmd, char *prompt)
+int get_next_str(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	int		quote_flag;
-	char	*command;
+	int i;
+	int quote_flag;
+	char *command;
 
 	i = 0;
 	quote_flag = 0;
@@ -53,10 +53,8 @@ int	get_next_str(t_cmd **cmd, char *prompt)
 	while (prompt[i] != '\0')
 	{
 		quote_flag = check_quote(prompt[i], quote_flag);
-		if ((ft_strncmp((*cmd)->command, "echo", 4) != 0
-				&& prompt[i] == ' ' && quote_flag == 0)
-			|| (prompt[i] == '>' || prompt[i] == '<'))
-			break ;
+		if ((ft_strncmp((*cmd)->command, "echo", 4) != 0 && prompt[i] == ' ' && quote_flag == 0) || (prompt[i] == '>' || prompt[i] == '<'))
+			break;
 		i++;
 	}
 	if (prompt[0] == 32 || prompt[0] == '\0')
@@ -68,25 +66,35 @@ int	get_next_str(t_cmd **cmd, char *prompt)
 	return (i);
 }
 
-char	*get_next_flag(t_cmd **cmd, char *prompt)
+/*
+	get the rest of prompt from get_next_command
+	loop threw prompt
+		skip all leading spaces between the first command caught by gnc
+		if prompt is a -
+			coppy all the after to cmd->flag as flag
+		else
+			they are arguments go get them (whoof whoof)
+		IF YOU READ THIS TOMORROW KNOW YOUR ARE KING AND JESUS LOVES YOU
+*/
+
+char *get_next_flag(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	char	*new_prompt;
+	int i;
+	char *new_prompt;
 
 	while (*prompt != '\0')
 	{
 		prompt = skip_spaces(prompt);
 		i = 0;
 		if (prompt[i] == '-')
-		{
-			i++;
-			prompt += update_flags(cmd, i, prompt, (*cmd)->flag);
-		}
+			prompt += copy_quoted_flag(cmd, i + 1, prompt);
+		else if (isquote(prompt[i]) && prompt[i + 1] == '-')
+			prompt += copy_quoted_flag(cmd, i + 2, prompt);
 		else
 		{
 			new_prompt = get_args(cmd, i, prompt);
 			if (!new_prompt)
-				break ;
+				break;
 			prompt = new_prompt;
 		}
 	}
@@ -95,27 +103,31 @@ char	*get_next_flag(t_cmd **cmd, char *prompt)
 
 /*
 	take the segments of commands splitted by pipes
-	*skip str begining spaces
-		if the segment is just spaces we return to get next one
-	loop threw the prompt if its printable
+	skip the prompt to the first space and calculate how many words skipped
 
 */
-char	*get_next_command(t_cmd **cmd, char *prompt)
+char *get_next_command(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	char	*command;
-	t_cmd	*new_cmd;
-	
-	i = 0;
-	prompt = skip_spaces(prompt);
-	if (prompt[i] == '\0')
+	char *command;
+	t_cmd *new_cmd;
+	size_t len;
+
+	printf("\n\nIn get_next_command i got=%s\n", prompt);
+	len = 0;
+	if (prompt[0] == '\0')
 		return (prompt);
-	while (prompt[i] != '\0' && printable(prompt[i]) && !isquote(prompt[i]))
-		i++;
-	command = ft_strncpy(0, i, prompt);
+	if (prompt[0] == '>')
+	{
+		printf("TRUE ON >");
+		// prompt=get filename first
+	}
+	command = skip_to_c(prompt, ' ');
+	len = command - prompt;
+	command = dequotencpy(0, len, prompt);
+	printf("\nget next command got is -> %s\n", command);
 	new_cmd = ft_cmd_lst_new(command);
 	ft_append_command(cmd, new_cmd);
-	if (prompt[i] != '\0')
-		prompt = get_next_flag(&new_cmd, (prompt + i) + 1);
-	return (prompt + i);
+	if (prompt[len] != '\0')
+		prompt = get_next_flag(&new_cmd, (prompt + len) + 1);
+	return (prompt + len);
 }
