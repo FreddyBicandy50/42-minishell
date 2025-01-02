@@ -6,28 +6,30 @@
 /*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:43:06 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/26 13:39:14 by amokdad          ###   ########.fr       */
+/*   Updated: 2024/12/31 13:26:39 by amokdad          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "../src/minishell.h"
 
-void my_unset(t_cmd **cmd)
+void	my_unset(t_cmd **cmd, char **envp)
 {
-	int i = 0;
-	size_t len = strlen((*cmd)->arg[0]);
+	int		i;
+	size_t	len;
 
-	while (environ[i])
+	len = ft_strlen((*cmd)->arg[0]);
+	i = 0;
+	while (envp[i])
 	{
-		if (strncmp(environ[i], (*cmd)->arg[0], len) == 0 && environ[i][len] == '=')
+		if (ft_strncmp(envp[i], (*cmd)->arg[0], len) == 0 && envp[i][len] == '=')
 		{
-			while (environ[i])
+			while (envp[i])
 			{
-				environ[i] = environ[i + 1];
+				envp[i] = envp[i + 1];
 				i++;
 			}
-			environ[i] = NULL;
-			break;
+			envp[i] = NULL;
+			break ;
 		}
 		i++;
 	}

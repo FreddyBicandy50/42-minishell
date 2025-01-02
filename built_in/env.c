@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 11:33:09 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/26 15:34:41 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/29 11:26:34 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void	env_cmd(void)
+void	env_cmd(char **envp)
 {
 	int	i;
 
 	i = 0;
-	while (environ[i] != NULL)
+	while (envp[i] != NULL)
 	{
-		printf("%s\n", environ[i]);
+		printf("%s\n", envp[i]);
 		i++;
 	}
 	return ;

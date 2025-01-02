@@ -6,15 +6,15 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:43:06 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/27 16:06:36 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2024/12/29 11:41:06 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+// #include "../src/minishell.h"
 
-void	my_export(t_cmd **cmd)
-{
-	if (!cmd || !(*cmd))
-		return ;
-	set_env((*cmd)->var[0], (*cmd)->var[1]);
-}
+// void	my_export(t_cmd **cmd)
+// {
+// 	if (!cmd || !(*cmd))
+// 		return ;
+// 	set_env((*cmd)->var[0], (*cmd)->var[1]);
+// }

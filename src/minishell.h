@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/31 00:36:40 by fbicandy         ###   ########.fr       */
+/*   Updated: 2024/12/31 15:45:41 by amokdad          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -30,8 +30,6 @@
 # include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-extern char	**environ;
 
 typedef struct s_redir
 {
@@ -67,15 +65,15 @@ void	echo_cmd(t_cmd **cmd);
 	//PWD
 void	pwd_cmd(void);
 	//ENV
-void	env_cmd(void);
+void	env_cmd(char **envp);
 	//CD
-void	cd_cmd(t_cmd **cmd);
+void	cd_cmd(t_cmd **cmd, char **envp);
 	//EXIT
 void	exit_minishell(void);
 	//EXPORT
 void	my_export(t_cmd **cmd);
 	//UNSET
-void	my_unset(t_cmd **cmd);
+void	my_unset(t_cmd **cmd, char **envp);
 
 //GET NEXT LINE
 char	*get_next_line(int fd);
@@ -94,6 +92,8 @@ size_t	ft_wordcount(char *s, char c);
 char	**ft_split(char *s, char c);
 char	**ft_command_split(char *s, char c);
 void	free_split(char **args);
+	//FT STRALICAT
+char	*ft_stralicat(char *dst, const char *src);
 	//FT QUOTE HANDLER
 char	*skip_to_c(char *s, char c);
 char	*skip_inside(char quote, char *s);
@@ -117,7 +117,7 @@ char	*ft_strdup_until_space(char *str);
 	//FT STRJOIN
 char	*ft_strjoin(char const *s1, char const *s2);
 	//FT STRCAT
-char	*ft_strcat(const char *dest, const char *src);
+char	*ft_strcat(char *dest, const char *src);
 	//FT STRNCPY
 char	*ft_strncpy(size_t start, size_t end, char const *src);
 	//FT STRSUB
@@ -156,6 +156,6 @@ int		type_redirection(char redirection, int redirection_count);
 char	*find_path(char *cmd, char **envp);
 int		built_in_functions(t_cmd **cmd, char **envp);
 	//set_env
-void	set_env(char *var, char *value);
+void	set_env(char *var, char *value, char **envp);
 
 #endif
