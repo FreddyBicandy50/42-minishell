@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/30 23:05:17 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:00:42 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,16 @@
 
 /*
  *takes the input= ls -la "test" | grep something
- *checks if the input is empty
- *split the commands by pipes and takes quoting into considerations
- *loops threw the commands segment to get its characteristques
+ *checks if the input is empty [line 29-37]
+ *split the commands by pipes and takes quoting into considerations [line 38-40]
+ *loops threw the commands segment to get its characteristques [42-48]
  */
 t_cmd *lexical_analysis(char *input)
 {
 	int i;
 	char **segments;
 	t_cmd *cmd;
-	printf("*****************LOGS***************");
-	printf("\n\t\tPHASE1");
-	printf("\n\n1.(LEXICAL ANALYSIS GOT ->[INPUT])\n");
+	printf("*****************LOGS STARTED***************");
 	if (!input || *input == '\0')
 		return (NULL);
 	cmd = NULL;
@@ -35,15 +33,14 @@ t_cmd *lexical_analysis(char *input)
 		printf("minishell:error unexpected token near:%c\n", input[0]);
 		return (cmd);
 	}
-	segments = ft_command_split(input, '|');
+	segments = ft_split_by_c(input, '|');
 	if (segments == NULL)
 		return (NULL);
 	i = -1;
 	while (segments[++i] != NULL)
 	{
-		printf("seg[%d]->%s\n", i, segments[i]);
-		printf("********************************\n");
-		get_next_command(&cmd, segments[i]);
+		printf("segment[%s]", segments);
+		get_command(&cmd, segments[i]);
 	}
 	free_split(segments);
 	return (cmd);
@@ -82,10 +79,10 @@ int main(int argc, char *argv[], char *envp[])
 		if (input == NULL)
 			handle_eof();
 		add_history(input);
-		cmd = lexical_analysis(skip_spaces(input));
+		cmd = lexical_analysis(input);
 		if (cmd)
 		{
-			//parser(&cmd, envp);
+			// parser(&cmd, envp);
 			print_cmd_list(cmd);
 			free_cmd(cmd);
 		}

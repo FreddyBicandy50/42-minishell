@@ -1,3 +1,10 @@
+ls -FLAG1 "Arg1 quoted test" -FLAG2 arg2"MIXED QUOTED" -Flag3 ARG3 > filename -FLAG | Grep ARG1"arg" | sort -FLAG >> file
+
+# Jan 27/2025
+    BUG FIXED 
+    we have an error in get_next_command 
+        case command quote and args
+
 ### TODO::catch flags after the redirections
 # Jan 2/2025
     BUG FIXED 

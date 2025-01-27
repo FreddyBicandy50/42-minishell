@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/26 23:59:58 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:27:34 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,12 @@ void	print_cmd_list(t_cmd *cmd)
 	}
 }
 
-void	add_first_cmd(t_cmd **cmd, char *command)
+void	add_first_cmd(t_cmd **cmd, char *argument)
 {
 	(*cmd)->arg = malloc(sizeof(char *) * 2);
 	if (!(*cmd)->arg)
-		free(command);
-	(*cmd)->arg[0] = command;
+		free(argument);
+	(*cmd)->arg[0] = argument;
 	(*cmd)->arg[1] = NULL;
 	(*cmd)->arg_number = 1;
 }

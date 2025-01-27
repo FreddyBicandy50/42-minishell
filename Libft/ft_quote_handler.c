@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:50:37 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/02 15:31:41 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:42:54 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,10 @@ char *skip_inside(char quote, char *s)
 
 /*
 	get the string example "ls -la | grep"test | wc -l
-
-	loop threw (s and ( [s is not a pipe] or [is not in a quote]))
-		if we spot a \ and we have quote after
-			skip it
-		else if (quote and (s = word_start) or (the prev char of s is not \))
-			flip quote signal
-			save the quote shape
+							EXAMPLE C='|'
+	loop threw (s and ( [s is not a pipe] or [is not in a \0])) [53]
+		if (quote) 53
+			skip_insde 54
 */
 char *skip_to_c(char *s, char c)
 {
@@ -61,7 +58,6 @@ char *skip_to_c(char *s, char c)
 		}
 		s++;
 	}
-	printf("\n4.(SCOND COMMAND WILL BE [%s])\n", s);
 	return (s);
 }
 
@@ -74,7 +70,7 @@ char *dequotencpy(int start, int end, char *s)
 	i = 0;
 	j = 0;
 	in_quote = '\0';
-	dest = malloc(sizeof(char) * (end - start + 1)); // Allocate enough memory
+	dest = malloc(sizeof(char) * (end - start + 1));
 	if (!dest)
 		return NULL;
 	while (i < (end - start) && s[start + i])

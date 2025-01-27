@@ -6,17 +6,17 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/31 00:31:29 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:31:01 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void	append_cmd(t_cmd **cmd, char *command)
+void append_cmd(t_cmd **cmd, char *argument)
 {
-	char	**new_arg;
-	int		j;
-	int		k;
+	char **new_arg;
+	int j;
+	int k;
 
 	j = 0;
 	k = -1;
@@ -39,10 +39,11 @@ void	append_cmd(t_cmd **cmd, char *command)
 
 void update_flags(t_cmd **cmd, char *flag, char *all_flags)
 {
-	char	*tmp;
-	int		j;
+	char *tmp;
+	int j;
 
-	if (all_flags == NULL){
+	if (all_flags == NULL)
+	{
 		printf("TRUE");
 		all_flags = ft_strcat("-", flag);
 	}
@@ -60,10 +61,23 @@ void update_flags(t_cmd **cmd, char *flag, char *all_flags)
 			(*cmd)->flag[j] = (*cmd)->flag[j + 1];
 }
 
-char	*get_args(t_cmd **cmd, int i, char *prompt)
+/*
+	get arguments example
+		-> arg1 -Flag1 arg2 -Flag2
+	// GNS will get the arg from start to end
+		-> and get the number of chars found
+			if n>0 means i found more than at least 1 char argument
+				skip this arg example arg1 = 4
+				prompt+=4 is ( -Flag1 ...)
+			else
+				check didnt catch anything probably its the end of string or
+					at least args maybe we now have flag
+				return +1 if not empty and null for empty
+*/
+char *get_args(t_cmd **cmd, int i, char *prompt)
 {
-	int	n;
-
+	int n;
+ 
 	n = get_next_str(cmd, prompt);
 	if (n > 0)
 		prompt += n;
@@ -76,10 +90,10 @@ char	*get_args(t_cmd **cmd, int i, char *prompt)
 	return (prompt);
 }
 
-void	append_redirection(t_cmd **cmd, int type, char *filename)
+void append_redirection(t_cmd **cmd, int type, char *filename)
 {
-	t_redir	*new_redir;
-	t_redir	*temp;
+	t_redir *new_redir;
+	t_redir *temp;
 
 	new_redir = malloc(sizeof(t_redir));
 	if (!new_redir)
@@ -98,7 +112,7 @@ void	append_redirection(t_cmd **cmd, int type, char *filename)
 	}
 }
 
-int	type_redirection(char redirection, int redirection_count)
+int type_redirection(char redirection, int redirection_count)
 {
 	if (redirection == '>' && redirection_count == 2)
 		return (2);

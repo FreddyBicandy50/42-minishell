@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/31 15:45:41 by amokdad          ###   ########.fr       */
+/*   Updated: 2025/01/27 17:55:17 by fbicandy         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -90,7 +90,7 @@ void	free_cmd(t_cmd *cmd);
 size_t	ft_wordcount(char *s, char c);
 	//FT SPLIT
 char	**ft_split(char *s, char c);
-char	**ft_command_split(char *s, char c);
+char	**ft_split_by_c(char *s, char c);
 void	free_split(char **args);
 	//FT STRALICAT
 char	*ft_stralicat(char *dst, const char *src);
@@ -127,7 +127,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 	//FT LASTWORD
 char	*ft_last_word(t_cmd **cmd, int type, char *prompt);
 	//FT LST
-void	ft_append_command(t_cmd **cmd, t_cmd *new_cmd);
+void	ft_connect_list(t_cmd **cmd, t_cmd *new_cmd);
 
 //SRC
 	//LEXERING

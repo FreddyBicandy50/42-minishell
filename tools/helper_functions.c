@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/31 00:36:26 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:13:21 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,6 @@ int pipe_redirections(char *str, int *is_double)
 		return (1);
 	}
 	return (0);
-}
-
-int check_quote(char c, int quote)
-{
-	if (quote == 0)
-	{
-		if (c == '"')
-			return (2);
-		if (c == '\'')
-			return (1);
-	}
-	else if (quote == 1 && c == '\'')
-		return (0);
-	else if (quote == 2 && c == '"')
-		return (0);
-	return (quote);
 }
 
 int copy_quoted_flag(t_cmd **cmd, int i, char *prompt)

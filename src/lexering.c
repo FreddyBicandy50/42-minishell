@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/02 15:27:19 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:43:02 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,42 @@ int get_next_redirection(t_cmd **cmd, char *prompt)
 	return (-1);
 }
 
+/*
+	get the prompt example
+		-> arg1 -Flag1 -arg2 -Flag2 > testfile1 fil2 -Flag3
+	if the command is echo
+		everything after is a argument no need to recheck for flag
+		except a redirection
+	else
+		loop threw prompt
+			skip to space and skip anything inside a spotted quote
+
+*/
 int get_next_str(t_cmd **cmd, char *prompt)
 {
 	int i;
-	int quote_flag;
-	char *command;
+	int len;
+	char *argument;
 
-	i = 0;
-	quote_flag = 0;
-	command = NULL;
-	while (prompt[i] != '\0')
+	len = 0;
+	if (ft_strncmp((*cmd)->command, "echo", 4) == 0)
+		while (prompt[i] != '\0') // you have to check for rirections also and make  a condition for echo to expand the arg after the filename > filename (rest string arg to echo)
+			i++;
+	else
 	{
-		quote_flag = check_quote(prompt[i], quote_flag);
-		if ((ft_strncmp((*cmd)->command, "echo", 4) != 0 && prompt[i] == ' ' && quote_flag == 0) || (prompt[i] == '>' || prompt[i] == '<'))
-			break;
-		i++;
+		argument = skip_to_c(prompt, ' ');
+		len = argument - prompt;
+		// argument = dequotencpy(0, len, prompt);
+		printf("\nArgument[%d]=%s\nargument len=%d", (*cmd)->arg_number, argument, len);
 	}
-	if (prompt[0] == 32 || prompt[0] == '\0')
+
+	if (prompt[0] == '\0')
 		return (0);
 	if (prompt[i] == '>' || prompt[i] == '<')
 		return (get_next_redirection(cmd, prompt + i));
-	command = ft_strncpy(0, i, prompt);
+	argument = dequotencpy(0, len, prompt);
 	append_cmd(cmd, command);
-	return (i);
+	return (len);
 }
 
 /*
@@ -71,10 +84,9 @@ int get_next_str(t_cmd **cmd, char *prompt)
 	loop threw prompt
 		skip all leading spaces between the first command caught by gnc
 		if prompt is a -
-			coppy all the after to cmd->flag as flag
+			copy all the after to cmd->flag as flag
 		else
 			they are arguments go get them (whoof whoof)
-		IF YOU READ THIS TOMORROW KNOW YOUR ARE KING AND JESUS LOVES YOU
 */
 
 char *get_next_flag(t_cmd **cmd, char *prompt)
@@ -103,28 +115,29 @@ char *get_next_flag(t_cmd **cmd, char *prompt)
 
 /*
 	take the segments of commands splitted by pipes
+	example : ls -Flag1 -Flag2 arg1 arg2 -Flag3 > file1 file2 file3  | cat Grep "test" | sort | wc -l
+	GNC -> ls -Flag1 -Flag2 arg1 arg2 -Flag3 > file1 file2 file3
 	skip the prompt to the first space and calculate how many words skipped
-
 */
 char *get_next_command(t_cmd **cmd, char *prompt)
 {
+	printf("~GNC~ Logs:\n");
 	char *command;
 	t_cmd *new_cmd;
 	size_t len;
 
-	printf("\n\nIn get_next_command i got=%s\n", prompt);
-	len = 0;
+	prompt = skip_spaces(prompt);
 	if (prompt[0] == '\0')
 		return (prompt);
-	if (prompt[0] == '>')
-	{
-		printf("TRUE ON >");
-		// prompt=get filename first
-	}
+	// check if first this is a redirection
+	len = 0;
 	command = skip_to_c(prompt, ' ');
+	printf("command=%s$\n", command);
 	len = command - prompt;
+	printf("command lenght=%d\n", len);
 	command = dequotencpy(0, len, prompt);
-	printf("\nget next command got is -> %s$\n", command);
+	printf("dequoted command=%s\n", command);
+
 	new_cmd = ft_cmd_lst_new(command);
 	ft_append_command(cmd, new_cmd);
 	if (prompt[len] != '\0')
