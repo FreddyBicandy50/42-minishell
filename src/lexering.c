@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/27 17:43:02 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:46:19 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,33 +75,39 @@ int get_next_str(t_cmd **cmd, char *prompt)
 	if (prompt[i] == '>' || prompt[i] == '<')
 		return (get_next_redirection(cmd, prompt + i));
 	argument = dequotencpy(0, len, prompt);
-	append_cmd(cmd, command);
+	ft_append_cmd(cmd, argument);
 	return (len);
 }
 
 /*
-	get the rest of prompt from get_next_command
-	loop threw prompt
-		skip all leading spaces between the first command caught by gnc
-		if prompt is a -
-			copy all the after to cmd->flag as flag
-		else
-			they are arguments go get them (whoof whoof)
-*/
+	example: -Flag1 -Arg1 -Flag2 -Arg2
 
-char *get_next_flag(t_cmd **cmd, char *prompt)
+	trim spaces at first
+	loop in prompt and check each char
+		if is -
+			copy the flag
+		if quote before -
+			copy the flag but skip the quote
+		else
+			get_argument
+*/
+char *flags_token(t_cmd **cmd, char *prompt)
 {
 	int i;
 	char *new_prompt;
 
+	printf("\nEntering flags_token\n");
+	print_cmd_list(*cmd);
+	exit(0);
 	while (*prompt != '\0')
 	{
 		prompt = skip_spaces(prompt);
+
 		i = 0;
 		if (prompt[i] == '-')
-			prompt += copy_quoted_flag(cmd, i + 1, prompt);
+			prompt += copy_flag(cmd, i + 1, prompt);
 		else if (isquote(prompt[i]) && prompt[i + 1] == '-')
-			prompt += copy_quoted_flag(cmd, i + 2, prompt);
+			prompt += copy_flag(cmd, i + 2, prompt);
 		else
 		{
 			new_prompt = get_args(cmd, i, prompt);
@@ -114,33 +120,53 @@ char *get_next_flag(t_cmd **cmd, char *prompt)
 }
 
 /*
-	take the segments of commands splitted by pipes
 	example : ls -Flag1 -Flag2 arg1 arg2 -Flag3 > file1 file2 file3  | cat Grep "test" | sort | wc -l
-	GNC -> ls -Flag1 -Flag2 arg1 arg2 -Flag3 > file1 file2 file3
-	skip the prompt to the first space and calculate how many words skipped
+
+	take the segments of commands splitted by pipes
+	segment[0] -> ls -Flag1 -Flag2 arg1 arg2 -Flag3 > file1 file2 file3
+		-trim spaces and skip the prompt to the first space
+		-calculate how many words skipped
+			ls = 2 chars
+		-dequote the result and copy it
 */
-char *get_next_command(t_cmd **cmd, char *prompt)
+char *command_token(t_cmd **cmd, char *prompt)
 {
-	printf("~GNC~ Logs:\n");
 	char *command;
 	t_cmd *new_cmd;
 	size_t len;
 
+	printf("\nentering-> command_token\n");
 	prompt = skip_spaces(prompt);
 	if (prompt[0] == '\0')
 		return (prompt);
 	// check if first this is a redirection
+
 	len = 0;
 	command = skip_to_c(prompt, ' ');
-	printf("command=%s$\n", command);
 	len = command - prompt;
-	printf("command lenght=%d\n", len);
 	command = dequotencpy(0, len, prompt);
-	printf("dequoted command=%s\n", command);
 
-	new_cmd = ft_cmd_lst_new(command);
-	ft_append_command(cmd, new_cmd);
+	printf("command token extracted =%s\n", command);
+	new_cmd = struct_create_list(command);
+	struct_addback_list(cmd, new_cmd);
+	printf("sturct list created & updated successfuly\n");
+	
+	print_cmd_list(*(cmd));
+	//continue here 
+	//TODO fix the flags 
+		// Make sure you recieve the cmd well
+		// copy the flags 
+		// Jump to arguments and do the same
+	exit(0);
 	if (prompt[len] != '\0')
-		prompt = get_next_flag(&new_cmd, (prompt + len) + 1);
+		prompt = flags_token(cmd, (prompt + len) + 1);
+	printf("leaving<- command_token\n\n");
 	return (prompt + len);
+}
+
+void tokenization(t_cmd **cmd, char *prompt)
+{
+	command_token(cmd, prompt);
+	return;
+	flags_token(cmd, prompt);
 }

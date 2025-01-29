@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:26:52 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/30 00:10:49 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:18:07 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,20 @@ char *ft_strndup(const char *s, size_t n)
 {
 	char *dup;
 	size_t len;
+	size_t i;
 
+	if (!s)
+		return (NULL);
 	len = 0;
 	while (s[len] != '\0' && len < n)
 		len++;
-	dup = ft_strncpy(0, len, s);
+	dup = malloc(sizeof(char) * (len + 1));
+	if (!dup)
+		return (NULL);
+	i = -1;
+	while (++i < len)
+		dup[i] = s[i];
+	dup[len] = '\0';
 	return (dup);
 }
 

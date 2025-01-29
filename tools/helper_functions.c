@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/27 15:13:21 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:25:17 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,22 @@ int pipe_redirections(char *str, int *is_double)
 	return (0);
 }
 
-int copy_quoted_flag(t_cmd **cmd, int i, char *prompt)
+/*
+	
+*/
+int copy_flag(t_cmd **cmd, int i, char *prompt)
 {
-	char *flag;
-	int len;
+	char	*flag;
+	int		len;
 
-	(void)cmd;
-	printf("in copy quoted_flag=%s", prompt);
+	printf("Flag is caught copying...");
 	flag = skip_to_c(prompt, ' ');
 	len = flag - prompt;
 	flag = dequotencpy(i, len, prompt);
+
+	printf("Flag is caught copying...");
 	printf("\ndequoted flag -> %s\n", flag);
+
 	update_flags(cmd, flag, (*cmd)->flag);
 	return (len);
 }

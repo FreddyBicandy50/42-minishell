@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 16:40:15 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/27 18:00:17 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:38:11 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,59 @@ void free_split(char **args)
 }
 
 /*
-	takes the initial input => "ls -la | test" hello world | grep test
-
-	count the words and intilize the tabs [49]
-		safety check on tabs and *s
-	loop threw > s [51]
-		if s !a pipe [53]
-			mark a word begining [55]
-			if s is a quote skip all the inside [56]
-			place this string in the tabs [59-64]
-		else skip the pipe 72
-	return these values 76
+	ex: ls "HELLO |WORLD" | grep "test" | sort
+	@RETURN number of commands=4
 */
-char **ft_split_by_c(char *s, char c)
+int ft_split_counts(char *s, char c)
+{
+	size_t split_counts;
+
+	split_counts = 0;
+	while (*s)
+	{
+		if (*s != c)
+		{
+			s = skip_to_c(s, c);
+			if (!s)
+				return (-1);
+			split_counts++;
+		}
+		else
+			s++;
+	}
+	printf("Split Counts=%ld\n", split_counts);
+	return (split_counts);
+}
+
+/*
+	ex:input => "ls -la | test" hello world | grep test
+
+	malloc the tab //make a custome word count for more effieciency
+	the usual ft_split but instead of looping threw the string here is the trick:
+		we skip immidiatly to c while not taking into consideration anything
+			-inside quotes
+		and then we copy whetever we got
+
+	example:
+		str="ls -la | test" hello world | grep test
+			skip to c = "ls -la | test" hello world
+			copy this and repeat
+		str=grep test
+			skip to c= grep test //even if | is not found
+			copy this ...
+	find the manuals for skip to c for more details
+*/
+char **ft_shell_split(char *s, char c)
 {
 	char *word_start;
 	char **tabs;
+	int split_counts;
 	size_t i;
 
-	tabs = malloc((ft_wordcount(s, c) + 1) * sizeof(char *));
+	split_counts = ft_split_counts(s, c);
+	if (split_counts < 0)
+		return (NULL);
+	tabs = malloc((split_counts + 1) * sizeof(char *));
 	i = 0;
 	while (*s)
 	{
@@ -53,8 +87,6 @@ char **ft_split_by_c(char *s, char c)
 		{
 			word_start = s;
 			s = skip_to_c(s, c);
-			if (s == NULL)
-				return (NULL);
 			tabs[i] = ft_strndup(word_start, s - word_start);
 			i++;
 		}

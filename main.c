@@ -6,41 +6,47 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/27 18:00:42 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:48:02 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/minishell.h"
 
 /*
- *takes the input= ls -la "test" | grep something
- *checks if the input is empty [line 29-37]
- *split the commands by pipes and takes quoting into considerations [line 38-40]
- *loops threw the commands segment to get its characteristques [42-48]
+ *input= ls -la "test" | grep "test"
+ *Steps:
+ *	if string is empty or has | at the start
+ *	elif split the commands by pipes
+ *	each string in the returned segment is a command
+ *  start tokenization method
  */
 t_cmd *lexical_analysis(char *input)
 {
-	int i;
-	char **segments;
-	t_cmd *cmd;
-	printf("*****************LOGS STARTED***************");
+	int		i;
+	char	**segments;
+	t_cmd	*cmd;
+
+	printf("*****************LOGS STARTED***************\n");
 	if (!input || *input == '\0')
 		return (NULL);
+
 	cmd = NULL;
 	segments = NULL;
 	if (input[0] == '|')
 	{
 		printf("minishell:error unexpected token near:%c\n", input[0]);
-		return (cmd);
+		return (NULL);
 	}
-	segments = ft_split_by_c(input, '|');
+
+	segments = ft_split(input, '|');
 	if (segments == NULL)
 		return (NULL);
+
 	i = -1;
 	while (segments[++i] != NULL)
 	{
-		printf("segment[%s]", segments);
-		get_command(&cmd, segments[i]);
+		printf("Treating Segment[%d]=%s\n", i, segments[i]);
+		tokenization(&cmd, segments[i]);
 	}
 	free_split(segments);
 	return (cmd);
@@ -82,8 +88,7 @@ int main(int argc, char *argv[], char *envp[])
 		cmd = lexical_analysis(input);
 		if (cmd)
 		{
-			// parser(&cmd, envp);
-			print_cmd_list(cmd);
+			parser(&cmd, envp);
 			free_cmd(cmd);
 		}
 	}

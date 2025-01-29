@@ -1,22 +1,22 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokdad <amokdad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/30 19:50:06 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:29:57 by fbicandy         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute(char *path, t_cmd **cmd, char *envp[])
+void execute(char *path, t_cmd **cmd, char *envp[])
 {
-	char	**exec_args;
-	int		i;
-	int		j;
+	char **exec_args;
+	int i;
+	int j;
 
 	j = 0;
 	i = 1;
@@ -118,20 +118,20 @@ void	execute(char *path, t_cmd **cmd, char *envp[])
 // 	}
 // }
 
-void	check_cmd(t_cmd **cmd, char *envp[])
+void check_cmd(t_cmd **cmd, char *envp[])
 {
-	char	*path;
-	pid_t	pid;
+	char *path;
+	pid_t pid;
 
 	if (built_in_functions(cmd, envp) == 1)
 	{
 		path = find_path((*cmd)->command, envp);
 		if (!path)
-			return ;
+			return;
 		pid = fork();
 		if (pid == 0)
 		{
-			//handle_redirection(*cmd);
+			// handle_redirection(*cmd);
 			execute(path, cmd, envp);
 		}
 		else if (pid < 0)
@@ -142,7 +142,8 @@ void	check_cmd(t_cmd **cmd, char *envp[])
 	}
 }
 
-void	parser(t_cmd **cmd, char *envp[])
+void parser(t_cmd **cmd, char *envp[])
 {
+	//print_cmd_list(cmd);
 	check_cmd(cmd, envp);
 }

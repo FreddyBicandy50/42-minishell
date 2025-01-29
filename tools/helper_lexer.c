@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/27 17:31:01 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:25:37 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void append_cmd(t_cmd **cmd, char *argument)
 	j = 0;
 	k = -1;
 	if (!(*cmd)->arg)
-		add_first_cmd(cmd, command);
+		add_first_cmd(cmd, argument);
 	else
 	{
 		while ((*cmd)->arg[j] != NULL)
@@ -30,7 +30,7 @@ void append_cmd(t_cmd **cmd, char *argument)
 		new_arg = malloc(sizeof(char *) * (j + 2));
 		while (k++ < j)
 			new_arg[k] = (*cmd)->arg[k];
-		new_arg[j] = command;
+		new_arg[j] = argument;
 		new_arg[j + 1] = NULL;
 		free((*cmd)->arg);
 		(*cmd)->arg = new_arg;
@@ -39,14 +39,11 @@ void append_cmd(t_cmd **cmd, char *argument)
 
 void update_flags(t_cmd **cmd, char *flag, char *all_flags)
 {
-	char *tmp;
-	int j;
+	char	*tmp;
+	int		j;
 
 	if (all_flags == NULL)
-	{
-		printf("TRUE");
 		all_flags = ft_strcat("-", flag);
-	}
 	else
 	{
 		tmp = ft_strcat(all_flags, flag);

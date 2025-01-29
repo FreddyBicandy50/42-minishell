@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/27 17:55:17 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:40:02 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,14 @@ void	exit_minishell(void);
 void	my_export(t_cmd **cmd);
 	//UNSET
 void	my_unset(t_cmd **cmd, char **envp);
-
-//GET NEXT LINE
+	//GET NEXT LINE
 char	*get_next_line(int fd);
 
 // Libft
 	//FT CMD_LST
-t_cmd	*ft_cmd_lst_new(char *command);
+t_cmd	*struct_create_list(char *command);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-void	ft_cmd_add_back(t_cmd **lst, t_cmd *new);
+void	struct_addback_list(t_cmd **lst, t_cmd *new);
 void	add_first_cmd(t_cmd **cmd, char *command);
 void	print_cmd_list(t_cmd *cmd);
 void	free_cmd(t_cmd *cmd);
@@ -90,7 +89,7 @@ void	free_cmd(t_cmd *cmd);
 size_t	ft_wordcount(char *s, char c);
 	//FT SPLIT
 char	**ft_split(char *s, char c);
-char	**ft_split_by_c(char *s, char c);
+char	**ft_shell_split(char *s, char c);
 void	free_split(char **args);
 	//FT STRALICAT
 char	*ft_stralicat(char *dst, const char *src);
@@ -101,8 +100,6 @@ char	*skip_inside(char quote, char *s);
 char	*dequotencpy(int start,int end, char *s);
 int		isquote(char c);
 char	*isprintable_quote(char *s);
-	//GNL
-char	*get_next_command(t_cmd **cmd, char *prompt);
 	//FT STRLEN
 int		ft_strlen(const char *str);
 	//FT STRCMP
@@ -127,26 +124,27 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 	//FT LASTWORD
 char	*ft_last_word(t_cmd **cmd, int type, char *prompt);
 	//FT LST
-void	ft_connect_list(t_cmd **cmd, t_cmd *new_cmd);
+void	ft_put_command(t_cmd **cmd, t_cmd *new_cmd);
 
 //SRC
 	//LEXERING
 int		get_next_str(t_cmd **cmd, char *prompt);
 int		get_next_redirection(t_cmd **cmd, char *prompt);
 char	*get_next_flag(t_cmd **cmd, char *prompt);
-char	*get_next_command(t_cmd **cmd, char *prompt);
+char	*flags_token(t_cmd **cmd, char *prompt);
+void	tokenization(t_cmd **cmd, char *prompt);
 	//PARESERING
 void	parser(t_cmd **cmd, char *envp[]);
 
 //TOOLS
 	//HELPER_FUNCTIONS
-int		copy_quoted_flag(t_cmd **cmd,int i, char *prompt);
+int		copy_flag(t_cmd **cmd,int i, char *prompt);
 char	*skip_spaces(char *str);
 int		printable(char c);
 int		pipe_redirections(char *str, int *is_double);
 int		check_quote(char c, int quote);
 	//HELPER_LEXER
-void	append_cmd(t_cmd **cmd, char *command);
+void	ft_append_cmd(t_cmd **cmd, char *command);
 void	update_flags(t_cmd **cmd, char *flag, char *all_flags);
 char	*get_args(t_cmd **cmd, int i, char *prompt);
 void	append_redirection(t_cmd **cmd, int type, char *filename);

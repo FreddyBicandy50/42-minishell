@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:50:37 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/27 17:42:54 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:34:48 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,24 @@
 // TODO::dequote
 
 /*
-	get the string example "ls -la | grep"test | wc -l
+	example "ls -la | grep test"test hello world | grep test
 
-	loop threw (s and ( [s is not a pipe] or [is not in a quote]))
-		if we spot a \ and we have quote after
-			skip it
-		else if (quote and (s = word_start) or (the prev char of s is not \))
-			flip quote signal
-			save the quote shape
+	skips everything inside the quotations
+	@RETURN test hello world | grep test
 */
 char *skip_inside(char quote, char *s)
 {
-	printf("\n3.(QUOTES SKIPED [");
 	while (*s != '\0' && *s != quote)
-	{
-		printf("%c", *s);
 		s++;
-	}
-	printf("])\n");
 	if (*s == '\0')
 		return (NULL);
 	return (s);
 }
 
 /*
-	get the string example "ls -la | grep"test | wc -l
-							EXAMPLE C='|'
-	loop threw (s and ( [s is not a pipe] or [is not in a \0])) [53]
-		if (quote) 53
-			skip_insde 54
+	example Test"helo World this is a skip to c function"Code testing
+	if C is space
+	@RETURN Test"helo World this is a skip to c function"Code
 */
 char *skip_to_c(char *s, char c)
 {

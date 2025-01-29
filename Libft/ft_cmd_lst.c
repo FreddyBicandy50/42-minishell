@@ -6,13 +6,13 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/27 17:27:34 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:45:06 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-t_cmd	*ft_cmd_lst_new(char *command)
+t_cmd	*struct_create_list(char *command)
 {
 	t_cmd	*new_cmd;
 
@@ -28,7 +28,39 @@ t_cmd	*ft_cmd_lst_new(char *command)
 	return (new_cmd);
 }
 
-void	ft_cmd_add_back(t_cmd **lst, t_cmd *new)
+
+/*
+	Example : commnad -FLAG1 -Arg1 -Flag2 - Arg2
+	After the lexer extract the token 
+		if the cmd->args is null
+
+*/
+void	ft_append_cmd(t_cmd **cmd, char *Token)
+{
+	char	**new_arg;
+	int		j;
+	int		k;
+
+	j = 0;
+	k = -1;
+	if (!(*cmd)->arg)
+		add_first_cmd(cmd, Token);
+	else
+	{
+		while ((*cmd)->arg[j] != NULL)
+			j++;
+		(*cmd)->arg_number = j + 1;
+		new_arg = malloc(sizeof(char *) * (j + 2));
+		while (k++ < j)
+			new_arg[k] = (*cmd)->arg[k];
+		new_arg[j] = Token;
+		new_arg[j + 1] = NULL;
+		free((*cmd)->arg);
+		(*cmd)->arg = new_arg;
+	}
+}
+
+void	struct_addback_list(t_cmd **lst, t_cmd *new)
 {
 	t_cmd	*temp;
 
@@ -70,8 +102,10 @@ void	print_cmd_list(t_cmd *cmd)
 	// t_redir	*redir;
 
 	//(void)*redir;
+	printf("\n->Entering print_cmd_list\n");
 	while (cmd != NULL)
 	{
+		if (cmd->command)
 		if (cmd->command)
 			printf("Command: %s\n", cmd->command);
 		if (cmd->flag)
@@ -97,6 +131,7 @@ void	print_cmd_list(t_cmd *cmd)
 		// }
 		cmd = cmd->next;
 	}
+	printf("Leaving<- print_cmd_list\n");
 }
 
 void	add_first_cmd(t_cmd **cmd, char *argument)
