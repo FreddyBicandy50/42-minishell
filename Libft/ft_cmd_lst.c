@@ -6,15 +6,15 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/29 22:45:06 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/30 21:25:18 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-t_cmd	*struct_create_list(char *command)
+t_cmd *struct_create_list(char *command)
 {
-	t_cmd	*new_cmd;
+	t_cmd *new_cmd;
 
 	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_cmd)
@@ -28,23 +28,54 @@ t_cmd	*struct_create_list(char *command)
 	return (new_cmd);
 }
 
-
-/*
-	Example : commnad -FLAG1 -Arg1 -Flag2 - Arg2
-	After the lexer extract the token 
-		if the cmd->args is null
-
-*/
-void	ft_append_cmd(t_cmd **cmd, char *Token)
+void struct_addback_list(t_cmd **lst, t_cmd *new)
 {
-	char	**new_arg;
-	int		j;
-	int		k;
+	t_cmd *temp;
+
+	if (!new || !lst)
+		return;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return;
+	}
+	temp = *lst;
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = new;
+}
+
+void struct_update_flags(t_cmd **cmd, char *flag, char *all_flags)
+{
+	char *tmp;
+	int j;
+
+	if (all_flags == NULL)
+		all_flags = ft_strjoin("-", flag);
+	else
+	{
+		tmp = ft_strjoin(all_flags, flag);
+		free(all_flags);
+		all_flags = tmp;
+	}
+	free(flag);
+	(*cmd)->flag = all_flags;
+	j = -1;
+	while ((*cmd)->flag[++j] != '\0')
+		if ((*cmd)->flag[j] == 32)
+			(*cmd)->flag[j] = (*cmd)->flag[j + 1];
+}
+
+void struct_update_args(t_cmd **cmd, char *arg)
+{
+	char **new_arg;
+	int j;
+	int k;
 
 	j = 0;
 	k = -1;
 	if (!(*cmd)->arg)
-		add_first_cmd(cmd, Token);
+		add_first_cmd(cmd, arg);
 	else
 	{
 		while ((*cmd)->arg[j] != NULL)
@@ -53,34 +84,29 @@ void	ft_append_cmd(t_cmd **cmd, char *Token)
 		new_arg = malloc(sizeof(char *) * (j + 2));
 		while (k++ < j)
 			new_arg[k] = (*cmd)->arg[k];
-		new_arg[j] = Token;
+		new_arg[j] = arg;
 		new_arg[j + 1] = NULL;
 		free((*cmd)->arg);
 		(*cmd)->arg = new_arg;
 	}
 }
 
-void	struct_addback_list(t_cmd **lst, t_cmd *new)
+void struct_free_redirections(t_redir *redirections)
 {
-	t_cmd	*temp;
+	t_redir *temp;
 
-	if (!new || !lst)
-		return ;
-	if (*lst == NULL)
+	while (redirections != NULL)
 	{
-		*lst = new;
-		return ;
+		temp = redirections;
+		free(temp->filename);
+		redirections = redirections->next;
+		free(temp);
 	}
-	temp = *lst;
-	while (temp->next != NULL)
-		temp = temp->next;
-	temp->next = new;
 }
 
-
-void	free_cmd(t_cmd *cmd)
+void struct_free_cmd(t_cmd *cmd)
 {
-	t_cmd	*temp;
+	t_cmd *temp;
 
 	while (cmd != NULL)
 	{
@@ -96,9 +122,9 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
-void	print_cmd_list(t_cmd *cmd)
+void print_cmd_list(t_cmd *cmd)
 {
-	int	i;
+	int i;
 	// t_redir	*redir;
 
 	//(void)*redir;
@@ -106,8 +132,8 @@ void	print_cmd_list(t_cmd *cmd)
 	while (cmd != NULL)
 	{
 		if (cmd->command)
-		if (cmd->command)
-			printf("Command: %s\n", cmd->command);
+			if (cmd->command)
+				printf("Command: %s\n", cmd->command);
 		if (cmd->flag)
 			printf("Flag: %s\n", cmd->flag);
 		if (cmd->arg)
@@ -132,27 +158,4 @@ void	print_cmd_list(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	printf("Leaving<- print_cmd_list\n");
-}
-
-void	add_first_cmd(t_cmd **cmd, char *argument)
-{
-	(*cmd)->arg = malloc(sizeof(char *) * 2);
-	if (!(*cmd)->arg)
-		free(argument);
-	(*cmd)->arg[0] = argument;
-	(*cmd)->arg[1] = NULL;
-	(*cmd)->arg_number = 1;
-}
-
-void	free_redirections(t_redir *redirections)
-{
-	t_redir	*temp;
-
-	while (redirections != NULL)
-	{
-		temp = redirections;
-		free(temp->filename);
-		redirections = redirections->next;
-		free(temp);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/29 22:25:17 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/31 23:06:06 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,31 @@ int pipe_redirections(char *str, int *is_double)
 }
 
 /*
-	
+	@EXAMPLE "-FLAG1"test  -ARG1 -ARG2 -FLAG2
+
+	Skip s to find space taking quotes into considerations
+		-calculate how many chars skipped
+			"-FLAG1"test = 12 chars
+		-dequote the result and copy it
+	send new flag to the @upate_flags functions to concat new flags tokens
+
+	@RETURN 12 chars (how many letter we read from prompt to be able to skip them with prompt+=len)
 */
 int copy_flag(t_cmd **cmd, int i, char *prompt)
 {
-	char	*flag;
-	int		len;
+	char *flag;
+	int len;
 
-	printf("Flag is caught copying...");
 	flag = skip_to_c(prompt, ' ');
 	len = flag - prompt;
 	flag = dequotencpy(i, len, prompt);
+	printf("flag token extracted =%s\n", flag);
 
-	printf("Flag is caught copying...");
-	printf("\ndequoted flag -> %s\n", flag);
+	struct_update_flags(cmd, flag, (*cmd)->flag);
+	printf("sturct list created & updated successfuly");
 
-	update_flags(cmd, flag, (*cmd)->flag);
+	print_cmd_list(*(cmd));
+	printf("leaving<- flag_token\n");
+
 	return (len);
 }

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:50:37 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/29 20:34:48 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/30 20:27:14 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ char *skip_inside(char quote, char *s)
 }
 
 /*
-	example Test"helo World this is a skip to c function"Code testing
-	if C is space
-	@RETURN Test"helo World this is a skip to c function"Code
+	@EXAMPLE => "helo World this is a skip to c function"Code testing
+
+	IF C IS ' ' (AKA space)
+	@RETURN "helo World this is a skip to c function"Code
 */
 char *skip_to_c(char *s, char c)
 {
@@ -50,6 +51,20 @@ char *skip_to_c(char *s, char c)
 	return (s);
 }
 
+/*
+	@EXAMPLE "example on dequote and copy"TEST
+
+	start = 0
+	end =33
+	s=@EXAMPLE
+	
+	create a variable with enough memorie address
+	Track quotes and skip them 
+		eg: "example"
+			=> " will be skipped as well the last one
+
+	@RETURN	example on dequote and copyTEST\0
+*/
 char *dequotencpy(int start, int end, char *s)
 {
 	int i, j;

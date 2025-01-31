@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/29 22:40:02 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:47:37 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-// signals
+// SIGNALS
 void	signals(void);
 void	handle_eof(void);
 void	handle_eof(void);
@@ -80,19 +80,18 @@ char	*get_next_line(int fd);
 // Libft
 	//FT CMD_LST
 t_cmd	*struct_create_list(char *command);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 void	struct_addback_list(t_cmd **lst, t_cmd *new);
-void	add_first_cmd(t_cmd **cmd, char *command);
+void	struct_update_flags(t_cmd **cmd, char *flag, char *all_flags);
+void	struct_update_args(t_cmd **cmd, char *command);
+void	struct_free_redirections(t_redir *redirections);
+void	struct_free_cmd(t_cmd *cmd);
 void	print_cmd_list(t_cmd *cmd);
-void	free_cmd(t_cmd *cmd);
 	//FT WORDCOUNT
 size_t	ft_wordcount(char *s, char c);
 	//FT SPLIT
 char	**ft_split(char *s, char c);
 char	**ft_shell_split(char *s, char c);
 void	free_split(char **args);
-	//FT STRALICAT
-char	*ft_stralicat(char *dst, const char *src);
 	//FT QUOTE HANDLER
 char	*skip_to_c(char *s, char c);
 char	*skip_inside(char quote, char *s);
@@ -100,6 +99,8 @@ char	*skip_inside(char quote, char *s);
 char	*dequotencpy(int start,int end, char *s);
 int		isquote(char c);
 char	*isprintable_quote(char *s);
+	//FT STRLCAT
+size_t	ft_strlcat(char *dst, const char *src, size_t size);
 	//FT STRLEN
 int		ft_strlen(const char *str);
 	//FT STRCMP
@@ -112,13 +113,11 @@ char	*ft_strdup(char *s);
 char	*ft_strndup(const char *s, size_t n);
 char	*ft_strdup_until_space(char *str);
 	//FT STRJOIN
-char	*ft_strjoin(char const *s1, char const *s2);
-	//FT STRCAT
+char	*ft_strjoin(char *s1, char *s2);
+	//FT STRLCPY
+size_t	ft_strlcpy(char *dst, char *src, size_t size);
+// FT STRCAT
 char	*ft_strcat(char *dest, const char *src);
-	//FT STRNCPY
-char	*ft_strncpy(size_t start, size_t end, char const *src);
-	//FT STRSUB
-char	*ft_strsub(const char *s, unsigned int start, size_t len);
 	//FT STRNSTR
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 	//FT LASTWORD
@@ -128,7 +127,7 @@ void	ft_put_command(t_cmd **cmd, t_cmd *new_cmd);
 
 //SRC
 	//LEXERING
-int		get_next_str(t_cmd **cmd, char *prompt);
+int		copy_args(t_cmd **cmd, char *prompt);
 int		get_next_redirection(t_cmd **cmd, char *prompt);
 char	*get_next_flag(t_cmd **cmd, char *prompt);
 char	*flags_token(t_cmd **cmd, char *prompt);
@@ -144,11 +143,9 @@ int		printable(char c);
 int		pipe_redirections(char *str, int *is_double);
 int		check_quote(char c, int quote);
 	//HELPER_LEXER
-void	ft_append_cmd(t_cmd **cmd, char *command);
-void	update_flags(t_cmd **cmd, char *flag, char *all_flags);
-char	*get_args(t_cmd **cmd, int i, char *prompt);
+char	*args_token(t_cmd **cmd, int i, char *prompt);
+void	add_first_cmd(t_cmd **cmd, char *argument);
 void	append_redirection(t_cmd **cmd, int type, char *filename);
-int		type_redirection(char redirection, int redirection_count);
 
 	//HELPER_PARSER
 char	*find_path(char *cmd, char **envp);

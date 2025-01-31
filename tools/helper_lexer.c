@@ -6,11 +6,21 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/29 22:25:37 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/01/31 23:05:39 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
+
+void add_first_cmd(t_cmd **cmd, char *argument)
+{
+	(*cmd)->arg = malloc(sizeof(char *) * 2);
+	if (!(*cmd)->arg)
+		free(argument);
+	(*cmd)->arg[0] = argument;
+	(*cmd)->arg[1] = NULL;
+	(*cmd)->arg_number = 1;
+}
 
 void append_cmd(t_cmd **cmd, char *argument)
 {
@@ -37,55 +47,44 @@ void append_cmd(t_cmd **cmd, char *argument)
 	}
 }
 
-void update_flags(t_cmd **cmd, char *flag, char *all_flags)
-{
-	char	*tmp;
-	int		j;
-
-	if (all_flags == NULL)
-		all_flags = ft_strcat("-", flag);
-	else
-	{
-		tmp = ft_strcat(all_flags, flag);
-		free(all_flags);
-		all_flags = tmp;
-	}
-	free(flag);
-	(*cmd)->flag = all_flags;
-	j = -1;
-	while ((*cmd)->flag[++j] != '\0')
-		if ((*cmd)->flag[j] == 32)
-			(*cmd)->flag[j] = (*cmd)->flag[j + 1];
-}
-
 /*
-	get arguments example
-		-> arg1 -Flag1 arg2 -Flag2
-	// GNS will get the arg from start to end
-		-> and get the number of chars found
-			if n>0 means i found more than at least 1 char argument
-				skip this arg example arg1 = 4
-				prompt+=4 is ( -Flag1 ...)
-			else
-				check didnt catch anything probably its the end of string or
-					at least args maybe we now have flag
-				return +1 if not empty and null for empty
+	@EXAMPLE -ARG1 -FLAG2 -ARG2 > Filename
+
+	check if the command is echo everything after we specify a flag is consider args
+	except for redirections
+
+	ELSE:then
+		skip to the first space
+		calc len word skiped
+		copy without quotes
+		update list of commands arguments
 */
-char *get_args(t_cmd **cmd, int i, char *prompt)
+int copy_args(t_cmd **cmd, char *prompt)
 {
-	int n;
- 
-	n = get_next_str(cmd, prompt);
-	if (n > 0)
-		prompt += n;
+	int i;
+	int len;
+	char *argument;
+
+	len = 0;
+	if (ft_strncmp((*cmd)->command, "echo", 4) == 0)
+		while (prompt[i] != '\0') // you have to check for rirections also and make  a condition for echo to expand the arg after the filename > filename (rest string arg to echo)
+			i++;
 	else
 	{
-		if (prompt[i] == '\0' || n == -1)
-			return (NULL);
-		prompt++;
+		argument = skip_to_c(prompt, ' ');
+		len = argument - prompt;
+		argument = dequotencpy(0, len, prompt);
+		if (*argument == '\0')
+			free(argument);
+		else
+		{
+			printf("\nArgument[%d]=%s\nargument len=%d", (*cmd)->arg_number, argument, len);
+			struct_update_args(cmd, argument);
+		}
 	}
-	return (prompt);
+	return (len);
 }
+
 
 void append_redirection(t_cmd **cmd, int type, char *filename)
 {
@@ -107,17 +106,4 @@ void append_redirection(t_cmd **cmd, int type, char *filename)
 			temp = temp->next;
 		temp->next = new_redir;
 	}
-}
-
-int type_redirection(char redirection, int redirection_count)
-{
-	if (redirection == '>' && redirection_count == 2)
-		return (2);
-	else if (redirection == '>' && redirection_count == 1)
-		return (1);
-	else if (redirection == '<' && redirection_count == 2)
-		return (3);
-	else if (redirection == '<' && redirection_count == 1)
-		return (4);
-	return (0);
 }
