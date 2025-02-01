@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_checksum.c                                      :+:      :+:    :+:   */
+/*   ft_trim.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/23 14:52:13 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/01 12:57:52 by fbicandy         ###   ########.fr       */
+/*   Created: 2025/02/01 13:48:44 by fbicandy          #+#    #+#             */
+/*   Updated: 2025/02/01 13:49:23 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-int isquote(char c)
+char	*skip_spaces(char *str)
 {
-	return (c == '`' || c == '\'' || c == '\"');
-}
-
-// int redirections(char c1, char c2)
-// {
-// 	if (c1=='>')
-// 	{
-
-// 	}
-// }
-
-char *isprintable_quote(char c)
-{
-	return (c >= 32 && c <= 126);
+	if (!str || *str == '\0' || *str == '\n')
+		return (str);
+	while (!(*str >= 33 && *str <= 126) && *str != '\0')
+		str++;
+	return (str);
 }

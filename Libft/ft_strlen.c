@@ -6,9 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 16:27:03 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/10/15 00:43:43 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:23:17 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../src/minishell.h"
 
 int	ft_strlen(char *str)
 {

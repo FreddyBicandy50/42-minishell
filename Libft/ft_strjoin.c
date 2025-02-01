@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 17:06:47 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/30 17:13:05 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:15:37 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	s2_len;
 	size_t	i;
 	char	*join;
-  
+
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
 	join = (char *)malloc(s1_len + s2_len + 1);

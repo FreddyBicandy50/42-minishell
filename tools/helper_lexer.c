@@ -6,45 +6,66 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/31 23:05:39 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:02:26 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void add_first_cmd(t_cmd **cmd, char *argument)
+/*
+	example "ls -la | grep test"test hello world | grep test
+
+	skips everything inside the quotations
+	@RETURN test hello world | grep test
+*/
+char	*skip_inside(char quote, char *s)
 {
-	(*cmd)->arg = malloc(sizeof(char *) * 2);
-	if (!(*cmd)->arg)
-		free(argument);
-	(*cmd)->arg[0] = argument;
-	(*cmd)->arg[1] = NULL;
-	(*cmd)->arg_number = 1;
+	while (*s != '\0' && *s != quote)
+		s++;
+	if (*s == '\0')
+		return (NULL);
+	return (s);
 }
 
-void append_cmd(t_cmd **cmd, char *argument)
-{
-	char **new_arg;
-	int j;
-	int k;
+/*
+	@EXAMPLE "example on dequote and copy"TEST
 
+	start = 0
+	end =33
+	s=@EXAMPLE
+
+	create a variable with enough memorie address
+	Track quotes and skip them
+		eg: "example"
+			=> " will be skipped as well the last one
+
+	@RETURN	example on dequote and copyTEST\0
+*/
+char	*dequotencpy(int start, int end, char *s)
+{
+	int		i;
+	int		j;
+	char	*dest;
+	char	in_quote;
+
+	i = 0;
 	j = 0;
-	k = -1;
-	if (!(*cmd)->arg)
-		add_first_cmd(cmd, argument);
-	else
+	in_quote = '\0';
+	dest = malloc(sizeof(char) * (end - start + 1));
+	if (!dest)
+		return (NULL);
+	while (i < (end - start) && s[start + i])
 	{
-		while ((*cmd)->arg[j] != NULL)
-			j++;
-		(*cmd)->arg_number = j + 1;
-		new_arg = malloc(sizeof(char *) * (j + 2));
-		while (k++ < j)
-			new_arg[k] = (*cmd)->arg[k];
-		new_arg[j] = argument;
-		new_arg[j + 1] = NULL;
-		free((*cmd)->arg);
-		(*cmd)->arg = new_arg;
+		if (in_quote != '\0' && s[start + i] == in_quote)
+			in_quote = '\0';
+		else if (in_quote == '\0' && isquote(s[start + i]))
+			in_quote = s[start + i];
+		else
+			dest[j++] = s[start + i];
+		i++;
 	}
+	dest[j] = '\0';
+	return (dest);
 }
 
 /*
@@ -83,27 +104,4 @@ int copy_args(t_cmd **cmd, char *prompt)
 		}
 	}
 	return (len);
-}
-
-
-void append_redirection(t_cmd **cmd, int type, char *filename)
-{
-	t_redir *new_redir;
-	t_redir *temp;
-
-	new_redir = malloc(sizeof(t_redir));
-	if (!new_redir)
-		ft_error(cmd, "malloc failed", NULL);
-	new_redir->type = type;
-	new_redir->filename = filename;
-	new_redir->next = NULL;
-	if (!(*cmd)->redirections)
-		(*cmd)->redirections = new_redir;
-	else
-	{
-		temp = (*cmd)->redirections;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_redir;
-	}
 }

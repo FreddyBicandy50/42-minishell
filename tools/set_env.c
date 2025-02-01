@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/01/30 21:24:15 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:51:51 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,3 @@ void	set_env(char *var, char *value, char **envp)
 	update_value(i, var, value, envp);
 	envp[i + 1] = NULL;
 }
-

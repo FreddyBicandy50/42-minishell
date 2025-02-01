@@ -1,23 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_char_is.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/10 13:32:57 by fredybicand       #+#    #+#             */
-/*   Updated: 2025/01/31 19:55:32 by fbicandy         ###   ########.fr       */
+/*   Created: 2024/12/23 14:52:13 by fbicandy          #+#    #+#             */
+/*   Updated: 2025/02/01 14:57:46 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void	ft_error(t_cmd **cmd, char *message, char *str)
+int	isquote(char c)
 {
-	if (str)
-		printf("%s%s\n", message, str);
-	else
-		printf("%s\n", message);
-	struct_free_cmd(*cmd);
-	exit(EXIT_FAILURE);
+	return (c == '`' || c == '\'' || c == '\"');
+}
+
+int	redirections(char c1, char c2)
+{
+	if (c1 == '>' && c2 == '<')
+		return (-1);
+	if (c1 == '<' && c2 == '>')
+		return (-1);
+	if (c1 == '>' && c2 == '>')
+		return (4);
+	if (c1 == '<' && c2 == '<')
+		return (3);
+	if (c1 == '>')
+		return (2);
+	if (c1 == '<')
+		return (1);
+	return (0);
+}
+
+int	isprintable(char c)
+{
+	return (c >= 32 && c <= 126);
 }

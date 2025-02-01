@@ -6,17 +6,17 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:26:52 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/01 12:55:59 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:14:08 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-char *ft_strndup(const char *s, size_t n)
+char	*ft_strndup(const char *s, size_t n)
 {
-	char *dup;
-	size_t len;
-	size_t i;
+	char	*dup;
+	size_t	len;
+	size_t	i;
 
 	if (!s)
 		return (NULL);
@@ -33,11 +33,11 @@ char *ft_strndup(const char *s, size_t n)
 	return (dup);
 }
 
-char *ft_strdup(char *s)
+char	*ft_strdup(char *s)
 {
-	size_t len;
-	size_t i;
-	char *dup;
+	size_t	len;
+	size_t	i;
+	char	*dup;
 
 	if (s == NULL)
 		return (NULL);

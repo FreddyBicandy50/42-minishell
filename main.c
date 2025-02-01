@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/31 23:27:21 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:31:57 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,15 @@
  *	each string in the returned segment is a command
  *  start tokenization method
  */
-t_cmd *lexical_analysis(char *input)
+t_cmd	*lexical_analysis(char *input)
 {
-	int		i;
-	char	**segments;
-	t_cmd	*cmd;
+	int			i;
+	char		**segments;
+	t_cmd		*cmd;
 
 	printf("*****************LOGS STARTED***************\n");
 	if (!input || *input == '\0')
 		return (NULL);
-
 	cmd = NULL;
 	segments = NULL;
 	if (input[0] == '|')
@@ -37,11 +36,9 @@ t_cmd *lexical_analysis(char *input)
 		printf("minishell:error unexpected token near:%c\n", input[0]);
 		return (NULL);
 	}
-
 	segments = ft_shell_split(input, '|');
 	if (segments == NULL)
 		return (NULL);
-
 	i = -1;
 	while (segments[++i] != NULL)
 	{
@@ -68,11 +65,11 @@ t_cmd *lexical_analysis(char *input)
 		-handle neccesary dequoting
 	*parser phase pass all data and fetch environment to execute
 */
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	char *prompt;
-	char *input;
-	t_cmd *cmd;
+	char	*prompt;
+	char	*input;
+	t_cmd	*cmd;
 
 	(void)argc;
 	(void)argv;
@@ -88,8 +85,8 @@ int main(int argc, char *argv[], char *envp[])
 		cmd = lexical_analysis(input);
 		if (cmd)
 		{
-			print_cmd_list(cmd);
-			parser(&cmd, envp);
+			struct_print_list(cmd);
+			// parser(&cmd, envp);
 			struct_free_cmd(cmd);
 		}
 	}

@@ -6,43 +6,44 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/01 12:53:32 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:31:08 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-char *skip_spaces(char *str)
+void	ft_error(t_cmd **cmd, char *message, char *str)
 {
-	if (!str || *str == '\0' || *str == '\n')
-		return (str);
-	while (!(*str >= 33 && *str <= 126) && *str != '\0')
-		str++;
-	return (str);
+	if (str)
+		printf("%s%s\n", message, str);
+	else
+		printf("%s\n", message);
+	struct_free_cmd(*cmd);
+	exit(EXIT_FAILURE);
 }
 
-int printable(char c)
-{
-	if (c >= 33 && c <= 126)
-		return (1);
-	return (0);
-}
+/*
+	@EXAMPLE => "helo World this is a skip to c function"Code testing
 
-int pipe_redirections(char *str, int *is_double)
+	IF C IS ' ' (AKA space)
+	@RETURN "helo World this is a skip to c function"Code
+*/
+char	*skip_to_c(char *s, char c)
 {
-	if (is_double != NULL)
-		*is_double = 0;
-	if (*str == '>' || *str == '<' || *str == '|')
+	while (*s != '\0' && *s != c)
 	{
-		if ((*str == '>' && *(str + 1) == '>') || (*str == '<' && *(str + 1) == '<'))
+		if (c != '|' && redirections(*s, *(s + 1)) > 0)
+			break ;
+		if (isquote(*s))
+			s = skip_inside(*s, s + 1);
+		if (s == NULL)
 		{
-			if (is_double != NULL)
-				*is_double = 1;
-			return (2);
+			printf("minishell:error near `\"\' unmatched quotes\n");
+			return (NULL);
 		}
-		return (1);
+		s++;
 	}
-	return (0);
+	return (s);
 }
 
 /*
@@ -54,27 +55,24 @@ int pipe_redirections(char *str, int *is_double)
 		-dequote the result and copy it
 	send new flag to the @upate_flags functions to concat new flags tokens
 
-	@RETURN 12 chars (how many letter we read from prompt to be able to skip them with prompt+=len)
+	@RETURN 12 chars(how many letter we read from
+	prompt to be able to skip them with prompt+=len)
 */
-int copy_flag(t_cmd **cmd, int i, char *prompt)
+int	copy_flag(t_cmd **cmd, int i, char *prompt)
 {
-	char *flag;
-	int len;
+	char	*flag;
+	int		len;
 
 	flag = skip_to_c(prompt, ' ');
 	len = flag - prompt;
 	flag = dequotencpy(i, len, prompt);
 	printf("flag token extracted =%s\n", flag);
-
 	struct_update_flags(cmd, flag, (*cmd)->flag);
 	printf("sturct list created & updated successfuly");
-
-	print_cmd_list(*(cmd));
+	struct_print_list(*(cmd));
 	printf("leaving<- flag_token\n");
-
 	return (len);
 }
-
 
 // void	append_redirection(t_cmd **cmd, int type, char *filename)
 // {
