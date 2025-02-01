@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/01 15:31:08 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 23:09:39 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*skip_to_c(char *s, char c)
 	while (*s != '\0' && *s != c)
 	{
 		if (c != '|' && redirections(*s, *(s + 1)) > 0)
-			break ;
+			break;
 		if (isquote(*s))
 			s = skip_inside(*s, s + 1);
 		if (s == NULL)
@@ -67,10 +67,11 @@ int	copy_flag(t_cmd **cmd, int i, char *prompt)
 	len = flag - prompt;
 	flag = dequotencpy(i, len, prompt);
 	printf("flag token extracted =%s\n", flag);
+	
 	struct_update_flags(cmd, flag, (*cmd)->flag);
 	printf("sturct list created & updated successfuly");
-	struct_print_list(*(cmd));
-	printf("leaving<- flag_token\n");
+	
+	printf("\n\t**LEAVING FLAGS TOKEN**\n");
 	return (len);
 }
 

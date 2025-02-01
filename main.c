@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/01 20:41:56 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 23:40:56 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_cmd	*lexical_analysis(char *input)
 	{
 		printf("Treating Segment[%d]=%s\n", i, segments[i]);
 		tokenization(&cmd, segments[i]);
+		
 	}
 	free_split(segments);
 	return (cmd);

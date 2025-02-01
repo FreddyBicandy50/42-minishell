@@ -6,31 +6,40 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 13:52:08 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/01 15:07:49 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/02 00:29:49 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void	struct_update_flags(t_cmd **cmd, char *flag, char *all_flags)
+t_cmd *struct_get_last(t_cmd *cmd)
 {
-	char	*tmp;
-	int		j;
+    while (cmd->next != NULL)
+        cmd = cmd->next;
+    return cmd;
+}
 
-	if (all_flags == NULL)
-		all_flags = ft_strjoin("-", flag);
-	else
-	{
-		tmp = ft_strjoin(all_flags, flag);
-		free(all_flags);
-		all_flags = tmp;
-	}
-	free(flag);
-	(*cmd)->flag = all_flags;
-	j = -1;
-	while ((*cmd)->flag[++j] != '\0')
-		if ((*cmd)->flag[j] == 32)
-			(*cmd)->flag[j] = (*cmd)->flag[j + 1];
+void struct_update_flags(t_cmd **cmd, char *flag, char *all_flags)
+{
+    t_cmd *last;
+    char *tmp;
+    int j;
+
+    last = struct_get_last(*cmd);
+    if (all_flags == NULL)
+        all_flags = ft_strjoin("-", flag);
+    else
+    {
+        tmp = ft_strjoin(all_flags, flag);
+        free(all_flags);
+        all_flags = tmp;
+    }
+    free(flag);
+    last->flag = all_flags;
+    j = -1;
+    while (last->flag[++j] != '\0')
+        if (last->flag[j] == ' ')
+            last->flag[j] = last->flag[j + 1];
 }
 
 void	struct_update_args(t_cmd **cmd, char *arg)
@@ -86,7 +95,7 @@ void	struct_print_list(t_cmd *cmd)
 	// t_redir	*redir;
 
 	//(void)*redir;
-	printf("\n->Entering print_cmd_list\n");
+	printf("\n\t***ENTERING PRINT STRUCT***\n");
 	while (cmd != NULL)
 	{
 		if (cmd->command)
@@ -115,5 +124,5 @@ void	struct_print_list(t_cmd *cmd)
 		// }
 		cmd = cmd->next;
 	}
-	printf("Leaving<- print_cmd_list\n");
+	printf("***\t LEAVING PRINT STRUCT***\n");
 }
