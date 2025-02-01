@@ -3,9 +3,10 @@ ls -FLAG1 "Arg1 quoted test" -FLAG2 arg2"MIXED QUOTED" -Flag3 ARG3 > filename -F
     //Redirections , filenames, flags
     //Multi redirecitons
     //here_doc
+# Feb 1/2025
+   orginized all files
 # Jan 31/2025
    Done commends, flags,args
-
 # Jan 29/2025
    Comments rethinking...
    functions renaming...
