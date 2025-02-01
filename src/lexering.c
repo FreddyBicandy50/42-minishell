@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/31 23:26:41 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:45:40 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char *flags_token(t_cmd **cmd, char *prompt)
 		// if redirections return here
 		if (prompt[i] == '-')
 			prompt += copy_flag(cmd, i + 1, prompt);
-		else if (isquo te(prompt[i]) && prompt[i + 1] == '-')
+		else if (isquote(prompt[i]) && prompt[i + 1] == '-')
 			prompt += copy_flag(cmd, i + 2, prompt);
 		else
 		{

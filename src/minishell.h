@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/31 22:47:37 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:58:04 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ char	*skip_to_c(char *s, char c);
 char	*skip_inside(char quote, char *s);
 	//FT QUOTE IDENTIFIER
 char	*dequotencpy(int start,int end, char *s);
-int		isquote(char c);
-char	*isprintable_quote(char *s);
+int		isquote(char);
+char	*isprintable_quote(char);
 	//FT STRLCAT
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 	//FT STRLEN
@@ -111,7 +111,6 @@ void	ft_error(t_cmd **cmd, char *message, char *str);
 	//FT STRDUP.c
 char	*ft_strdup(char *s);
 char	*ft_strndup(const char *s, size_t n);
-char	*ft_strdup_until_space(char *str);
 	//FT STRJOIN
 char	*ft_strjoin(char *s1, char *s2);
 	//FT STRLCPY
@@ -122,8 +121,6 @@ char	*ft_strcat(char *dest, const char *src);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 	//FT LASTWORD
 char	*ft_last_word(t_cmd **cmd, int type, char *prompt);
-	//FT LST
-void	ft_put_command(t_cmd **cmd, t_cmd *new_cmd);
 
 //SRC
 	//LEXERING

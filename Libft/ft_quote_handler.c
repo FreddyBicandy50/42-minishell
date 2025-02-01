@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:50:37 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/30 20:27:14 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:50:35 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char *skip_inside(char quote, char *s)
 */
 char *skip_to_c(char *s, char c)
 {
-	while (*s != '\0' && *s != c)
+	while (*s != '\0' && *s != c && *s!=redirections(*s,s+1))
 	{
 		if (isquote(*s))
 			s = skip_inside(*s, s + 1);

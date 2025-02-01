@@ -5,12 +5,7 @@ ls -FLAG1 "Arg1 quoted test" -FLAG2 arg2"MIXED QUOTED" -Flag3 ARG3 > filename -F
     //here_doc
 # Jan 31/2025
    Done commends, flags,args
-   
-ls -FLAG1 "Arg1 quoted test" -FLAG2 arg2"MIXED QUOTED" -Flag3 ARG3 > filename -FLAG | Grep ARG1"arg" | sort -FLAG >> file
-//TODO fix the flags 
-	// Make sure you recieve the cmd well
-     // copy the flags 
-    // Jump to arguments and do the same
+
 # Jan 29/2025
    Comments rethinking...
    functions renaming...

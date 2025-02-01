@@ -6,16 +6,13 @@
 #    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2025/01/30 17:40:36 by fbicandy         ###   ########.fr        #
+#    Updated: 2025/02/01 12:54:39 by fbicandy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 SOURCES = \
-ft_cmd_lst.c\
-ft_cmd_lst2.c\
-ft_error.c\
-ft_lst.c\
+ft_struct_lst.c\
 ft_quote_handler.c\
 ft_quote_identifier.c\
 ft_split.c\

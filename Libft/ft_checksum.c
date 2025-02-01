@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst.c                                           :+:      :+:    :+:   */
+/*   ft_checksum.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/26 23:36:26 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/27 17:32:29 by fbicandy         ###   ########.fr       */
+/*   Created: 2024/12/23 14:52:13 by fbicandy          #+#    #+#             */
+/*   Updated: 2025/02/01 12:57:52 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void ft_put_command(t_cmd **cmd,t_cmd *new_cmd)
+int isquote(char c)
 {
-	t_cmd *current;
+	return (c == '`' || c == '\'' || c == '\"');
+}
 
-	if (*cmd == NULL)
-		*cmd = new_cmd;
-	else
-	{
-		current = *cmd;
-		while (current->next != NULL)
-			current = current->next;
-		current->next = new_cmd;
-	}
+// int redirections(char c1, char c2)
+// {
+// 	if (c1=='>')
+// 	{
+
+// 	}
+// }
+
+char *isprintable_quote(char c)
+{
+	return (c >= 32 && c <= 126);
 }

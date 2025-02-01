@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/01/31 23:06:06 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:53:32 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,3 +74,26 @@ int copy_flag(t_cmd **cmd, int i, char *prompt)
 
 	return (len);
 }
+
+
+// void	append_redirection(t_cmd **cmd, int type, char *filename)
+// {
+// 	t_redir	*new_redir;
+// 	t_redir	*temp;
+
+// 	new_redir = malloc(sizeof(t_redir));
+// 	if (!new_redir)
+// 		ft_error(cmd, "malloc failed", NULL);
+// 	new_redir->type = type;
+// 	new_redir->filename = filename;
+// 	new_redir->next = NULL;
+// 	if (!(*cmd)->redirections)
+// 		(*cmd)->redirections = new_redir;
+// 	else
+// 	{
+// 		temp = (*cmd)->redirections;
+// 		while (temp->next)
+// 			temp = temp->next;
+// 		temp->next = new_redir;
+// 	}
+// }
