@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/02 20:22:00 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:52:01 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,12 @@
 
 char *rediretions_token(t_cmd **cmd, char *prompt)
 {
-	char redirection;
-	int type;
-	int redir_count;
+	(void)*cmd;
+	(void)*prompt;
+	printf("prompt got=%s", prompt);
 
-	(void)type;
-	while (*prompt != '\0')
-	{
-		prompt = skip_spaces(prompt);
-		if (*prompt == '>' || *prompt == '<')
-		{
-			redirection = *prompt;
-			redir_count = 1;
-			while (*(prompt + redir_count) == redirection)
-				redir_count++;
-			// type = type_redirection(redirection, redir_count);
-			if (redir_count > 2)
-				ft_error(cmd, "Error: parse error near `%c`\n", &redirection);
-			prompt = skip_spaces(prompt + redir_count);
-			if (*prompt == '\0' || *prompt == '>' || *prompt == '<')
-				ft_error(cmd, "Error: parse error near `%c`\n", &redirection);
-			// prompt = ft_last_word(cmd, type, prompt);
-		}
-		else
-			prompt++;
-	}
+	exit(0);
+
 	return (prompt);
 }
 
@@ -139,13 +120,18 @@ char *command_token(t_cmd **cmd, char *prompt)
 	return (prompt + len);
 }
 
-t_cmd	*tokenization(t_cmd *cmd, char *prompt)
+t_cmd *tokenization(t_cmd *cmd, char *prompt)
 {
 	prompt = command_token(&cmd, prompt);
 	printf("\nRemaining Tokens=%s$ | len=%d\n", prompt, ft_strlen(prompt));
 	if (*prompt != '\0')
 		prompt = flags_token(&cmd, prompt);
-	if (redirections(*prompt, *(prompt + 1)))
+	if (redirections(*prompt, *(prompt + 1) < 0))
+		printf("unmatched redirections at %c`", *prompt);
+	else
+	{
+		rediretions_token(&cmd, prompt);
 		printf("redirections caught true prompt=%s\n", prompt);
+	}
 	return (cmd);
 }

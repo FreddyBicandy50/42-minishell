@@ -6,11 +6,25 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/02 20:33:26 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:59:59 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/minishell.h"
+
+int check_redirections(char *prompt)
+{
+	while (*prompt != '\0')
+	{
+		if (redirections(*prompt, *(prompt + 1)) < 0)
+		{
+			printf("./mnishell unmatched redirections at %c`", *prompt);
+			return (-1);
+		}
+		prompt++;
+	}
+	return (0);
+}
 
 /*
  *input= ls -la "test" | grep "test"
@@ -26,10 +40,8 @@ t_cmd *lexical_analysis(char *input)
 	char **segments;
 	t_cmd *cmd;
 
-	printf("*****************LOGS STARTED***************\n");
 	if (!input || *input == '\0')
 		return (NULL);
-
 	cmd = NULL;
 	segments = NULL;
 	if (input[0] == '|')
@@ -37,15 +49,14 @@ t_cmd *lexical_analysis(char *input)
 		printf("minishell:error unexpected token near:%c\n", input[0]);
 		return (NULL);
 	}
+	if (check_redirections(input) < 0)
+		return (NULL);
 	segments = ft_shell_split(input, '|');
 	if (segments == NULL)
 		return (NULL);
 	i = -1;
 	while (segments[++i] != NULL)
-	{
-		printf("\nTreating Segment[%d]=%s\n", i, segments[i]);
 		cmd = tokenization(cmd, segments[i]);
-	}
 	cmd = struct_get_first(cmd);
 	free_split(segments);
 	return (cmd);
