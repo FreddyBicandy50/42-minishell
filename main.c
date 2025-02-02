@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/01 23:40:56 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:33:26 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,16 @@
  *	each string in the returned segment is a command
  *  start tokenization method
  */
-t_cmd	*lexical_analysis(char *input)
+t_cmd *lexical_analysis(char *input)
 {
-	int			i;
-	char		**segments;
-	t_cmd		*cmd;
+	int i;
+	char **segments;
+	t_cmd *cmd;
 
 	printf("*****************LOGS STARTED***************\n");
 	if (!input || *input == '\0')
 		return (NULL);
+
 	cmd = NULL;
 	segments = NULL;
 	if (input[0] == '|')
@@ -42,10 +43,10 @@ t_cmd	*lexical_analysis(char *input)
 	i = -1;
 	while (segments[++i] != NULL)
 	{
-		printf("Treating Segment[%d]=%s\n", i, segments[i]);
-		tokenization(&cmd, segments[i]);
-		
+		printf("\nTreating Segment[%d]=%s\n", i, segments[i]);
+		cmd = tokenization(cmd, segments[i]);
 	}
+	cmd = struct_get_first(cmd);
 	free_split(segments);
 	return (cmd);
 }
@@ -66,11 +67,11 @@ t_cmd	*lexical_analysis(char *input)
 		-handle neccesary dequoting
 	*parser phase pass all data and fetch environment to execute
 */
-int	main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
-	char	*prompt;
-	char	*input;
-	t_cmd	*cmd;
+	char *prompt;
+	char *input;
+	t_cmd *cmd;
 
 	(void)argc;
 	(void)argv;
@@ -86,6 +87,7 @@ int	main(int argc, char *argv[], char *envp[])
 		cmd = lexical_analysis(input);
 		if (cmd)
 		{
+			printf("\n\n");
 			struct_print_list(cmd);
 			// parser(&cmd, envp);
 			struct_free_cmd(cmd);

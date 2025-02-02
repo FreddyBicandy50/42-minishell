@@ -6,26 +6,24 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 13:52:08 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/02 00:29:49 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:38:32 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-t_cmd *struct_get_last(t_cmd *cmd)
+t_cmd *struct_get_first(t_cmd *cmd)
 {
-    while (cmd->next != NULL)
-        cmd = cmd->next;
-    return cmd;
+    while (cmd->prev != NULL)
+        cmd = cmd->prev;
+		return cmd;
 }
 
 void struct_update_flags(t_cmd **cmd, char *flag, char *all_flags)
 {
-    t_cmd *last;
     char *tmp;
     int j;
 
-    last = struct_get_last(*cmd);
     if (all_flags == NULL)
         all_flags = ft_strjoin("-", flag);
     else
@@ -35,11 +33,11 @@ void struct_update_flags(t_cmd **cmd, char *flag, char *all_flags)
         all_flags = tmp;
     }
     free(flag);
-    last->flag = all_flags;
+    (*cmd)->flag = all_flags;
     j = -1;
-    while (last->flag[++j] != '\0')
-        if (last->flag[j] == ' ')
-            last->flag[j] = last->flag[j + 1];
+    while ((*cmd)->flag[++j] != '\0')
+        if ((*cmd)->flag[j] == ' ')
+            (*cmd)->flag[j] = (*cmd)->flag[j + 1];
 }
 
 void	struct_update_args(t_cmd **cmd, char *arg)

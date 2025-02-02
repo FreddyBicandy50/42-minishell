@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/02 00:24:37 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:22:00 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,24 +125,27 @@ char *command_token(t_cmd **cmd, char *prompt)
 	if (prompt[0] == '\0')
 		return (prompt);
 	// check if first this is a redirection
+
 	len = 0;
 	command = skip_to_c(prompt, ' ');
 	len = command - prompt;
 	command = dequotencpy(0, len, prompt);
+
 	printf("command token extracted =%s\n", command);
-	new_cmd = struct_create_list(command);
-	struct_addback_list(cmd, new_cmd);
+	new_cmd = struct_create_list(command, *cmd);
+	*cmd = struct_addback_list(cmd, new_cmd);
 	printf("sturct list created & updated successfuly");
 	printf("\n\t***LEAVING COMMAND TOKEN***\n");
 	return (prompt + len);
 }
 
-void tokenization(t_cmd **cmd, char *prompt)
+t_cmd	*tokenization(t_cmd *cmd, char *prompt)
 {
-	prompt = command_token(cmd, prompt);
+	prompt = command_token(&cmd, prompt);
 	printf("\nRemaining Tokens=%s$ | len=%d\n", prompt, ft_strlen(prompt));
 	if (*prompt != '\0')
-		prompt = flags_token(cmd, prompt);
+		prompt = flags_token(&cmd, prompt);
 	if (redirections(*prompt, *(prompt + 1)))
 		printf("redirections caught true prompt=%s\n", prompt);
+	return (cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/01 15:02:26 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/02 19:21:56 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 	skips everything inside the quotations
 	@RETURN test hello world | grep test
 */
-char	*skip_inside(char quote, char *s)
+char *skip_inside(char quote, char *s)
 {
 	while (*s != '\0' && *s != quote)
 		s++;
@@ -41,12 +41,12 @@ char	*skip_inside(char quote, char *s)
 
 	@RETURN	example on dequote and copyTEST\0
 */
-char	*dequotencpy(int start, int end, char *s)
+char *dequotencpy(int start, int end, char *s)
 {
-	int		i;
-	int		j;
-	char	*dest;
-	char	in_quote;
+	int i;
+	int j;
+	char *dest;
+	char in_quote;
 
 	i = 0;
 	j = 0;

@@ -6,15 +6,15 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/01 23:27:44 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:31:40 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-t_cmd	*struct_create_list(char *command)
+t_cmd *struct_create_list(char *command, t_cmd *current)
 {
-	t_cmd	*new_cmd;
+	t_cmd *new_cmd;
 
 	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_cmd)
@@ -25,27 +25,27 @@ t_cmd	*struct_create_list(char *command)
 	new_cmd->arg_number = 0;
 	new_cmd->filename = NULL;
 	new_cmd->next = NULL;
+	new_cmd->prev = current;
 	return (new_cmd);
 }
 
-void	struct_addback_list(t_cmd **lst, t_cmd *new)
+t_cmd *struct_addback_list(t_cmd **cmd, t_cmd *new_cmd)
 {
-	t_cmd	*temp;
+	t_cmd *current;
 
-	if (!new || !lst)
-		return ;
-	if (*lst == NULL)
+	if (*cmd == NULL)
+		*cmd = new_cmd;
+	else
 	{
-		*lst = new;
-		return ;
+		current = *cmd;
+		while (current->next != NULL)
+			current = current->next;
+		current->next = new_cmd;
+		current = current->next;
 	}
-	temp = *lst;
-	while (temp->next != NULL)
-		temp = temp->next;
-	temp->next = new;
+	return (current);
 }
-
-void	struct_add_first_cmd(t_cmd **cmd, char *argument)
+void struct_add_first_cmd(t_cmd **cmd, char *argument)
 {
 	(*cmd)->arg = malloc(sizeof(char *) * 2);
 	if (!(*cmd)->arg)
@@ -55,9 +55,9 @@ void	struct_add_first_cmd(t_cmd **cmd, char *argument)
 	(*cmd)->arg_number = 1;
 }
 
-void	struct_free_redirections(t_redir *redirections)
+void struct_free_redirections(t_redir *redirections)
 {
-	t_redir	*temp;
+	t_redir *temp;
 
 	while (redirections != NULL)
 	{
@@ -68,9 +68,9 @@ void	struct_free_redirections(t_redir *redirections)
 	}
 }
 
-void	struct_free_cmd(t_cmd *cmd)
+void struct_free_cmd(t_cmd *cmd)
 {
-	t_cmd	*temp;
+	t_cmd *temp;
 
 	while (cmd != NULL)
 	{
