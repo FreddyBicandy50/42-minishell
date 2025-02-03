@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 13:52:08 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/02 20:38:32 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/03 20:13:31 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,37 @@
 
 t_cmd *struct_get_first(t_cmd *cmd)
 {
-    while (cmd->prev != NULL)
-        cmd = cmd->prev;
-		return cmd;
+	while (cmd->prev != NULL)
+		cmd = cmd->prev;
+	return cmd;
 }
 
 void struct_update_flags(t_cmd **cmd, char *flag, char *all_flags)
 {
-    char *tmp;
-    int j;
+	char *tmp;
+	int j;
 
-    if (all_flags == NULL)
-        all_flags = ft_strjoin("-", flag);
-    else
-    {
-        tmp = ft_strjoin(all_flags, flag);
-        free(all_flags);
-        all_flags = tmp;
-    }
-    free(flag);
-    (*cmd)->flag = all_flags;
-    j = -1;
-    while ((*cmd)->flag[++j] != '\0')
-        if ((*cmd)->flag[j] == ' ')
-            (*cmd)->flag[j] = (*cmd)->flag[j + 1];
+	if (all_flags == NULL)
+		all_flags = ft_strjoin("-", flag);
+	else
+	{
+		tmp = ft_strjoin(all_flags, flag);
+		free(all_flags);
+		all_flags = tmp;
+	}
+	free(flag);
+	(*cmd)->flag = all_flags;
+	j = -1;
+	while ((*cmd)->flag[++j] != '\0')
+		if ((*cmd)->flag[j] == ' ')
+			(*cmd)->flag[j] = (*cmd)->flag[j + 1];
 }
 
-void	struct_update_args(t_cmd **cmd, char *arg)
+void struct_update_args(t_cmd **cmd, char *arg)
 {
-	char	**new_arg;
-	int		j;
-	int		k;
+	char **new_arg;
+	int j;
+	int k;
 
 	j = 0;
 	k = -1;
@@ -65,10 +65,10 @@ void	struct_update_args(t_cmd **cmd, char *arg)
 	}
 }
 
-void	struct_update_redirection(t_cmd **cmd, int type, char *filename)
+void struct_update_redirection(t_cmd **cmd, int type, char *filename)
 {
-	t_redir	*new_redir;
-	t_redir	*temp;
+	t_redir *new_redir;
+	t_redir *temp;
 
 	new_redir = malloc(sizeof(t_redir));
 	if (!new_redir)
@@ -87,9 +87,9 @@ void	struct_update_redirection(t_cmd **cmd, int type, char *filename)
 	}
 }
 
-void	struct_print_list(t_cmd *cmd)
+void struct_print_list(t_cmd *cmd)
 {
-	int	i;
+	int i;
 	// t_redir	*redir;
 
 	//(void)*redir;

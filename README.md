@@ -3,6 +3,8 @@ ls -FLAG1 "Arg1 quoted test" -FLAG2 arg2"MIXED QUOTED" -Flag3 ARG3 > filename -F
     //Redirections , filenames, flags
     //Multi redirecitons
     //here_doc
+# Feb 2/2025
+   done redirections with some pending fixes
 # Feb 1/2025
    fixed the cmd list appending to the first node only
 # Feb 1/2025

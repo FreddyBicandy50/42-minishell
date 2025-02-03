@@ -6,20 +6,43 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/02 20:52:01 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/03 21:04:37 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *rediretions_token(t_cmd **cmd, char *prompt)
+char *rediretions_token(t_cmd **cmd, char *prompt, int type)
 {
-	(void)*cmd;
-	(void)*prompt;
-	printf("prompt got=%s", prompt);
+	char *filename;
+	(void)type;
+	int len;
 
-	exit(0);
-
+	printf("\n\t**ENTERING REDIRECTIONS TOKEN**\n");
+	prompt++;
+	//TODO fix this shit
+	while (*prompt != '\0')
+	{
+		prompt = skip_spaces(prompt);
+		filename = skip_to_c(prompt, ' ');
+		if (redirection_near_redirirection(prompt) == NULL)
+			return (NULL);
+		len = filename - prompt;
+		if (len <= 0)
+			printf("error no filename detected");
+		filename = dequotencpy(0, len, prompt);
+		printf("filename=%s", filename);
+		// add to s_redir;
+		prompt += len;
+		if (*prompt != '\0')
+			prompt = skip_spaces(prompt);
+		if (*prompt != '\0')
+			prompt = flags_token(cmd, prompt);
+		if (*prompt == '\0')
+			break;
+		printf("REST prompt=%s\n", prompt);
+		prompt++;
+	}
 	return (prompt);
 }
 
@@ -67,6 +90,8 @@ char *flags_token(t_cmd **cmd, char *prompt)
 	{
 		prompt = skip_spaces(prompt);
 		i = 0;
+		if (*prompt == '\0')
+			break;
 		if (redirections(*prompt, *(prompt + 1)))
 			break;
 		if (prompt[i] == '-')
@@ -106,12 +131,10 @@ char *command_token(t_cmd **cmd, char *prompt)
 	if (prompt[0] == '\0')
 		return (prompt);
 	// check if first this is a redirection
-
 	len = 0;
 	command = skip_to_c(prompt, ' ');
 	len = command - prompt;
 	command = dequotencpy(0, len, prompt);
-
 	printf("command token extracted =%s\n", command);
 	new_cmd = struct_create_list(command, *cmd);
 	*cmd = struct_addback_list(cmd, new_cmd);
@@ -122,16 +145,20 @@ char *command_token(t_cmd **cmd, char *prompt)
 
 t_cmd *tokenization(t_cmd *cmd, char *prompt)
 {
+	int type;
+
 	prompt = command_token(&cmd, prompt);
 	printf("\nRemaining Tokens=%s$ | len=%d\n", prompt, ft_strlen(prompt));
 	if (*prompt != '\0')
 		prompt = flags_token(&cmd, prompt);
-	if (redirections(*prompt, *(prompt + 1) < 0))
-		printf("unmatched redirections at %c`", *prompt);
-	else
+	type = redirections(*prompt, *(prompt + 1));
+	if (type < 0)
+		printf("error unmatched redirections at%c`", *prompt);
+	else if (type > 0)
 	{
-		rediretions_token(&cmd, prompt);
-		printf("redirections caught true prompt=%s\n", prompt);
+		prompt = rediretions_token(&cmd, prompt, type);
+		if (!prompt)
+			return (NULL);
 	}
 	return (cmd);
 }

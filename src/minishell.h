@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/02 20:29:27 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:51:16 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ void	free_split(char **args);
 	//FT STRTRIM
 char	*skip_spaces(char *str);
 	// FT STRUCT_LST
+t_cmd	*struct_addback_list(t_cmd **cmd, t_cmd *new_cmd);
 t_cmd	*struct_get_first(t_cmd *cmd);
 t_cmd	*struct_create_list(char *command, t_cmd *current);
-t_cmd 	*struct_addback_list(t_cmd **cmd, t_cmd *new_cmd);
 void	struct_add_first_cmd(t_cmd **cmd, char *argument);
 void	struct_free_redirections(t_redir *redirections);
 void	struct_free_cmd(t_cmd *cmd);
@@ -116,15 +116,15 @@ size_t	ft_wordcount(char *s, char c);
 
 //SRC
 	//LEXERING
-char	*rediretions_token(t_cmd **cmd, char *prompt);
+t_cmd	*tokenization(t_cmd *cmd, char *prompt);
+char	*rediretions_token(t_cmd **cmd, char *prompt, int type);
 char	*args_token(t_cmd **cmd, int i, char *prompt);
 char	*flags_token(t_cmd **cmd, char *prompt);
 char	*command_token(t_cmd **cmd, char *prompt);
-t_cmd 	*tokenization(t_cmd *cmd, char *prompt);
 int		copy_args(t_cmd **cmd, char *prompt);
 	//PARESERING
 void	execute(char *path, t_cmd **cmd, char *envp[]);
-void	parser(t_cmd **cmd, char *envp[]);
+void	executing(t_cmd **cmd, char *envp[]);
 void	check_cmd(t_cmd **cmd, char *envp[]);
 	// SIGNALS
 void	signals(void);
@@ -136,6 +136,7 @@ void	handle_sigquit(__attribute__((unused)) int sig);
 
 //TOOLS
 	//HELPER_FUNCTIONS
+char	*redirection_near_redirirection(char *prompt);
 void	ft_error(t_cmd **cmd, char *message, char *str);
 char	*skip_to_c(char *s, char c);
 int		copy_flag(t_cmd **cmd, int i, char *prompt);
@@ -148,7 +149,7 @@ int		redirections(char c1, char c2);
 char	*find_path(char *cmd, char **envp);
 int		built_in_functions(t_cmd **cmd, char **envp);
 	//PARESERING
-void	parser(t_cmd **cmd, char *envp[]);
+void	executing(t_cmd **cmd, char *envp[]);
 	//set_env
 void	set_env(char *var, char *value, char **envp);
 

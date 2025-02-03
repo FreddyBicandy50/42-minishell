@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/02 19:21:56 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:51:30 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 	skips everything inside the quotations
 	@RETURN test hello world | grep test
 */
-char *skip_inside(char quote, char *s)
+char	*skip_inside(char quote, char *s)
 {
 	while (*s != '\0' && *s != quote)
 		s++;
@@ -41,12 +41,12 @@ char *skip_inside(char quote, char *s)
 
 	@RETURN	example on dequote and copyTEST\0
 */
-char *dequotencpy(int start, int end, char *s)
+char	*dequotencpy(int start, int end, char *s)
 {
-	int i;
-	int j;
-	char *dest;
-	char in_quote;
+	int		i;
+	int		j;
+	char	*dest;
+	char	in_quote;
 
 	i = 0;
 	j = 0;
@@ -80,15 +80,15 @@ char *dequotencpy(int start, int end, char *s)
 		copy without quotes
 		update list of commands arguments
 */
-int copy_args(t_cmd **cmd, char *prompt)
+int	copy_args(t_cmd **cmd, char *prompt)
 {
-	int i;
-	int len;
-	char *argument;
+	int		i;
+	int		len;
+	char	*argument;
 
 	len = 0;
 	if (ft_strncmp((*cmd)->command, "echo", 4) == 0)
-		while (prompt[i] != '\0') // you have to check for rirections also and make  a condition for echo to expand the arg after the filename > filename (rest string arg to echo)
+		while (prompt[i] != '\0')
 			i++;
 	else
 	{
@@ -99,7 +99,8 @@ int copy_args(t_cmd **cmd, char *prompt)
 			free(argument);
 		else
 		{
-			printf("\nArgument[%d]=%s\nargument len=%d", (*cmd)->arg_number, argument, len);
+			printf("\nArgument[%d]=%s\nargument len=%d",
+				(*cmd)->arg_number, argument, len);
 			struct_update_args(cmd, argument);
 		}
 	}

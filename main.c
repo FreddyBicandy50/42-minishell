@@ -6,25 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/02 20:59:59 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:57:50 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/minishell.h"
-
-int check_redirections(char *prompt)
-{
-	while (*prompt != '\0')
-	{
-		if (redirections(*prompt, *(prompt + 1)) < 0)
-		{
-			printf("./mnishell unmatched redirections at %c`", *prompt);
-			return (-1);
-		}
-		prompt++;
-	}
-	return (0);
-}
 
 /*
  *input= ls -la "test" | grep "test"
@@ -34,31 +20,42 @@ int check_redirections(char *prompt)
  *	each string in the returned segment is a command
  *  start tokenization method
  */
-t_cmd *lexical_analysis(char *input)
+t_cmd	*parser(char *input)
 {
-	int i;
-	char **segments;
-	t_cmd *cmd;
+	t_cmd	*cmd;
+	char	**segments;
+	int		i;
 
-	if (!input || *input == '\0')
-		return (NULL);
 	cmd = NULL;
 	segments = NULL;
-	if (input[0] == '|')
-	{
-		printf("minishell:error unexpected token near:%c\n", input[0]);
-		return (NULL);
-	}
-	if (check_redirections(input) < 0)
-		return (NULL);
 	segments = ft_shell_split(input, '|');
 	if (segments == NULL)
 		return (NULL);
 	i = -1;
 	while (segments[++i] != NULL)
+	{
 		cmd = tokenization(cmd, segments[i]);
+		if (!cmd)
+			return (NULL);
+	}
 	cmd = struct_get_first(cmd);
 	free_split(segments);
+	return (cmd);
+}
+
+t_cmd	*lexical_analysis(char *input)
+{
+	t_cmd	*cmd;
+
+	if (!input || *input == '\0')
+		return (NULL);
+	cmd = NULL;
+	if (input[0] == '|')
+	{
+		printf("minishell:error unexpected token near:%c\n", input[0]);
+		return (NULL);
+	}
+	cmd = parser(input);
 	return (cmd);
 }
 
@@ -78,11 +75,11 @@ t_cmd *lexical_analysis(char *input)
 		-handle neccesary dequoting
 	*parser phase pass all data and fetch environment to execute
 */
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	char *prompt;
-	char *input;
-	t_cmd *cmd;
+	char	*prompt;
+	char	*input;
+	t_cmd	*cmd;
 
 	(void)argc;
 	(void)argv;
@@ -100,7 +97,7 @@ int main(int argc, char *argv[], char *envp[])
 		{
 			printf("\n\n");
 			struct_print_list(cmd);
-			// parser(&cmd, envp);
+			//executing(&cmd, envp);
 			struct_free_cmd(cmd);
 		}
 	}
