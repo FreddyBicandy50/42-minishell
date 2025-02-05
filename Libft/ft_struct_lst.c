@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/02 20:31:40 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:36:14 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_cmd *struct_create_list(char *command, t_cmd *current)
 	new_cmd->arg = NULL;
 	new_cmd->flag = NULL;
 	new_cmd->arg_number = 0;
-	new_cmd->filename = NULL;
 	new_cmd->next = NULL;
+	new_cmd->redirections = NULL;
 	new_cmd->prev = current;
 	return (new_cmd);
 }

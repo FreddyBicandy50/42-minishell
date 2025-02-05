@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/03 19:57:50 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:05:37 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
  *	each string in the returned segment is a command
  *  start tokenization method
  */
-t_cmd	*parser(char *input)
+t_cmd *parser(char *input)
 {
-	t_cmd	*cmd;
-	char	**segments;
-	int		i;
+	t_cmd *cmd;
+	char **segments;
+	int i;
 
 	cmd = NULL;
 	segments = NULL;
@@ -43,9 +43,9 @@ t_cmd	*parser(char *input)
 	return (cmd);
 }
 
-t_cmd	*lexical_analysis(char *input)
+t_cmd *lexical_analysis(char *input)
 {
-	t_cmd	*cmd;
+	t_cmd *cmd;
 
 	if (!input || *input == '\0')
 		return (NULL);
@@ -75,11 +75,11 @@ t_cmd	*lexical_analysis(char *input)
 		-handle neccesary dequoting
 	*parser phase pass all data and fetch environment to execute
 */
-int	main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
-	char	*prompt;
-	char	*input;
-	t_cmd	*cmd;
+	char *prompt;
+	char *input;
+	t_cmd *cmd;
 
 	(void)argc;
 	(void)argv;
@@ -97,7 +97,7 @@ int	main(int argc, char *argv[], char *envp[])
 		{
 			printf("\n\n");
 			struct_print_list(cmd);
-			//executing(&cmd, envp);
+			// executing(&cmd, envp);
 			struct_free_cmd(cmd);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/03 19:51:16 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:57:13 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,10 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-	char			**var;
 	char			*command;
 	char			**arg;
 	char			*flag;
 	int				arg_number;
-	int				pipe;
-	char			*filename;
 	t_redir			*redirections;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
@@ -117,7 +114,7 @@ size_t	ft_wordcount(char *s, char c);
 //SRC
 	//LEXERING
 t_cmd	*tokenization(t_cmd *cmd, char *prompt);
-char	*rediretions_token(t_cmd **cmd, char *prompt, int type);
+char	*rediretions_token(t_cmd **cmd, char *prompt);
 char	*args_token(t_cmd **cmd, int i, char *prompt);
 char	*flags_token(t_cmd **cmd, char *prompt);
 char	*command_token(t_cmd **cmd, char *prompt);
@@ -136,7 +133,7 @@ void	handle_sigquit(__attribute__((unused)) int sig);
 
 //TOOLS
 	//HELPER_FUNCTIONS
-char	*redirection_near_redirirection(char *prompt);
+int		redirection_param(t_cmd **cmd, char *prompt, int type);
 void	ft_error(t_cmd **cmd, char *message, char *str);
 char	*skip_to_c(char *s, char c);
 int		copy_flag(t_cmd **cmd, int i, char *prompt);

@@ -6,13 +6,13 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/03 20:04:32 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:18:48 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void	ft_error(t_cmd **cmd, char *message, char *str)
+void ft_error(t_cmd **cmd, char *message, char *str)
 {
 	if (str)
 		printf("%s%s\n", message, str);
@@ -22,15 +22,45 @@ void	ft_error(t_cmd **cmd, char *message, char *str)
 	exit(EXIT_FAILURE);
 }
 
-char	*redirection_near_redirirection(char *prompt)
+void update_redirections(t_cmd **cmd, t_redir *new_redirection)
 {
-	if (redirections(*prompt, *(prompt + 1) > 0)
-		|| redirections(*prompt, *(prompt + 1) < 0) || *prompt=='\0')
+	t_redir *temp;
+
+	if ((*cmd)->redirections == NULL)
+		(*cmd)->redirections = new_redirection;
+	else
 	{
-		printf("error near redirections %c`\n", *prompt);
-		return (NULL);
+		temp = (*cmd)->redirections;
+		while (temp->next != NULL)
+			temp = temp->next;
+		temp->next = new_redirection;
 	}
-	return (prompt);
+	return;
+}
+
+int redirection_param(t_cmd **cmd, char *prompt, int type)
+{
+	char *filename;
+	int len;
+	t_redir *new_redirection;
+
+	filename = skip_to_c(prompt, ' ');
+	len = filename - prompt;
+	printf("len is =%d\n", len);
+	if (len <= 0)
+	{
+		printf("./minishell error: no `filename` or `LIMITER` detected near %c\n",*prompt);
+		return (-1);
+	}
+	filename = dequotencpy(0, len, prompt);
+	new_redirection = (t_redir *)malloc(sizeof(t_redir));
+	new_redirection->filename = filename;
+	printf("filename=%s\n", filename);
+	new_redirection->type = type;
+	new_redirection->next = NULL;
+	update_redirections(cmd, new_redirection);
+	printf("LEN WILL BE %d\n\n", len);
+	return (len);
 }
 
 /*
@@ -39,12 +69,12 @@ char	*redirection_near_redirirection(char *prompt)
 	IF C IS ' ' (AKA space)
 	@RETURN "helo World this is a skip to c function"Code
 */
-char	*skip_to_c(char *s, char c)
+char *skip_to_c(char *s, char c)
 {
 	while (*s != '\0' && *s != c)
 	{
 		if (c != '|' && redirections(*s, *(s + 1)) > 0)
-			break ;
+			break;
 		if (isquote(*s))
 			s = skip_inside(*s, s + 1);
 		if (s == NULL)
@@ -69,10 +99,10 @@ char	*skip_to_c(char *s, char c)
 	@RETURN 12 chars(how many letter we read from
 	prompt to be able to skip them with prompt+=len)
 */
-int	copy_flag(t_cmd **cmd, int i, char *prompt)
+int copy_flag(t_cmd **cmd, int i, char *prompt)
 {
-	char	*flag;
-	int		len;
+	char *flag;
+	int len;
 
 	flag = skip_to_c(prompt, ' ');
 	len = flag - prompt;
@@ -83,25 +113,3 @@ int	copy_flag(t_cmd **cmd, int i, char *prompt)
 	printf("\n\t**LEAVING FLAGS TOKEN**\n");
 	return (len);
 }
-
-// void	append_redirection(t_cmd **cmd, int type, char *filename)
-// {
-// 	t_redir	*new_redir;
-// 	t_redir	*temp;
-
-// 	new_redir = malloc(sizeof(t_redir));
-// 	if (!new_redir)
-// 		ft_error(cmd, "malloc failed", NULL);
-// 	new_redir->type = type;
-// 	new_redir->filename = filename;
-// 	new_redir->next = NULL;
-// 	if (!(*cmd)->redirections)
-// 		(*cmd)->redirections = new_redir;
-// 	else
-// 	{
-// 		temp = (*cmd)->redirections;
-// 		while (temp->next)
-// 			temp = temp->next;
-// 		temp->next = new_redir;
-// 	}
-// }

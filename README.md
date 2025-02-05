@@ -1,4 +1,7 @@
-ls -FLAG1 "Arg1 quoted test" -FLAG2 arg2"MIXED QUOTED" -Flag3 ARG3 > filename -FLAG | Grep ARG1"arg" | sort -FLAG >> file
+//TODO 
+   // edge case redirection
+# Feb 5/2025
+   done redirections with some pending fixes
 //TODO 
     //Redirections , filenames, flags
     //Multi redirecitons

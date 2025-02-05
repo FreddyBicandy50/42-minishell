@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 13:52:08 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/03 20:13:31 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:08:04 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,8 @@ void struct_update_redirection(t_cmd **cmd, int type, char *filename)
 void struct_print_list(t_cmd *cmd)
 {
 	int i;
-	// t_redir	*redir;
+	t_redir *redirections;
 
-	//(void)*redir;
 	printf("\n\t***ENTERING PRINT STRUCT***\n");
 	while (cmd != NULL)
 	{
@@ -112,14 +111,20 @@ void struct_print_list(t_cmd *cmd)
 			}
 			printf("Argument count: %d\n", cmd->arg_number);
 		}
-		// redir = cmd->redirections;
-		// while (redir != NULL)
-		// {
-		// 	printf("Redirection type: %d\n", redir->type);
-		// 	if (redir->filename)
-		// 		printf("Filename: %s\n", redir->filename);
-		// 	redir = redir->next;
-		// }
+		redirections = cmd->redirections;
+		while (redirections != NULL)
+		{
+			if (redirections->type == 4)
+				printf("\tRedirection of type: >>\n");
+			if (redirections->type == 3)
+				printf("\tRedirection of type: <<\n");
+			if (redirections->type == 2)
+				printf("\tRedirection of type: >\n");
+			if (redirections->type == 1)
+				printf("\tRedirection of type: <\n");
+			printf("\tFilename: %s\n\n", redirections->filename);
+			redirections = redirections->next;
+		}
 		cmd = cmd->next;
 	}
 	printf("***\t LEAVING PRINT STRUCT***\n");

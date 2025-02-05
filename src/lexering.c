@@ -6,42 +6,37 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/03 21:04:37 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:18:54 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *rediretions_token(t_cmd **cmd, char *prompt, int type)
+char *rediretions_token(t_cmd **cmd, char *prompt)
 {
-	char *filename;
-	(void)type;
 	int len;
+	int type;
 
-	printf("\n\t**ENTERING REDIRECTIONS TOKEN**\n");
-	prompt++;
-	//TODO fix this shit
 	while (*prompt != '\0')
 	{
-		prompt = skip_spaces(prompt);
-		filename = skip_to_c(prompt, ' ');
-		if (redirection_near_redirirection(prompt) == NULL)
+		type = redirections(*prompt, *(prompt + 1));
+		if (type < 0)
+		{
+			printf("./minishell: error redirections near unmatcehd redierctions %c`\n", *prompt);
 			return (NULL);
-		len = filename - prompt;
-		if (len <= 0)
-			printf("error no filename detected");
-		filename = dequotencpy(0, len, prompt);
-		printf("filename=%s", filename);
-		// add to s_redir;
+		}
+		if (type == 4 || type == 3)
+			prompt += 2;
+		else
+			prompt++;
+		prompt = skip_spaces(prompt);
+		len = redirection_param(cmd, prompt, type);
+		if (len == -1)
+			return (NULL);
 		prompt += len;
-		if (*prompt != '\0')
-			prompt = skip_spaces(prompt);
+		printf("result %s=", prompt);
 		if (*prompt != '\0')
 			prompt = flags_token(cmd, prompt);
-		if (*prompt == '\0')
-			break;
-		printf("REST prompt=%s\n", prompt);
-		prompt++;
 	}
 	return (prompt);
 }
@@ -153,10 +148,13 @@ t_cmd *tokenization(t_cmd *cmd, char *prompt)
 		prompt = flags_token(&cmd, prompt);
 	type = redirections(*prompt, *(prompt + 1));
 	if (type < 0)
-		printf("error unmatched redirections at%c`", *prompt);
-	else if (type > 0)
 	{
-		prompt = rediretions_token(&cmd, prompt, type);
+		printf("\n ./minishell:error unmatched redirections near %c\n", *(prompt + 1));
+		return (NULL);
+	}
+	if (type > 0)
+	{
+		prompt = rediretions_token(&cmd, prompt);
 		if (!prompt)
 			return (NULL);
 	}
