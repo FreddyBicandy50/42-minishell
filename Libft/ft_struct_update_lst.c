@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 13:52:08 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/05 15:08:04 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:07:39 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 
 t_cmd *struct_get_first(t_cmd *cmd)
 {
+	printf("**ENTRING struct_get_first(t_cmd *cmd) in Libft/ft_struct_update_lst.c**\n");
 	while (cmd->prev != NULL)
+	{
+		printf("going backwards CMD->command=%s\n", cmd->command);
 		cmd = cmd->prev;
+	}
+	printf("Lastone CMD->command=%s\n", cmd->command);
+	printf("**LEAVING struct_get_first**\n");
 	return cmd;
 }
 
@@ -92,7 +98,9 @@ void struct_print_list(t_cmd *cmd)
 	int i;
 	t_redir *redirections;
 
-	printf("\n\t***ENTERING PRINT STRUCT***\n");
+	printf("**ENTERING struct_print_list(t_cmd *cmd)**\n");
+	if (cmd == NULL)
+		printf("\tstruct is empty\n");
 	while (cmd != NULL)
 	{
 		if (cmd->command)
@@ -127,5 +135,5 @@ void struct_print_list(t_cmd *cmd)
 		}
 		cmd = cmd->next;
 	}
-	printf("***\t LEAVING PRINT STRUCT***\n");
+	printf("**LEAVING struct_print_list(t_cmd *cmd)**\n");
 }

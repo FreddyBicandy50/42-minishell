@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/04 14:36:14 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:53:08 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ t_cmd *struct_addback_list(t_cmd **cmd, t_cmd *new_cmd)
 {
 	t_cmd *current;
 
+	current = NULL;
 	if (*cmd == NULL)
-		*cmd = new_cmd;
+		return (new_cmd);
 	else
 	{
 		current = *cmd;
@@ -72,16 +73,19 @@ void struct_free_cmd(t_cmd *cmd)
 {
 	t_cmd *temp;
 
+	printf("**ENTERING struct_free_cmd(t_cmd *cmd)**\n");
 	while (cmd != NULL)
 	{
+		printf("\tfreeing cmd->command=%s\n", cmd->command);
 		temp = cmd;
 		free(temp->command);
 		free(temp->flag);
 		if (temp->arg)
 			free_split(temp->arg);
-		// if (temp->redirections)
-		// 	free_redirections(temp->redirections);
+		if (temp->redirections)
+			struct_free_redirections(temp->redirections);
 		cmd = cmd->next;
 		free(temp);
 	}
+	printf("LEAVING struct_free_cmd\n");
 }

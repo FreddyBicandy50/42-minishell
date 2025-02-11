@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/05 15:05:37 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:18:17 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_cmd *parser(char *input)
 	char **segments;
 	int i;
 
+	printf("\n**ENTERING parser(char *%s)**\n", input);
 	cmd = NULL;
 	segments = NULL;
 	segments = ft_shell_split(input, '|');
@@ -34,6 +35,7 @@ t_cmd *parser(char *input)
 	i = -1;
 	while (segments[++i] != NULL)
 	{
+		printf("treating segments[%d]=%s\n", i, segments[i]);
 		cmd = tokenization(cmd, segments[i]);
 		if (!cmd)
 			return (NULL);
@@ -47,15 +49,24 @@ t_cmd *lexical_analysis(char *input)
 {
 	t_cmd *cmd;
 
+	printf("\n**ENTERING lexcial_analysis(char *%s) in main.c**\n", input);
+	printf("\tchecking if input is null or \\0...\n");
 	if (!input || *input == '\0')
+	{
+		printf("\tyes leaving...\n");
 		return (NULL);
+	}
 	cmd = NULL;
+	printf("\tchecking if input starts with |...\n");
 	if (input[0] == '|')
 	{
+		printf("\tyes leaving...\n");
 		printf("minishell:error unexpected token near:%c\n", input[0]);
 		return (NULL);
 	}
+	printf("\tinput is not null or | continuing...\n\n");
 	cmd = parser(input);
+	printf("**LEAVING LEXICAL_ANALYSIS**\n\n");
 	return (cmd);
 }
 
@@ -88,17 +99,20 @@ int main(int argc, char *argv[], char *envp[])
 	signals();
 	while (1)
 	{
+		printf("\n**ENTERING main in main.c**\n");
 		input = readline(prompt);
 		if (input == NULL)
 			handle_eof();
 		add_history(input);
-		cmd = lexical_analysis(input);
+		cmd = lexical_analysis(skip_spaces(input));
+		free(input);
 		if (cmd)
 		{
 			printf("\n\n");
 			struct_print_list(cmd);
 			// executing(&cmd, envp);
 			struct_free_cmd(cmd);
+			printf("\tfreeing input...\n");
 		}
 	}
 	return (0);

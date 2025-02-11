@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/05 15:18:48 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:33:34 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int redirection_param(t_cmd **cmd, char *prompt, int type)
 	printf("len is =%d\n", len);
 	if (len <= 0)
 	{
-		printf("./minishell error: no `filename` or `LIMITER` detected near %c\n",*prompt);
+		printf("./minishell error: no `filename` or `LIMITER` detected near %c\n", *prompt);
 		return (-1);
 	}
 	filename = dequotencpy(0, len, prompt);
@@ -71,12 +71,21 @@ int redirection_param(t_cmd **cmd, char *prompt, int type)
 */
 char *skip_to_c(char *s, char c)
 {
+	printf("**ENTERING skip_to_c(char *%s,char %c)**\n", s, c);
 	while (*s != '\0' && *s != c)
 	{
+		printf("\tchecking if i spot a redirection but c is not |...\n");
 		if (c != '|' && redirections(*s, *(s + 1)) > 0)
+		{
+			printf("\tyes breaking....");
 			break;
+		}
+		printf("\tchecking if *s is a quote to skip whatever inside\n");
 		if (isquote(*s))
+		{
+			printf("\tyes sir skiping inside\n");
 			s = skip_inside(*s, s + 1);
+		}
 		if (s == NULL)
 		{
 			printf("minishell:error near `\"\' unmatched quotes\n");

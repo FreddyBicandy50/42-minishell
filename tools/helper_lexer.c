@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/03 19:51:30 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:50:43 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@
 	skips everything inside the quotations
 	@RETURN test hello world | grep test
 */
-char	*skip_inside(char quote, char *s)
+char *skip_inside(char quote, char *s)
 {
+	printf("\t\t**ENTERING skip_inside(char %c,char %s) in tools/helper_lexer.c**\n", quote, s);
 	while (*s != '\0' && *s != quote)
 		s++;
 	if (*s == '\0')
 		return (NULL);
+	printf("\t\t**LEAVING skip_inside=%s\n\n", s);
 	return (s);
 }
 
@@ -41,12 +43,12 @@ char	*skip_inside(char quote, char *s)
 
 	@RETURN	example on dequote and copyTEST\0
 */
-char	*dequotencpy(int start, int end, char *s)
+char *dequotencpy(int start, int end, char *s)
 {
-	int		i;
-	int		j;
-	char	*dest;
-	char	in_quote;
+	int i;
+	int j;
+	char *dest;
+	char in_quote;
 
 	i = 0;
 	j = 0;
@@ -80,16 +82,21 @@ char	*dequotencpy(int start, int end, char *s)
 		copy without quotes
 		update list of commands arguments
 */
-int	copy_args(t_cmd **cmd, char *prompt)
+int copy_args(t_cmd **cmd, char *prompt)
 {
-	int		i;
-	int		len;
-	char	*argument;
+	int len;
+	char *argument;
 
 	len = 0;
 	if (ft_strncmp((*cmd)->command, "echo", 4) == 0)
-		while (prompt[i] != '\0')
-			i++;
+	{
+		argument = skip_spaces(prompt);
+		while (*argument != '\0' && !redirections(*argument, *(argument + 1)))
+			argument++;
+		len = argument - prompt;
+		argument = dequotencpy(0, len, prompt);
+		struct_update_args(cmd, argument);
+	}
 	else
 	{
 		argument = skip_to_c(prompt, ' ');
@@ -100,7 +107,7 @@ int	copy_args(t_cmd **cmd, char *prompt)
 		else
 		{
 			printf("\nArgument[%d]=%s\nargument len=%d",
-				(*cmd)->arg_number, argument, len);
+				   (*cmd)->arg_number, argument, len);
 			struct_update_args(cmd, argument);
 		}
 	}

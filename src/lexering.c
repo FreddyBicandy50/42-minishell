@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/05 15:18:54 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:52:24 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char *flags_token(t_cmd **cmd, char *prompt)
 	int i;
 	char *new_prompt;
 
-	printf("\n\t**ENTERING FLAGS TOKEN**\n");
+	printf("\n**ENTERING FLAGS TOKEN**\n");
 	while (*prompt != '\0')
 	{
 		prompt = skip_spaces(prompt);
@@ -121,7 +121,7 @@ char *command_token(t_cmd **cmd, char *prompt)
 	t_cmd *new_cmd;
 	size_t len;
 
-	printf("\n\t***ENTERING COMMAND TOKEN***\n");
+	printf("\n***ENTERING COMMAND TOKEN***\n");
 	prompt = skip_spaces(prompt);
 	if (prompt[0] == '\0')
 		return (prompt);
@@ -131,10 +131,14 @@ char *command_token(t_cmd **cmd, char *prompt)
 	len = command - prompt;
 	command = dequotencpy(0, len, prompt);
 	printf("command token extracted =%s\n", command);
+
+	new_cmd = NULL;
 	new_cmd = struct_create_list(command, *cmd);
+
 	*cmd = struct_addback_list(cmd, new_cmd);
 	printf("sturct list created & updated successfuly");
-	printf("\n\t***LEAVING COMMAND TOKEN***\n");
+
+	printf("\n***LEAVING COMMAND TOKEN***\n");
 	return (prompt + len);
 }
 
@@ -142,6 +146,8 @@ t_cmd *tokenization(t_cmd *cmd, char *prompt)
 {
 	int type;
 
+	printf("**ENTERING tokenization(*cmd,char %s)**\n", prompt);
+	struct_print_list(cmd);
 	prompt = command_token(&cmd, prompt);
 	printf("\nRemaining Tokens=%s$ | len=%d\n", prompt, ft_strlen(prompt));
 	if (*prompt != '\0')
@@ -156,7 +162,7 @@ t_cmd *tokenization(t_cmd *cmd, char *prompt)
 	{
 		prompt = rediretions_token(&cmd, prompt);
 		if (!prompt)
-			return (NULL);
+		return (NULL);
 	}
 	return (cmd);
 }
