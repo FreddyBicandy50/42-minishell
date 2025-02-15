@@ -6,46 +6,67 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/30 00:17:43 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:41:18 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/minishell.h"
 
 /*
- *takes the input= ls -la "test" | grep something
- *checks if the input is empty
- *split the commands by pipes and takes quoting into considerations
- *loops threw the commands segment to get its characteristques
+ *input= ls -la "test" | grep "test"
+ *Steps:
+ *	if string is empty or has | at the start
+ *	elif split the commands by pipes
+ *	each string in the returned segment is a command
+ *  start tokenization method
  */
-t_cmd *lexical_analysis(char *input)
+t_cmd *parser(char *input)
 {
-	int i;
-	char **segments;
 	t_cmd *cmd;
-	printf("*****************LOGS***************");
-	printf("\n\t\tPHASE1");
-	printf("\n\n1.(LEXICAL ANALYSIS GOT ->[INPUT])\n");
-	if (!input || *input == '\0')
-		return (NULL);
+	char **segments;
+	int i;
+
+	printf("\n**ENTERING parser(char *%s)**\n", input);
 	cmd = NULL;
 	segments = NULL;
-	if (input[0] == '|')
-	{
-		printf("minishell:error unexpected token near:%c\n", input[0]);
-		return (cmd);
-	}
-	segments = ft_command_split(input, '|');
+	segments = ft_shell_split(input, '|');
 	if (segments == NULL)
 		return (NULL);
 	i = -1;
 	while (segments[++i] != NULL)
 	{
-		printf("seg[%d]->%s\n", i, segments[i]);
-		printf("********************************\n");
-		get_next_command(&cmd, segments[i]);
+		printf("treating segments[%d]=%s\n", i, segments[i]);
+		cmd = tokenization(cmd, segments[i]);
+		if (!cmd)
+			return (NULL);
 	}
+	cmd = struct_get_first(cmd);
 	free_split(segments);
+	return (cmd);
+}
+
+t_cmd *lexical_analysis(char *input)
+{
+	t_cmd *cmd;
+
+	printf("\n**ENTERING lexcial_analysis(char *%s) in main.c**\n", input);
+	printf("\tchecking if input is null or \\0...\n");
+	if (!input || *input == '\0')
+	{
+		printf("\tyes leaving...\n");
+		return (NULL);
+	}
+	cmd = NULL;
+	printf("\tchecking if input starts with |...\n");
+	if (input[0] == '|')
+	{
+		printf("\tyes leaving...\n");
+		printf("minishell:error unexpected token near:%c\n", input[0]);
+		return (NULL);
+	}
+	printf("\tinput is not null or | continuing...\n\n");
+	cmd = parser(input);
+	printf("**LEAVING LEXICAL_ANALYSIS**\n\n");
 	return (cmd);
 }
 
@@ -78,15 +99,20 @@ int main(int argc, char *argv[], char *envp[])
 	signals();
 	while (1)
 	{
+		printf("\n**ENTERING main in main.c**\n");
 		input = readline(prompt);
 		if (input == NULL)
 			handle_eof();
 		add_history(input);
 		cmd = lexical_analysis(skip_spaces(input));
+		free(input);
 		if (cmd)
 		{
-			parser(&cmd, envp);
-			free_cmd(cmd);
+			printf("\n\n");
+			struct_print_list(cmd);
+			executing(&cmd, envp);
+			struct_free_cmd(cmd);
+			printf("\tfreeing input...\n");
 		}
 	}
 	return (0);

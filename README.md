@@ -1,5 +1,49 @@
+//TODO 
+   Fix <> causing memorie leaks <fbicandy>
+   Fix executing invlaid write of 8 causing memorie leaks <aal-mokd>
+   Executing Pipes and redirecitons , heredoc
+   implement $ Sign ENVP , globale vairable
+
+ # Feb 15/2025
+   done merging
+# Feb 5/2025
+   done redirections with some pending fixes
+//TODO 
+    //Redirections , filenames, flags
+    //Multi redirecitons
+    //here_doc
+# Feb 2/2025
+   done redirections with some pending fixes
+# Feb 1/2025
+   fixed the cmd list appending to the first node only
+# Feb 1/2025
+   orginized all files
+# Jan 31/2025
+   Done commends, flags,args
+# Jan 29/2025
+   Comments rethinking...
+   functions renaming...
+   code refining...
+   
+# Jan 27/2025
+    BUG FIXED 
+    we have an error in get_next_command 
+        case command quote and args
+
 ### TODO::catch flags after the redirections
+# Jan 2/2025
+    BUG FIXED 
+    we have an error in get_next_command 
+        case command quote and args
+        "l"s "Fredy"
+        out ls F
 ## Dec/30/2024
+
+FIXED: 
+    dequote and copy in get next flags (GNF)
+    Fix the condition of spacing example    ls "-la her"
+            dont send i + 2 find another solution also keeps spaces
+
 FIXED: 
     dequote and copy in get_next_command
     memory leaks

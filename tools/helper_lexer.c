@@ -3,114 +3,113 @@
 /*                                                        :::      ::::::::   */
 /*   helper_lexer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fredybicandy <fredybicandy@student.42.f    +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/11/10 13:41:33 by fredybicand      ###   ########.fr       */
+/*   Updated: 2025/02/11 12:50:43 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void	append_cmd(t_cmd **cmd, char *command)
-{
-	char	**new_arg;
-	int		j;
-	int		k;
+/*
+	example "ls -la | grep test"test hello world | grep test
 
+	skips everything inside the quotations
+	@RETURN test hello world | grep test
+*/
+char *skip_inside(char quote, char *s)
+{
+	printf("\t\t**ENTERING skip_inside(char %c,char %s) in tools/helper_lexer.c**\n", quote, s);
+	while (*s != '\0' && *s != quote)
+		s++;
+	if (*s == '\0')
+		return (NULL);
+	printf("\t\t**LEAVING skip_inside=%s\n\n", s);
+	return (s);
+}
+
+/*
+	@EXAMPLE "example on dequote and copy"TEST
+
+	start = 0
+	end =33
+	s=@EXAMPLE
+
+	create a variable with enough memorie address
+	Track quotes and skip them
+		eg: "example"
+			=> " will be skipped as well the last one
+
+	@RETURN	example on dequote and copyTEST\0
+*/
+char *dequotencpy(int start, int end, char *s)
+{
+	int i;
+	int j;
+	char *dest;
+	char in_quote;
+
+	i = 0;
 	j = 0;
-	k = -1;
-	if (!(*cmd)->arg)
-		add_first_cmd(cmd, command);
-	else
+	in_quote = '\0';
+	dest = malloc(sizeof(char) * (end - start + 1));
+	if (!dest)
+		return (NULL);
+	while (i < (end - start) && s[start + i])
 	{
-		while ((*cmd)->arg[j] != NULL)
-			j++;
-		(*cmd)->arg_number = j + 1;
-		new_arg = malloc(sizeof(char *) * (j + 2));
-		while (k++ < j)
-			new_arg[k] = (*cmd)->arg[k];
-		new_arg[j] = command;
-		new_arg[j + 1] = NULL;
-		free((*cmd)->arg);
-		(*cmd)->arg = new_arg;
+		if (in_quote != '\0' && s[start + i] == in_quote)
+			in_quote = '\0';
+		else if (in_quote == '\0' && isquote(s[start + i]))
+			in_quote = s[start + i];
+		else
+			dest[j++] = s[start + i];
+		i++;
 	}
+	dest[j] = '\0';
+	return (dest);
 }
 
-int	update_flags(t_cmd **cmd, int i, char *prompt, char *all_flags)
-{
-	char	*tmp;
-	char	*flag;
-	int		j;
+/*
+	@EXAMPLE -ARG1 -FLAG2 -ARG2 > Filename
 
-	while (printable(prompt[i]) && (prompt[i] != '\0' && prompt[i] != ' '))
-		if (prompt[i] == '>' || prompt[i++] == '<')
-			break ;
-	flag = ft_strncpy(1, i, prompt);
-	if (all_flags == NULL)
-		all_flags = ft_strcat("-", flag);
+	check if the command is echo everything after we specify a flag is consider args
+	except for redirections
+
+	ELSE:then
+		skip to the first space
+		calc len word skiped
+		copy without quotes
+		update list of commands arguments
+*/
+int copy_args(t_cmd **cmd, char *prompt)
+{
+	int len;
+	char *argument;
+
+	len = 0;
+	if (ft_strncmp((*cmd)->command, "echo", 4) == 0)
+	{
+		argument = skip_spaces(prompt);
+		while (*argument != '\0' && !redirections(*argument, *(argument + 1)))
+			argument++;
+		len = argument - prompt;
+		argument = dequotencpy(0, len, prompt);
+		struct_update_args(cmd, argument);
+	}
 	else
 	{
-		tmp = ft_strcat(all_flags, flag);
-		free(all_flags);
-		all_flags = tmp;
+		argument = skip_to_c(prompt, ' ');
+		len = argument - prompt;
+		argument = dequotencpy(0, len, prompt);
+		if (*argument == '\0')
+			free(argument);
+		else
+		{
+			printf("\nArgument[%d]=%s\nargument len=%d",
+				   (*cmd)->arg_number, argument, len);
+			struct_update_args(cmd, argument);
+		}
 	}
-	free(flag);
-	(*cmd)->flag = all_flags;
-	j = -1;
-	while ((*cmd)->flag[++j] != '\0')
-		if ((*cmd)->flag[j] == 32)
-			(*cmd)->flag[j] = (*cmd)->flag[j + 1];
-	return (i);
-}
-
-char	*get_args(t_cmd **cmd, int i, char *prompt)
-{
-	int	n;
-
-	n = get_next_str(cmd, prompt);
-	if (n > 0)
-		prompt += n;
-	else
-	{
-		if (prompt[i] == '\0' || n == -1)
-			return (NULL);
-		prompt++;
-	}
-	return (prompt);
-}
-
-void	append_redirection(t_cmd **cmd, int type, char *filename)
-{
-	t_redir	*new_redir;
-	t_redir	*temp;
-
-	new_redir = malloc(sizeof(t_redir));
-	if (!new_redir)
-		ft_error(cmd, "malloc failed", NULL);
-	new_redir->type = type;
-	new_redir->filename = filename;
-	new_redir->next = NULL;
-	if (!(*cmd)->redirections)
-		(*cmd)->redirections = new_redir;
-	else
-	{
-		temp = (*cmd)->redirections;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_redir;
-	}
-}
-
-int	type_redirection(char redirection, int redirection_count)
-{
-	if (redirection == '>' && redirection_count == 2)
-		return (2);
-	else if (redirection == '>' && redirection_count == 1)
-		return (1);
-	else if (redirection == '<' && redirection_count == 2)
-		return (3);
-	else if (redirection == '<' && redirection_count == 1)
-		return (4);
-	return (0);
+	return (len);
 }

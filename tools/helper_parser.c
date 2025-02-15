@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 18:48:39 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/26 18:48:51 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:15:15 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,18 @@ char	*find_path(char *cmd, char **envp)
 
 int	built_in_functions(t_cmd **cmd, char **envp)
 {
-	(void) envp;
 	if (ft_strcmp((*cmd)->command, "echo") == 0)
 		echo_cmd(cmd);
 	else if (ft_strcmp((*cmd)->command, "cd") == 0)
-		cd_cmd(cmd);
+		cd_cmd(cmd, envp);
 	else if (ft_strcmp((*cmd)->command, "pwd") == 0)
 		pwd_cmd();
 	else if (ft_strcmp((*cmd)->command, "export") == 0)
-		printf("\nexport\n");
+		my_export(cmd, envp);
 	else if (ft_strcmp((*cmd)->command, "unset") == 0)
-		my_unset(cmd);
+		my_unset(cmd, envp);
 	else if (ft_strcmp((*cmd)->command, "env") == 0)
-		env_cmd();
+		env_cmd(envp);
 	else if (ft_strcmp((*cmd)->command, "exit") == 0)
 		exit_minishell();
 	else

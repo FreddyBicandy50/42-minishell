@@ -3,45 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2024/12/27 16:29:09 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:27:31 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-static void	update_value(int i, char *var, char *value)
+static void	update_value(int i, char *var, char *value, char **envp)
 {
 	size_t	new_len;
 
 	new_len = ft_strlen(var) + ft_strlen(value) + 1;
-	environ[i] = (char *)malloc(new_len);
-	if (environ[i] == NULL)
+	envp[i] = (char *)malloc(new_len);
+	if (envp[i] == NULL)
 	{
 		perror("malloc");
 		return ;
 	}
-	strncpy(environ[i], var, ft_strlen(var));
-	ft_strcat(environ[i], value);
+	ft_strlcpy(envp[i], var, ft_strlen(var) + 1);
+	ft_strcat(envp[i], value);
 }
 
-void	set_env(char *var, char *value)
+void	set_env(char *var, char *value, char **envp)
 {
 	int		i;
 	size_t	len;
 
-	len = strlen(var);
+	len = ft_strlen(var);
 	i = 0;
-	while (environ[i])
+	while (envp[i])
 	{
-		if (ft_strncmp(environ[i], var, len))
+		if (ft_strncmp(envp[i], var, len) == 0)
 		{
-			update_value(i, var, value);
+			update_value(i, var, value, envp);
 			return ;
 		}
+		i++;
 	}
-	update_value(i, var, value);
-	environ[i + 1] = NULL;
+	update_value(i, var, value, envp);
+	envp[i + 1] = NULL;
 }

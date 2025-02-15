@@ -11,7 +11,8 @@
         "*.tcc": "c",
         "cstdlib": "c",
         "memory": "c",
-        "new": "c"
+        "new": "c",
+        "history.h": "c"
     },
     "files.autoSave": "afterDelay",
     "editor.fontSize": 21,
