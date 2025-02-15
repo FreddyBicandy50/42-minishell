@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/05 14:57:13 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:30:42 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_cmd
 
 //BUILT_INT
 	// echo
-void	echo_cmd(t_cmd **cmd);
+	void	echo_cmd(t_cmd **cmd);
 	//PWD
 void	pwd_cmd(void);
 	//ENV
@@ -61,12 +61,11 @@ void	cd_cmd(t_cmd **cmd, char **envp);
 	//EXIT
 void	exit_minishell(void);
 	//EXPORT
-void	my_export(t_cmd **cmd);
+void	my_export(t_cmd **cmd, char **envp);
 	//UNSET
 void	my_unset(t_cmd **cmd, char **envp);
 
-//GET_NEXT_LINE
-	//GET NEXT LINE
+//GET NEXT LINE
 char	*get_next_line(int fd);
 
 // LIBFT
@@ -75,8 +74,10 @@ int		isquote(char c);
 int		redirections(char c1, char c2);
 int		isprintable(char c);
 	// FT STRCAT
-char	*ft_strcat(char *dest, const char *src);
-	//FT STRCMP
+void	ft_strcat(char *dest, const char *src);
+	// FT STRCHR
+char *ft_strchr(char const *str, int c);
+	// FT STRCMP
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 	//FT STRDUP.c

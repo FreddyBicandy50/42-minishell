@@ -1,5 +1,11 @@
 //TODO 
-   // edge case redirection
+   Fix <> causing memorie leaks <fbicandy>
+   Fix executing invlaid write of 8 causing memorie leaks <aal-mokd>
+   Executing Pipes and redirecitons , heredoc
+   implement $ Sign ENVP , globale vairable
+
+ # Feb 15/2025
+   done merging
 # Feb 5/2025
    done redirections with some pending fixes
 //TODO 

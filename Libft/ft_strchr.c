@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/23 13:09:30 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/02/15 13:30:19 by fbicandy         ###   ########.fr       */
+/*   Created: 2024/06/15 10:31:02 by aal-mokd          #+#    #+#             */
+/*   Updated: 2025/02/07 12:36:29 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-void	ft_strcat(char *dest, const char *src)
+char	*ft_strchr(char const *str, int c)
 {
-	while (*dest)
-		dest++;
-	while (*src)
+	unsigned int	i;
+
+	i = 0;
+	while (str[i] != '\0')
 	{
-		*dest = *src;
-		dest++;
-		src++;
+		if (str[i] == (char)c)
+			return ((char *)&str[i]);
+		i++;
 	}
-	*dest = '\0';
+	if (str[i] == (char)c)
+		return ((char *)&str[i]);
+	else
+		return (NULL);
 }

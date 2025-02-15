@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/11 12:18:17 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:41:18 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int main(int argc, char *argv[], char *envp[])
 		{
 			printf("\n\n");
 			struct_print_list(cmd);
-			// executing(&cmd, envp);
+			executing(&cmd, envp);
 			struct_free_cmd(cmd);
 			printf("\tfreeing input...\n");
 		}

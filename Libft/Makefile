@@ -6,7 +6,7 @@
 #    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2025/02/01 15:05:50 by fbicandy         ###   ########.fr        #
+#    Updated: 2025/02/15 13:14:10 by fbicandy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = libft.a
 SOURCES = \
 ft_char_is.c\
 ft_strcat.c\
+ft_strchr.c\
 ft_strcmp.c\
 ft_strdup.c\
 ft_strjoin.c\
