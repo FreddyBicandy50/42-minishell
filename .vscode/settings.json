@@ -12,7 +12,8 @@
         "cstdlib": "c",
         "memory": "c",
         "new": "c",
-        "history.h": "c"
+        "history.h": "c",
+        "random": "c"
     },
     "files.autoSave": "afterDelay",
     "editor.fontSize": 21,

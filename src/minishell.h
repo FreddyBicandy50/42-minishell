@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/15 13:30:42 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/22 15:39:46 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,12 @@ typedef struct s_cmd
 	char			*flag;
 	int				arg_number;
 	t_redir			*redirections;
-	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;
 
 //BUILT_INT
 	// echo
-	void	echo_cmd(t_cmd **cmd);
+void	echo_cmd(t_cmd **cmd);
 	//PWD
 void	pwd_cmd(void);
 	//ENV
@@ -76,7 +75,7 @@ int		isprintable(char c);
 	// FT STRCAT
 void	ft_strcat(char *dest, const char *src);
 	// FT STRCHR
-char *ft_strchr(char const *str, int c);
+char	*ft_strchr(char const *str, int c);
 	// FT STRCMP
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -98,7 +97,7 @@ void	free_split(char **args);
 	//FT STRTRIM
 char	*skip_spaces(char *str);
 	// FT STRUCT_LST
-t_cmd	*struct_addback_list(t_cmd **cmd, t_cmd *new_cmd);
+void	struct_addback_list(t_cmd **cmd, t_cmd *new_cmd);
 t_cmd	*struct_get_first(t_cmd *cmd);
 t_cmd	*struct_create_list(char *command, t_cmd *current);
 void	struct_add_first_cmd(t_cmd **cmd, char *argument);
@@ -114,7 +113,7 @@ size_t	ft_wordcount(char *s, char c);
 
 //SRC
 	//LEXERING
-t_cmd	*tokenization(t_cmd *cmd, char *prompt);
+t_cmd	*tokenization(char *prompt);
 char	*rediretions_token(t_cmd **cmd, char *prompt);
 char	*args_token(t_cmd **cmd, int i, char *prompt);
 char	*flags_token(t_cmd **cmd, char *prompt);

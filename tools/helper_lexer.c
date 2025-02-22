@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/11 12:50:43 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:30:58 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,10 @@
 */
 char *skip_inside(char quote, char *s)
 {
-	printf("\t\t**ENTERING skip_inside(char %c,char %s) in tools/helper_lexer.c**\n", quote, s);
 	while (*s != '\0' && *s != quote)
 		s++;
 	if (*s == '\0')
 		return (NULL);
-	printf("\t\t**LEAVING skip_inside=%s\n\n", s);
 	return (s);
 }
 
@@ -105,11 +103,7 @@ int copy_args(t_cmd **cmd, char *prompt)
 		if (*argument == '\0')
 			free(argument);
 		else
-		{
-			printf("\nArgument[%d]=%s\nargument len=%d",
-				   (*cmd)->arg_number, argument, len);
 			struct_update_args(cmd, argument);
-		}
 	}
 	return (len);
 }

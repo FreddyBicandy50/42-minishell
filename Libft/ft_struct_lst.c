@@ -6,16 +6,14 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/11 12:53:08 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/22 15:12:55 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-t_cmd *struct_create_list(char *command, t_cmd *current)
+t_cmd *struct_create_list(char *command, t_cmd *new_cmd)
 {
-	t_cmd *new_cmd;
-
 	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		return (NULL);
@@ -25,26 +23,27 @@ t_cmd *struct_create_list(char *command, t_cmd *current)
 	new_cmd->arg_number = 0;
 	new_cmd->next = NULL;
 	new_cmd->redirections = NULL;
-	new_cmd->prev = current;
+	// new_cmd->prev = current;
 	return (new_cmd);
 }
 
-t_cmd *struct_addback_list(t_cmd **cmd, t_cmd *new_cmd)
+void struct_addback_list(t_cmd **cmd, t_cmd *new_cmd)
 {
-	t_cmd *current;
+	t_cmd *temp;
 
-	current = NULL;
+	temp = NULL;
 	if (*cmd == NULL)
-		return (new_cmd);
+	{
+		printf("Adding first command\n");
+		*cmd = new_cmd;
+	}
 	else
 	{
-		current = *cmd;
-		while (current->next != NULL)
-			current = current->next;
-		current->next = new_cmd;
-		current = current->next;
+		temp = *cmd;
+		while (temp->next != NULL)
+			temp = temp->next;
+		temp->next = new_cmd;
 	}
-	return (current);
 }
 void struct_add_first_cmd(t_cmd **cmd, char *argument)
 {
@@ -73,10 +72,8 @@ void struct_free_cmd(t_cmd *cmd)
 {
 	t_cmd *temp;
 
-	printf("**ENTERING struct_free_cmd(t_cmd *cmd)**\n");
 	while (cmd != NULL)
 	{
-		printf("\tfreeing cmd->command=%s\n", cmd->command);
 		temp = cmd;
 		free(temp->command);
 		free(temp->flag);
@@ -87,5 +84,4 @@ void struct_free_cmd(t_cmd *cmd)
 		cmd = cmd->next;
 		free(temp);
 	}
-	printf("LEAVING struct_free_cmd\n");
 }

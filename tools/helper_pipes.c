@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   helper_pipes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 14:38:55 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/01/02 14:39:13 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:10:08 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(char *s1, char *s2); // Assumed already implemented
+#include "src/minishell.h"
 
 void	execute(char *path, t_cmd **cmd, char *envp[])
 {

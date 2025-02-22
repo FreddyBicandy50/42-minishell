@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 16:40:15 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/11 11:58:23 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:28:53 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,11 @@ void free_split(char **args)
 	i = 0;
 	while (args[i] != NULL)
 	{
-		printf("freeing seg[%d]=%s\n", i, args[i]);
 		free(args[i]);
 		i++;
 	}
 	if (args != NULL)
-	{
-		printf("freeing something\n");
 		free(args);
-	}
 }
 
 /*
@@ -38,7 +34,6 @@ int ft_split_counts(char *s, char c)
 {
 	size_t split_counts;
 
-	printf("\t**ENTERING ft_split_counts(char *%s,char %c) in libft/ft_strsplit.c**\n", s, c);
 	split_counts = 0;
 	s = skip_spaces(s);
 	while (*s)
@@ -53,7 +48,6 @@ int ft_split_counts(char *s, char c)
 		else
 			s++;
 	}
-	printf("\t**LEAVING ft_split_counts=%ld**\n\n",split_counts);
 	return (split_counts);
 }
 
@@ -82,8 +76,8 @@ char **ft_shell_split(char *s, char c)
 	int split_counts;
 	size_t i;
 
-	printf("\n**ENTERING ft_shell_split(char *%s,char %c) in libft/ft_strplit.c\n", s, c);
 	split_counts = ft_split_counts(s, c);
+	printf("*Split_counts=%d\n\n", split_counts);
 	if (split_counts <= 0)
 		return (NULL);
 	tabs = malloc((split_counts + 1) * sizeof(char *));
@@ -95,18 +89,13 @@ char **ft_shell_split(char *s, char c)
 			word_start = s;
 			s = skip_to_c(s, c);
 			tabs[i] = ft_strndup(word_start, s - word_start);
-			printf("\tTabs[%ld] will be = %s\n", i, tabs[i]);
+			printf("*Command_row[%ld]=%s\n", i, tabs[i]);
 			i++;
 		}
 		else
-		{
-			printf("\t\tspotted a %c here and skipping it after \t | ", c);
 			s++;
-			printf("\t\ts after skip=%s\n", s);
-		}
 	}
 	tabs[i] = NULL;
-	printf("**LEAVING FT_SHELL_SPLIT**\n\n");
 	return (tabs);
 }
 

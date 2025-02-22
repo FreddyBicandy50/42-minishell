@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/15 13:24:51 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:15:25 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,26 @@ void execute(char *path, t_cmd **cmd, char *envp[])
 void check_cmd(t_cmd **cmd, char *envp[])
 {
 	char *path;
-	pid_t pid;
+	// pid_t pid;
 
-	if (built_in_functions(cmd, envp) == 1)
-	{
-		path = find_path((*cmd)->command, envp);
-		if (!path)
-			return;
-		pid = fork();
-		if (pid == 0)
-		{
-			// handle_redirection(*cmd);
-			execute(path, cmd, envp);
-		}
-		else if (pid < 0)
-			ft_error(cmd, "Error forking", NULL);
-		else
-			wait(NULL);
-		free(path);
-	}
+	path = find_path((*cmd)->command, envp);
+	if (!path)
+		return;
+	// pid = fork();
+	// if (pid == 0)
+	// {
+	// 	// handle_redirection(*cmd);
+	// 	execute(path, cmd, envp);
+	// }
+	// else if (pid < 0)
+	// 	ft_error(cmd, "Error forking", NULL);
+	// else
+	// 	wait(NULL);
+	free(path);
+	// if (built_in_functions(cmd, envp) == 1)
+	// {
+
+	// }
 }
 
 void executing(t_cmd **cmd, char *envp[])

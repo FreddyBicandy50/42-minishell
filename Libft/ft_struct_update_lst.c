@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 13:52:08 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/11 12:07:39 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/22 14:49:40 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 t_cmd *struct_get_first(t_cmd *cmd)
 {
-	printf("**ENTRING struct_get_first(t_cmd *cmd) in Libft/ft_struct_update_lst.c**\n");
-	while (cmd->prev != NULL)
+	printf("\n*locating first command struct \n");
+	if (cmd != NULL)
 	{
-		printf("going backwards CMD->command=%s\n", cmd->command);
-		cmd = cmd->prev;
+		while (cmd->prev != NULL)
+			cmd = cmd->prev;
 	}
-	printf("Lastone CMD->command=%s\n", cmd->command);
-	printf("**LEAVING struct_get_first**\n");
 	return cmd;
 }
 
@@ -98,42 +96,43 @@ void struct_print_list(t_cmd *cmd)
 	int i;
 	t_redir *redirections;
 
-	printf("**ENTERING struct_print_list(t_cmd *cmd)**\n");
-	if (cmd == NULL)
+	printf("Printing list of Tokens\n");
+	if (cmd == NULL){
 		printf("\tstruct is empty\n");
+		return ;
+	}
 	while (cmd != NULL)
 	{
 		if (cmd->command)
 			if (cmd->command)
 				printf("Command: %s\n", cmd->command);
 		if (cmd->flag)
-			printf("Flag: %s\n", cmd->flag);
+			printf("\tFlag: %s\n", cmd->flag);
 		if (cmd->arg)
 		{
 			i = 0;
 			while (i < cmd->arg_number)
 			{
 				if (cmd->arg[i] != NULL)
-					printf("Argument[%d]: %s$\n", i, cmd->arg[i]);
+					printf("\tArgument[%d]: %s$\n", i, cmd->arg[i]);
 				i++;
 			}
-			printf("Argument count: %d\n", cmd->arg_number);
+			printf("\tArgument count: %d\n", cmd->arg_number);
 		}
 		redirections = cmd->redirections;
 		while (redirections != NULL)
 		{
 			if (redirections->type == 4)
-				printf("\tRedirection of type: >>\n");
+				printf("\t\tRedirection of type: >>\n");
 			if (redirections->type == 3)
-				printf("\tRedirection of type: <<\n");
+				printf("\t\tRedirection of type: <<\n");
 			if (redirections->type == 2)
-				printf("\tRedirection of type: >\n");
+				printf("\t\tRedirection of type: >\n");
 			if (redirections->type == 1)
-				printf("\tRedirection of type: <\n");
-			printf("\tFilename: %s\n\n", redirections->filename);
+				printf("\t\tRedirection of type: <\n");
+			printf("\t\tFilename: %s\n\n", redirections->filename);
 			redirections = redirections->next;
 		}
 		cmd = cmd->next;
 	}
-	printf("**LEAVING struct_print_list(t_cmd *cmd)**\n");
 }
