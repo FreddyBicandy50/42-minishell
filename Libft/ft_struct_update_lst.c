@@ -6,22 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 13:52:08 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/22 14:49:40 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:08:27 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
-
-t_cmd *struct_get_first(t_cmd *cmd)
-{
-	printf("\n*locating first command struct \n");
-	if (cmd != NULL)
-	{
-		while (cmd->prev != NULL)
-			cmd = cmd->prev;
-	}
-	return cmd;
-}
 
 void struct_update_flags(t_cmd **cmd, char *flag, char *all_flags)
 {
