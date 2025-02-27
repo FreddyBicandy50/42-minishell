@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/25 14:08:14 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:27:54 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ t_cmd *tokenization(char *prompt)
 	int type;
 	t_cmd *new_cmd;
 
+	type = 0;
 	new_cmd = NULL;
 	prompt = command_token(&new_cmd, prompt);
 	if (*prompt != '\0')
@@ -143,14 +144,15 @@ t_cmd *tokenization(char *prompt)
 		{
 			printf("./minishell:error unmatched redirections near %c\n",
 				   *(prompt + 1));
+			struct_free_cmd(new_cmd);
 			return (NULL);
 		}
 	}
-	// if (type > 0)
-	// {
-	// 	prompt = rediretions_token(&new_cmd, prompt);
-	// 	if (!prompt)
-	// 		return (NULL);
-	// }
+	if (type > 0)
+	{
+		prompt = rediretions_token(&new_cmd, prompt);
+		if (!prompt)
+			return (NULL);
+	}
 	return (new_cmd);
 }

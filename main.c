@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/22 15:26:06 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:15:55 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,29 @@
  *	each string in the returned segment is a command
  *  start tokenization method
  */
-t_cmd	*parser(char *input)
+t_cmd *parser(char *input)
 {
-	t_cmd	*cmd;
-	t_cmd	*new_cmd;
-	char	**segments;
-	int		i;
+	t_cmd *cmd;
+	t_cmd *new_cmd;
+	char **segments;
+	int i;
 
+	i = -1;
 	cmd = NULL;
 	new_cmd = NULL;
 	segments = NULL;
 	segments = ft_shell_split(input, '|');
 	if (segments == NULL)
 		return (NULL);
-	i = -1;
 	while (segments[++i] != NULL)
 	{
-		printf("*Tokenizing command_row[%d]=%s\n", i, segments[i]);
 		new_cmd = tokenization(segments[i]);
 		if (!new_cmd)
-			break ;
+		{
+			struct_free_cmd(cmd);
+			cmd = NULL;
+			break;
+		}
 		else
 			struct_addback_list(&cmd, new_cmd);
 	}
@@ -47,26 +50,18 @@ t_cmd	*parser(char *input)
 	return (cmd);
 }
 
-t_cmd	*lexical_analysis(char *input)
+t_cmd *lexical_analysis(char *input)
 {
-	t_cmd	*cmd;
+	t_cmd *cmd;
 
+	input=skip_spaces(input);
 	if (!input || *input == '\0')
-	{
-		printf("\t*Empty input detected...\n");
 		return (NULL);
-	}
 	cmd = NULL;
 	if (input[0] == '|')
-	{
-		printf("minishell:error unexpected token near:%c\n", input[0]);
 		return (NULL);
-	}
 	if (skip_to_c(input, '\0') == NULL)
-	{
-		printf("minishell:error near `\"\' unmatched quotes\n");
 		return (NULL);
-	}
 	cmd = parser(input);
 	return (cmd);
 }
@@ -87,11 +82,11 @@ t_cmd	*lexical_analysis(char *input)
 		-handle neccesary dequoting
 	*parser phase pass all data and fetch environment to execute
 */
-int	main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
-	char	*prompt;
-	char	*input;
-	t_cmd	*cmd;
+	char *prompt;
+	char *input;
+	t_cmd *cmd;
 
 	(void)argc;
 	(void)argv;
@@ -104,7 +99,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (input == NULL)
 			handle_eof();
 		add_history(input);
-		cmd = lexical_analysis(skip_spaces(input));
+		cmd = lexical_analysis(input);
 		free(input);
 		if (cmd)
 		{
