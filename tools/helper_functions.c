@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/25 14:07:21 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/09 22:53:14 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,17 @@ int redirection_param(t_cmd **cmd, char *prompt, int type)
 
 	filename = skip_to_c(prompt, ' ');
 	len = filename - prompt;
-	printf("len is =%d\n", len);
-	if (len <= 0)
+	if (len <= 0 || *prompt == '\0')
 	{
-		printf("./minishell: error expected filename near %c\n",*(prompt + 1));
+		printf("./minishell: error expected filename near %c\n", *prompt);
 		return (-1);
 	}
 	filename = dequotencpy(0, len, prompt);
 	new_redirection = (t_redir *)malloc(sizeof(t_redir));
 	new_redirection->filename = filename;
-	printf("filename=%s\n", filename);
 	new_redirection->type = type;
 	new_redirection->next = NULL;
 	update_redirections(cmd, new_redirection);
-	printf("LEN WILL BE %d\n\n", len);
 	return (len);
 }
 

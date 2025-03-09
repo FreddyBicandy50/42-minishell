@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:45:30 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/22 15:12:55 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/09 22:56:59 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ void struct_addback_list(t_cmd **cmd, t_cmd *new_cmd)
 
 	temp = NULL;
 	if (*cmd == NULL)
-	{
-		printf("Adding first command\n");
 		*cmd = new_cmd;
-	}
 	else
 	{
 		temp = *cmd;

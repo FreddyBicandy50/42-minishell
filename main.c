@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/27 14:15:55 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/09 22:55:10 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  *	each string in the returned segment is a command
  *  start tokenization method
  */
-t_cmd *parser(char *input)
+t_cmd *lexical_analysis(char *input)
 {
 	t_cmd *cmd;
 	t_cmd *new_cmd;
@@ -30,13 +30,12 @@ t_cmd *parser(char *input)
 	i = -1;
 	cmd = NULL;
 	new_cmd = NULL;
-	segments = NULL;
 	segments = ft_shell_split(input, '|');
 	if (segments == NULL)
 		return (NULL);
 	while (segments[++i] != NULL)
 	{
-		new_cmd = tokenization(segments[i]);
+		new_cmd = parsing(segments[i]);
 		if (!new_cmd)
 		{
 			struct_free_cmd(cmd);
@@ -50,7 +49,7 @@ t_cmd *parser(char *input)
 	return (cmd);
 }
 
-t_cmd *lexical_analysis(char *input)
+t_cmd *tokenization(char *input)
 {
 	t_cmd *cmd;
 
@@ -61,8 +60,11 @@ t_cmd *lexical_analysis(char *input)
 	if (input[0] == '|')
 		return (NULL);
 	if (skip_to_c(input, '\0') == NULL)
+	{
+		printf("minishell:Error unmatched redirections`\n");
 		return (NULL);
-	cmd = parser(input);
+	}
+	cmd = lexical_analysis(input);
 	return (cmd);
 }
 
@@ -99,12 +101,12 @@ int main(int argc, char *argv[], char *envp[])
 		if (input == NULL)
 			handle_eof();
 		add_history(input);
-		cmd = lexical_analysis(input);
+		cmd = tokenization(input);
 		free(input);
 		if (cmd)
 		{
 			struct_print_list(cmd);
-			executing(&cmd, envp);
+			// executing(&cmd, envp);
 			struct_free_cmd(cmd);
 		}
 	}

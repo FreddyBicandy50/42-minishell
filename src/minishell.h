@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/22 15:39:46 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/09 22:55:26 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ size_t	ft_wordcount(char *s, char c);
 
 //SRC
 	//LEXERING
-t_cmd	*tokenization(char *prompt);
+t_cmd	*parsing(char *prompt);
 char	*rediretions_token(t_cmd **cmd, char *prompt);
 char	*args_token(t_cmd **cmd, int i, char *prompt);
 char	*flags_token(t_cmd **cmd, char *prompt);

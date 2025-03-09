@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/27 14:27:54 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/10 00:29:38 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char *rediretions_token(t_cmd **cmd, char *prompt)
 			prompt++;
 		prompt = skip_spaces(prompt);
 		len = redirection_param(cmd, prompt, type);
-		if (len == -1)
+		if (len == -1 || *prompt == '\0')
 			return (NULL);
 		prompt += len;
 		if (*prompt != '\0')
@@ -127,32 +127,22 @@ char *command_token(t_cmd **cmd, char *prompt)
 	return (prompt + len);
 }
 
-t_cmd *tokenization(char *prompt)
+t_cmd *parsing(char *prompt)
 {
-	int type;
 	t_cmd *new_cmd;
 
-	type = 0;
 	new_cmd = NULL;
 	prompt = command_token(&new_cmd, prompt);
 	if (*prompt != '\0')
 		prompt = flags_token(&new_cmd, prompt);
 	if (*prompt != '\0')
 	{
-		type = redirections(*prompt, *(prompt + 1));
-		if (type < 0)
+		prompt = rediretions_token(&new_cmd, prompt);
+		if (!prompt)
 		{
-			printf("./minishell:error unmatched redirections near %c\n",
-				   *(prompt + 1));
 			struct_free_cmd(new_cmd);
 			return (NULL);
 		}
-	}
-	if (type > 0)
-	{
-		prompt = rediretions_token(&new_cmd, prompt);
-		if (!prompt)
-			return (NULL);
 	}
 	return (new_cmd);
 }

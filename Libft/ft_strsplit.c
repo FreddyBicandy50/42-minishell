@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 16:40:15 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/20 21:28:53 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/09 22:53:42 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int ft_split_counts(char *s, char c)
 		{
 			s = skip_to_c(s, c);
 			if (!s)
+			{
+				printf("Error: unmatched quotes\n");
 				return (-1);
+			}
 			split_counts++;
 		}
 		else
@@ -77,7 +80,6 @@ char **ft_shell_split(char *s, char c)
 	size_t i;
 
 	split_counts = ft_split_counts(s, c);
-	printf("*Split_counts=%d\n\n", split_counts);
 	if (split_counts <= 0)
 		return (NULL);
 	tabs = malloc((split_counts + 1) * sizeof(char *));
@@ -89,7 +91,6 @@ char **ft_shell_split(char *s, char c)
 			word_start = s;
 			s = skip_to_c(s, c);
 			tabs[i] = ft_strndup(word_start, s - word_start);
-			printf("*Command_row[%ld]=%s\n", i, tabs[i]);
 			i++;
 		}
 		else

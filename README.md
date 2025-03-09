@@ -1,10 +1,15 @@
 //TODO 
-
-   Fix executing invlaid write of 8 causing memorie leaks <aal-mokd>
    Executing Pipes and redirecitons , heredoc
-   implement $ Sign ENVP , globale vairable
+   dollar sign expansion
+   exit code
+
+
+# Mar 10/2025
+   
+   fixed redirection error while sending empty value after redirection
 
 # Feb 22/2025
+   
    more consise logs
    Fixed <> causing memorie leaks <fbicandy>
    new struct implementation
