@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/14 11:33:09 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/29 11:26:34 by aal-mokd         ###   ########.fr       */
+/*   Created: 2024/12/23 17:43:13 by amokdad           #+#    #+#             */
+/*   Updated: 2025/03/16 18:11:12 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+#include "../minishell.h"
 
-void	env_cmd(char **envp)
+void	exit_minishell(void)
 {
-	int	i;
-
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
-	return ;
+	printf("\n\nexit minishell ... \n\n");
+	exit (0);
 }

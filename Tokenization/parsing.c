@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexering.c                                         :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/11 22:29:14 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:25:34 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char *rediretions_token(t_cmd **cmd, char *prompt)
 {
@@ -127,9 +127,10 @@ char *command_token(t_cmd **cmd, char *prompt)
 	return (prompt + len);
 }
 
-t_cmd *parsing(char *prompt)
+t_cmd *parsing(char *prompt,t_env **env)
 {
 	t_cmd *new_cmd;
+	(void)	*env;
 
 	new_cmd = NULL;
 	prompt = command_token(&new_cmd, prompt);

@@ -6,11 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 17:09:00 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:07:02 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "src/minishell.h"
+#include "minishell.h"
 
 int g_signal = 0;
 /*
@@ -21,7 +21,7 @@ int g_signal = 0;
  *	each string in the returned segment is a command
  *  start tokenization method
  */
-t_cmd *lexical_analysis(char *input)
+t_cmd *lexical_analysis(char *input, t_env **env)
 {
 	t_cmd *cmd;
 	t_cmd *new_cmd;
@@ -36,7 +36,7 @@ t_cmd *lexical_analysis(char *input)
 		return (NULL);
 	while (segments[++i] != NULL)
 	{
-		new_cmd = parsing(segments[i]);
+		new_cmd = parsing(segments[i],env);
 		if (!new_cmd)
 		{
 			struct_free_cmd(cmd);
@@ -72,7 +72,7 @@ t_cmd *tokenization(char *input, t_env **env, char **envp)
 		printf("minishell:Error unmatched redirections`\n");
 		return (NULL);
 	}
-	cmd = lexical_analysis(input);
+	cmd = lexical_analysis(input,env);
 	return (cmd);
 }
 

@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/23 17:43:13 by amokdad           #+#    #+#             */
-/*   Updated: 2025/03/16 15:53:04 by fbicandy         ###   ########.fr       */
+/*   Created: 2024/12/14 11:33:09 by amokdad           #+#    #+#             */
+/*   Updated: 2025/03/16 18:11:37 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+#include "../minishell.h"
 
-void	exit_minishell(void)
+void	env_cmd(char **envp)
 {
-	printf("\n\nexit minishell ... \n\n");
-	exit (0);
+	int	i;
+
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+	return ;
 }

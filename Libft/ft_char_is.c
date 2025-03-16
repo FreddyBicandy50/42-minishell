@@ -6,11 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 14:52:13 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/21 17:52:22 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:12:37 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+#include "../minishell.h"
 
 int isquote(char c)
 {

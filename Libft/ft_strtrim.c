@@ -6,11 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 13:48:44 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/20 20:24:59 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:13:14 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+#include "../minishell.h"
 
 char *skip_spaces(char *str)
 {

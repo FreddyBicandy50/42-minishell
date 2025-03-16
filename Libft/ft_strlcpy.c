@@ -6,11 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:07:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/02/01 14:14:27 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:12:59 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+#include "../minishell.h"
 
 size_t	ft_strlcpy(char *dst, char *src, size_t size)
 {

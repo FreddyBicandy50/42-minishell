@@ -6,11 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 17:06:47 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/01 14:15:37 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:12:52 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+#include "../minishell.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {

@@ -6,11 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 19:27:14 by fbicandy          #+#    #+#             */
-/*   Updated: 2024/12/26 19:34:51 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:13:28 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+#include "../minishell.h"
 
 size_t ft_wordcount(char *s, char c)
 {

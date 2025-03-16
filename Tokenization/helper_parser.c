@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helper_lexer.c                                     :+:      :+:    :+:   */
+/*   helper_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 17:01:03 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:07:27 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+#include "../minishell.h"
 
 /*
 	example "ls -la | grep test"test hello world | grep test
@@ -41,7 +41,7 @@ char *skip_inside(char quote, char *s)
 
 	@RETURN	example on dequote and copyTEST\0
 */
-char *dequotencpy(int start, int end, char *s)
+char	*dequotencpy(int start, int end, char *s)
 {
 	int i;
 	int j;

@@ -6,11 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:26:52 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/01 14:14:08 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:12:49 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+#include "../minishell.h"
 
 char	*ft_strndup(const char *s, size_t n)
 {

@@ -6,11 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 14:38:55 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/03/16 17:22:03 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:08:51 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "src/minishell.h"
+#include "../minishell.h"
 
 void	execute(char *path, t_cmd **cmd, char *envp[])
 {
