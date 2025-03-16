@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/09 22:55:26 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 16:48:22 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+extern	int g_signal;
+
+typedef struct s_env
+{
+	char			*variable_name;
+	bool			flag;
+	int				exit_code;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_redir
 {
 	int				type;
@@ -47,6 +57,8 @@ typedef struct s_cmd
 	t_redir			*redirections;
 	struct s_cmd	*next;
 }	t_cmd;
+
+#define PROMPT "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002"
 
 //BUILT_INT
 	// echo
@@ -124,7 +136,7 @@ void	execute(char *path, t_cmd **cmd, char *envp[]);
 void	executing(t_cmd **cmd, char *envp[]);
 void	check_cmd(t_cmd **cmd, char *envp[]);
 	// SIGNALS
-void	signals(void);
+void	signals();
 void	handle_eof(void);
 void	handle_eof(void);
 void	handle_sigint(int sig);
@@ -142,12 +154,15 @@ char	*skip_inside(char quote, char *s);
 char	*dequotencpy(int start, int end, char *s);
 int		copy_args(t_cmd **cmd, char *prompt);
 int		redirections(char c1, char c2);
-	//HELPER_PARSER
+void	expansion(t_cmd **cmd, char *str);
+
+	// HELPER_PARSER
 char	*find_path(char *cmd, char **envp);
 int		built_in_functions(t_cmd **cmd, char **envp);
 	//PARESERING
 void	executing(t_cmd **cmd, char *envp[]);
 	//set_env
+t_env	*save_envp(char **envp);
 void	set_env(char *var, char *value, char **envp);
 
 #endif

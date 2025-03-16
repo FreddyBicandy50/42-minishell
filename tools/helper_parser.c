@@ -1,61 +1,123 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helper_parser.c                                    :+:      :+:    :+:   */
+/*   helper_lexer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/26 18:48:39 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/02/07 14:15:15 by aal-mokd         ###   ########.fr       */
+/*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
+/*   Updated: 2025/03/16 17:01:03 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
 
-char	*find_path(char *cmd, char **envp)
-{
-	char	**paths;
-	char	*path;
-	int		i;
-	char	*part_path;
+/*
+	example "ls -la | grep test"test hello world | grep test
 
-	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (paths[i])
-	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK) == 0)
-			return (free_split(paths), path);
-		free(path);
-		i++;
-	}
-	i = -1;
-	free_split(paths);
-	return (0);
+	skips everything inside the quotations
+	@RETURN test hello world | grep test
+*/
+char *skip_inside(char quote, char *s)
+{
+	while (*s != '\0' && *s != quote)
+		s++;
+	if (*s == '\0')
+		return (NULL);
+	return (s);
 }
 
-int	built_in_functions(t_cmd **cmd, char **envp)
+/*
+	@EXAMPLE "example on dequote and copy"TEST
+
+	start = 0
+	end =33
+	s=@EXAMPLE
+
+	create a variable with enough memorie address
+	Track quotes and skip them
+		eg: "example"
+			=> " will be skipped as well the last one
+
+	@RETURN	example on dequote and copyTEST\0
+*/
+char *dequotencpy(int start, int end, char *s)
 {
-	if (ft_strcmp((*cmd)->command, "echo") == 0)
-		echo_cmd(cmd);
-	else if (ft_strcmp((*cmd)->command, "cd") == 0)
-		cd_cmd(cmd, envp);
-	else if (ft_strcmp((*cmd)->command, "pwd") == 0)
-		pwd_cmd();
-	else if (ft_strcmp((*cmd)->command, "export") == 0)
-		my_export(cmd, envp);
-	else if (ft_strcmp((*cmd)->command, "unset") == 0)
-		my_unset(cmd, envp);
-	else if (ft_strcmp((*cmd)->command, "env") == 0)
-		env_cmd(envp);
-	else if (ft_strcmp((*cmd)->command, "exit") == 0)
-		exit_minishell();
+	int i;
+	int j;
+	char *dest;
+	char in_quote;
+
+	i = -1;
+	j = 0;
+	in_quote = '\0';
+	dest = malloc(sizeof(char) * (end - start + 1));
+	if (!dest)
+		return (NULL);
+	while (++i < (end - start) && s[start + i])
+	{
+		if (in_quote != '\0' && s[start + i] == in_quote)
+			in_quote = '\0';
+		else if (in_quote == '\0' && isquote(s[start + i]))
+		{
+			expansion(NULL, s);
+			in_quote = s[start + i];
+		}
+		else
+			dest[j++] = s[start + i];
+	}
+	dest[j] = '\0';
+	return (dest);
+}
+
+/*
+	@EXAMPLE -ARG1 -FLAG2 -ARG2 > Filename
+
+	check if the command is echo everything after we specify a flag is consider args
+	except for redirections
+
+	ELSE:then
+		skip to the first space
+		calc len word skiped
+		copy without quotes
+		update list of commands arguments
+*/
+int copy_args(t_cmd **cmd, char *prompt)
+{
+	int len;
+	char *argument;
+
+	len = 0;
+	if (ft_strncmp((*cmd)->command, "echo", 4) == 0)
+	{
+		argument = skip_spaces(prompt);
+		while (*argument != '\0' && !redirections(*argument, *(argument + 1)))
+			argument++;
+		len = argument - prompt;
+		argument = dequotencpy(0, len, prompt);
+		struct_update_args(cmd, argument);
+	}
 	else
-		return (1);
-	return (0);
+	{
+		argument = skip_to_c(prompt, ' ');
+		len = argument - prompt;
+		argument = dequotencpy(0, len, prompt);
+		if (*argument == '\0')
+			free(argument);
+		else
+			struct_update_args(cmd, argument);
+	}
+	return (len);
+}
+
+void expansion(t_cmd **cmd, char *str)
+{
+	int i;
+	(void)*cmd;
+	(void)str;
+	(void)i;
+
+	i = 0;
+
+
 }

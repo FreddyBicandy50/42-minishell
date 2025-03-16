@@ -6,12 +6,13 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/09 22:55:10 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 17:09:00 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/minishell.h"
 
+int g_signal = 0;
 /*
  *input= ls -la "test" | grep "test"
  *Steps:
@@ -49,16 +50,23 @@ t_cmd *lexical_analysis(char *input)
 	return (cmd);
 }
 
-t_cmd *tokenization(char *input)
+t_cmd *tokenization(char *input, t_env **env, char **envp)
 {
 	t_cmd *cmd;
 
-	input=skip_spaces(input);
+	*env = save_envp(envp);
+	if (*env == NULL)
+		return NULL;
+	input = skip_spaces(input);
 	if (!input || *input == '\0')
 		return (NULL);
 	cmd = NULL;
 	if (input[0] == '|')
+	{
+		printf("parse error near `|'\n");
+		(*env)->exit_code = 2;
 		return (NULL);
+	}
 	if (skip_to_c(input, '\0') == NULL)
 	{
 		printf("minishell:Error unmatched redirections`\n");
@@ -86,25 +94,24 @@ t_cmd *tokenization(char *input)
 */
 int main(int argc, char *argv[], char *envp[])
 {
-	char *prompt;
 	char *input;
 	t_cmd *cmd;
+	t_env *env;
 
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	prompt = "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002";
 	signals();
+	(void)argv;
+	(void)argc;
 	while (1)
 	{
-		input = readline(prompt);
+		input = readline(PROMPT);
 		if (input == NULL)
 			handle_eof();
 		add_history(input);
-		cmd = tokenization(input);
+		cmd = tokenization(input, &env, envp);
 		free(input);
 		if (cmd)
 		{
+			// expansion(&cmd,envp);
 			struct_print_list(cmd);
 			// executing(&cmd, envp);
 			struct_free_cmd(cmd);

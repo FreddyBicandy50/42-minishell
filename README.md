@@ -4,6 +4,16 @@
    exit code
 
 
+# Mar 16/2025
+   
+   in main.c => 
+               added global variable (g_signal)
+               in tokenization did save_env
+   int minishell.h =>
+               added struct of env
+               added expension function
+               save_envp
+
 # Mar 10/2025
    
    fixed redirection error while sending empty value after redirection

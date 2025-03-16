@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:49:04 by amokdad           #+#    #+#             */
-/*   Updated: 2024/12/30 22:39:54 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 16:27:56 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,13 @@ void	handle_sigint(__attribute__((unused)) int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_signal = 130;
 }
 
-void	signals(void)
+void	signals()
 {
+	
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-}
+	}
+		
