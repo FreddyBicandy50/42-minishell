@@ -6,11 +6,24 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/03/16 18:08:40 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 23:03:07 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void free_envp(t_env *env)
+{
+	t_env *temp;
+
+	while (env != NULL)
+	{
+		temp = env;
+		free(env->variable_name);
+		env = env->next;
+		free(temp);
+	}
+}
 
 t_env *save_envp(char **envp)
 {

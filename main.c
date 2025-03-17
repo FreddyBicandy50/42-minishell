@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 18:07:02 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 23:05:49 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,11 @@ t_cmd *lexical_analysis(char *input, t_env **env)
 	return (cmd);
 }
 
-t_cmd *tokenization(char *input, t_env **env, char **envp)
+t_cmd *tokenization(char *input,t_env *env)
 {
 	t_cmd *cmd;
+	
 
-	*env = save_envp(envp);
-	if (*env == NULL)
-		return NULL;
 	input = skip_spaces(input);
 	if (!input || *input == '\0')
 		return (NULL);
@@ -64,7 +62,7 @@ t_cmd *tokenization(char *input, t_env **env, char **envp)
 	if (input[0] == '|')
 	{
 		printf("parse error near `|'\n");
-		(*env)->exit_code = 2;
+		env->exit_code = 2;
 		return (NULL);
 	}
 	if (skip_to_c(input, '\0') == NULL)
@@ -72,7 +70,7 @@ t_cmd *tokenization(char *input, t_env **env, char **envp)
 		printf("minishell:Error unmatched redirections`\n");
 		return (NULL);
 	}
-	cmd = lexical_analysis(input,env);
+	cmd = lexical_analysis(input,&env);
 	return (cmd);
 }
 
@@ -101,13 +99,14 @@ int main(int argc, char *argv[], char *envp[])
 	signals();
 	(void)argv;
 	(void)argc;
+	env = save_envp(envp);
 	while (1)
 	{
 		input = readline(PROMPT);
 		if (input == NULL)
 			handle_eof();
 		add_history(input);
-		cmd = tokenization(input, &env, envp);
+		cmd = tokenization(input,env);
 		free(input);
 		if (cmd)
 		{
@@ -117,5 +116,6 @@ int main(int argc, char *argv[], char *envp[])
 			struct_free_cmd(cmd);
 		}
 	}
+	free_envp(env);
 	return (0);
 }
