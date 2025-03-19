@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 18:12:09 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:42:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "./../minishell.h"
 
 void execute(char *path, t_cmd **cmd, char *envp[])
 {
@@ -45,20 +45,25 @@ void check_cmd(t_cmd **cmd, char *envp[])
 	char *path;
 	pid_t pid;
 
-	path = find_path((*cmd)->command, envp);
-	if (!path)
-		return;
 	pid = fork();
 	if (pid == 0)
+		handle_redirection(*cmd);
+	if (built_in_functions(cmd, envp) == 1)
 	{
-		//handle_redirection(*cmd);
-		execute(path, cmd, envp);
+		path = find_path((*cmd)->command, envp);
+		if (!path)
+			return;
+		
+		if (pid == 0)
+			execute(path, cmd, envp);
+		else if (pid < 0)
+			ft_error(cmd, "Error forking", NULL);
+		else
+			wait(NULL);
+		free(path);
 	}
-	else if (pid < 0)
-		ft_error(cmd, "Error forking", NULL);
-	else
-		wait(NULL);
-	free(path);
+	if ((*cmd)->redirections != NULL)
+		restore_std(*cmd);
 }
 
 void executing(t_cmd **cmd, char *envp[])

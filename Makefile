@@ -6,7 +6,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g  -I$(INCLUDES)
 SRCS = main.c \
 	Builtin/cd.c Builtin/echo.c Builtin/env.c Builtin/exit.c Builtin/export.c Builtin/pwd.c Builtin/unset.c \
-	Execution/executing.c Execution/helper_execute.c \
+	Execution/executing.c Execution/helper_execute.c Execution/redirections.c \
 	Get_next_line/get_next_line.c Get_next_line/get_next_line_utils.c \
 	System/set_env.c  System/signals.c \
 	Tokenization/parsing.c Tokenization/helper_parser.c  Tokenization/helper_functions.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/03/16 18:12:20 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:36:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 // handel redirection
 // for redire->type :
-// 1 ----> reade from file.
-// 2 ----> Clears the file content before writing.
-// 3 ---->  Adds new data to the end of the file
+// 1(< ) ----> reade from file.
+// 2(> ) ----> Clears the file content before writing.
+// 4(>>) ---->  Adds new data to the end of the file
 // 			without removing existing content.
-// 4 ----> open heredoc
+// 3(<<) ----> open heredoc
 
 void	handle_heredoc(t_redir *redir)
 {
@@ -71,7 +71,11 @@ void	handle_write(t_redir *redir)
 		perror("Output redirection failed");
 		exit(1);
 	}
-	dup2(fd, STDOUT_FILENO);
+	if (dup2(fd, STDOUT_FILENO) == -1)
+	{
+		perror("Error redirecting output to file");
+		exit(1);
+	}
 	close(fd);
 }
 
@@ -80,7 +84,12 @@ void	handle_redirection(t_cmd *cmd)
 	int		fd;
 	t_redir	*redir;
 
-	redir = cmd->redirections;
+	if (cmd->redirections)
+		redir = cmd->redirections;
+	else 
+		return ;
+	printf("Redirecting to file: %s\n", redir->filename);
+	printf("Redirecting type: %d\n", redir->type);
 	while (redir != NULL)
 	{
 		if (redir->type == 1)
@@ -96,10 +105,44 @@ void	handle_redirection(t_cmd *cmd)
 		}
 		else if (redir->type == 2)
 			handle_write(redir);
-		else if (redir->type == 3)
-			handle__append(redir);
 		else if (redir->type == 4)
-			handle_heredoc(redir);
+			handle_append(redir);
+		// else if (ft_strcmp(redir->type, "<<") == 0)
+		// 	handle_heredoc(redir);
 		redir = redir->next;
 	}
+}
+
+void	restore_std(t_cmd *cmd)
+{
+	t_redir	*redir;
+	int		saved_stdin;
+	int		saved_stdout;
+
+
+	saved_stdin = dup(STDIN_FILENO);
+	if (saved_stdin == -1) {
+		perror("Error saving STDIN");
+		exit(1);
+	}
+	saved_stdout = dup(STDOUT_FILENO);
+	if (saved_stdout == -1) {
+		perror("Error saving STDOUT");
+		exit(1);
+	}
+	redir = cmd->redirections;
+	while (redir != NULL)
+	{
+		if (redir->type == 1)
+		{
+			dup2(saved_stdin, STDIN_FILENO);
+		}
+		else if (redir->type == 2 || redir->type == 4)
+		{
+			dup2(saved_stdout, STDOUT_FILENO);
+		}
+		redir = redir->next;
+	}
+	close(saved_stdin);
+	close(saved_stdout);
 }

@@ -161,6 +161,8 @@ char	*find_path(char *cmd, char **envp);
 int		built_in_functions(t_cmd **cmd, char **envp);
 	//PARESERING
 void	executing(t_cmd **cmd, char *envp[]);
+void	handle_redirection(t_cmd *cmd);
+void	restore_std(t_cmd *cmd);
 	//set_env
 t_env	*save_envp(char **envp);
 void	set_env(char *var, char *value, char **envp);

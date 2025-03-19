@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 18:07:02 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:56:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int main(int argc, char *argv[], char *envp[])
 		{
 			// expansion(&cmd,envp);
 			struct_print_list(cmd);
-			// executing(&cmd, envp);
+			executing(&cmd, envp);
 			struct_free_cmd(cmd);
 		}
 	}

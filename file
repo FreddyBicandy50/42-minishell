@@ -1,0 +1,21 @@
+Builtin
+Execution
+Get_next_line
+Libft
+Makefile
+README.md
+System
+Tokenization
+file
+hi
+main.c
+minishell
+minishell.h
+/mnt/c/Users/dell/Desktop/42_project/minishell
+[?2004h[45m>>> [0m[33m Minishell>$ [0m^C[?2004l
+
+[?2004h[?2004l
+[?2004h[45m>>> [0m[33m Minishell>$ [0m[?2004l
+[?2004h[45m>>> [0m[33m Minishell>$ [0m[?2004l
+
+Exiting minishell...
