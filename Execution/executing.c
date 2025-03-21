@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/19 14:42:50 by marvin           ###   ########.fr       */
+/*   Updated: 2025/03/21 15:16:48 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,85 @@ void execute(char *path, t_cmd **cmd, char *envp[])
 	free(exec_args);
 }
 
-void check_cmd(t_cmd **cmd, char *envp[])
+void	check_cmd(t_cmd **cmd, char *envp[])
 {
-	char *path;
-	pid_t pid;
+	char	*path;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
-		handle_redirection(*cmd);
-	if (built_in_functions(cmd, envp) == 1)
 	{
-		path = find_path((*cmd)->command, envp);
-		if (!path)
-			return;
-		
-		if (pid == 0)
+		handle_redirection(*cmd);
+		if (built_in_functions(cmd, envp) == 1)
+		{
+			path = find_path((*cmd)->command, envp);
+			if (!path)
+				return ;
 			execute(path, cmd, envp);
-		else if (pid < 0)
-			ft_error(cmd, "Error forking", NULL);
-		else
-			wait(NULL);
-		free(path);
+			free(path);
+			return ;
+		}
 	}
+	else
+		wait (NULL);
 	if ((*cmd)->redirections != NULL)
 		restore_std(*cmd);
 }
 
-void executing(t_cmd **cmd, char *envp[])
+void	executing(t_cmd **cmd, char *envp[])
 {
-	check_cmd(cmd, envp);
+	int		fd[2];
+	int		pid;
+	t_cmd	*current_cmd;
+	int		input_fd;
+
+	current_cmd = *cmd;
+	input_fd = 0;
+	if ((*cmd)->next == NULL)
+		check_cmd(cmd, envp);
+	else
+	{
+		while (current_cmd != NULL)
+		{
+			if (current_cmd->next != NULL)
+			{
+				if (pipe(fd) == -1)
+				{
+					perror("Error creating pipe");
+					return ;
+				}
+			}
+
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("Error forking");
+				return ;
+			}
+
+			if (pid == 0)
+			{
+				if (input_fd != 0)
+				{
+					dup2(input_fd, 0);
+					close(input_fd);
+				}
+				if (current_cmd->next != NULL)
+				{
+					dup2(fd[1], 1);
+					close(fd[1]);
+				}
+				check_cmd(&current_cmd, envp);
+				return ;
+			}
+			else
+			{
+				if (current_cmd->next != NULL)
+					close(fd[1]);
+				input_fd = fd[0];
+				current_cmd = current_cmd->next;
+				wait (NULL);
+			}
+		}
+	}
 }
