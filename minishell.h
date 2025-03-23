@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 18:04:38 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/23 16:19:34 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int		copy_args(t_cmd **cmd, char *prompt);
 	//PARESERING
 void	execute(char *path, t_cmd **cmd, char *envp[]);
 void	executing(t_cmd **cmd, char *envp[]);
-void	check_cmd(t_cmd **cmd, char *envp[]);
+void	check_cmd(t_cmd **cmd, char *envp[], int pipe_fd[2]);
 	// SIGNALS
 void	signals();
 void	handle_eof(void);
