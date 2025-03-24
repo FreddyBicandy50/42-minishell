@@ -80,7 +80,6 @@ int main()
   seg[2] = "s \'no $expand test\'";
   seg[3] = NULL;
 
-  int j;
   int i;
   char **Exp_seg;
   char *prev;
@@ -124,5 +123,4 @@ int main()
   if (s)
     free(s);
   free_split(seg);
-  seg=Exp_seg); //return
 }

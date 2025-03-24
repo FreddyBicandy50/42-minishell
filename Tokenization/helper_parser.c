@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/23 00:38:27 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/25 00:24:16 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,21 +106,44 @@ int copy_args(t_cmd **cmd, char *prompt)
 }
 void expansion(t_env *env, char **segments)
 {
-	char **expanded_segment;
-	char *variable;
 	int i;
+	int len;
+	char **Exp_seg;
+	char *prev;
+	char *next;
+	char *s;
+	char *value;
 
-	if (!segments)
-		return;
+	s = strdup(" ");
+	prev = NULL;
 	i = 0;
 	while (segments[i])
 		i++;
-	expanded_segment = malloc((i + 1) * sizeof(char *));
-	i = 0;
-	while (segments[i])
+	Exp_seg = malloc(sizeof(char *) * i);
+	i = -1;
+	while (segments[++i])
 	{
-		variable = skip_to_c(variable,'$');
-		return;
-		i++;
+		next = strdup(set_page_length[i]);
+		while (s)
+		{
+			free(s);
+			s = strdup(skip_to_c(next, '$'));
+			if (*s == '\0' || s == NULL)
+				break;
+			len = skip_to_c(next, '$') - next;
+			value = get_env_value(env,s);
+			prev = strndup(next, len);
+			free(next);
+			next = ft_strjoin(prev, value);
+			free(prev);
+			free(value);
+		}
+		Exp_seg[i++] = strdup(next);
+		free(next);
 	}
+	if (s)
+		free(s);
+	free_split(segments);
+	segments = Exp_seg;
+	return;
 }
