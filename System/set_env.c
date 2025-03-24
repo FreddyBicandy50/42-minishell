@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/03/16 23:03:07 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:08:24 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@ void free_envp(t_env *env)
 		env = env->next;
 		free(temp);
 	}
+}
+char *get_env_value(t_env *env, char *key)
+{
+    while (env)
+    {
+        if (ft_strcmp(env->variable_name, key) == 0)
+            return (ft_strdup(env->variable_name));
+        env = env->next;
+    }
+    return (NULL);
 }
 
 t_env *save_envp(char **envp)

@@ -1,7 +1,6 @@
 //TODO 
-   Executing Pipes and redirecitons , heredoc
-   dollar sign expansion
-   exit code
+   ls -la "TEST"  '$noexpande here'$expande_here $expander | grep -$FLAG   
+
 
 
 # Mar 16/2025

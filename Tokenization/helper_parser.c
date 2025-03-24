@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 18:07:27 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/23 00:38:27 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char *skip_inside(char quote, char *s)
 
 	@RETURN	example on dequote and copyTEST\0
 */
-char	*dequotencpy(int start, int end, char *s)
+char *dequotencpy(int start, int end, char *s)
 {
 	int i;
 	int j;
@@ -52,17 +52,12 @@ char	*dequotencpy(int start, int end, char *s)
 	j = 0;
 	in_quote = '\0';
 	dest = malloc(sizeof(char) * (end - start + 1));
-	if (!dest)
-		return (NULL);
 	while (++i < (end - start) && s[start + i])
 	{
 		if (in_quote != '\0' && s[start + i] == in_quote)
 			in_quote = '\0';
 		else if (in_quote == '\0' && isquote(s[start + i]))
-		{
-			expansion(NULL, s);
 			in_quote = s[start + i];
-		}
 		else
 			dest[j++] = s[start + i];
 	}
@@ -109,15 +104,23 @@ int copy_args(t_cmd **cmd, char *prompt)
 	}
 	return (len);
 }
-
-void expansion(t_cmd **cmd, char *str)
+void expansion(t_env *env, char **segments)
 {
+	char **expanded_segment;
+	char *variable;
 	int i;
-	(void)*cmd;
-	(void)str;
-	(void)i;
 
+	if (!segments)
+		return;
 	i = 0;
-
-
+	while (segments[i])
+		i++;
+	expanded_segment = malloc((i + 1) * sizeof(char *));
+	i = 0;
+	while (segments[i])
+	{
+		variable = skip_to_c(variable,'$');
+		return;
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 14:52:13 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 18:12:37 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:56:01 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,11 @@ int redirections(char c1, char c2)
 int isprintable(char c)
 {
 	return (c >= 32 && c <= 126);
+}
+
+int ft_isalnum(int c)
+{
+    return ((c >= 'A' && c <= 'Z') || 
+            (c >= 'a' && c <= 'z') || 
+            (c >= '0' && c <= '9'));
 }
