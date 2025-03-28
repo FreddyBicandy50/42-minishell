@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/22 23:52:01 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 23:05:49 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int g_signal = 0;
  *	each string in the returned segment is a command
  *  start tokenization method
  */
-t_cmd *lexical_analysis(char *input, t_env *env)
+t_cmd *lexical_analysis(char *input, t_env **env)
 {
 	t_cmd *cmd;
 	t_cmd *new_cmd;
@@ -32,10 +32,11 @@ t_cmd *lexical_analysis(char *input, t_env *env)
 	cmd = NULL;
 	new_cmd = NULL;
 	segments = ft_shell_split(input, '|');
-	expansion(env,segments);
+	if (segments == NULL)
+		return (NULL);
 	while (segments[++i] != NULL)
 	{
-		new_cmd = parsing(segments[i]);
+		new_cmd = parsing(segments[i],env);
 		if (!new_cmd)
 		{
 			struct_free_cmd(cmd);
@@ -49,9 +50,10 @@ t_cmd *lexical_analysis(char *input, t_env *env)
 	return (cmd);
 }
 
-t_cmd *tokenization(char *input, t_env *env)
+t_cmd *tokenization(char *input,t_env *env)
 {
 	t_cmd *cmd;
+	
 
 	input = skip_spaces(input);
 	if (!input || *input == '\0')
@@ -68,7 +70,7 @@ t_cmd *tokenization(char *input, t_env *env)
 		printf("minishell:Error unmatched redirections`\n");
 		return (NULL);
 	}
-	cmd = lexical_analysis(input, env);
+	cmd = lexical_analysis(input,&env);
 	return (cmd);
 }
 
@@ -104,11 +106,11 @@ int main(int argc, char *argv[], char *envp[])
 		if (input == NULL)
 			handle_eof();
 		add_history(input);
-		cmd = tokenization(input, env);
+		cmd = tokenization(input,env);
 		free(input);
 		if (cmd)
 		{
-
+			// expansion(&cmd,envp);
 			struct_print_list(cmd);
 			// executing(&cmd, envp);
 			struct_free_cmd(cmd);

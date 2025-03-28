@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/17 21:45:22 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/16 23:02:46 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,7 @@ char	*get_next_line(int fd);
 int		isquote(char c);
 int		redirections(char c1, char c2);
 int		isprintable(char c);
-int		ft_isalnum(int c);
-
-// ft_strcat.c
+	// ft_strcat.c
 void	ft_strcat(char *dest, const char *src);
 	// ft_strchr.c
 char	*ft_strchr(char const *str, int c);
@@ -111,8 +109,7 @@ char	*ft_strdup(char *s);
 char	*ft_strndup(const char *s, size_t n);
 	// ft_strjoin.c
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strjoin_free(char *s1, char *s2);
-// ft_strlcpy.c
+	// ft_strlcpy.c
 size_t	ft_strlcpy(char *dst, char *src, size_t size);
 	// ft_strlen.c
 int		ft_strlen(char *str);
@@ -144,8 +141,7 @@ size_t	ft_wordcount(char *s, char c);
 void	free_envp(t_env *env);
 t_env	*save_envp(char **envp);
 void	set_env(char *var, char *value, char **envp);
-char	*get_env_value(t_env *env, char *key);
-// signals.c
+	// signals.c
 void	signals();
 void	handle_eof(void);
 void	handle_eof(void);
@@ -155,7 +151,7 @@ void	handle_sigquit(__attribute__((unused)) int sig);
 
 // Tokenization Folder
 	// parsing.c
-t_cmd	*parsing(char *prompt);
+t_cmd	*parsing(char *prompt,t_env **env);
 char	*rediretions_token(t_cmd **cmd, char *prompt);
 char	*args_token(t_cmd **cmd, int i, char *prompt);
 char	*flags_token(t_cmd **cmd, char *prompt);
@@ -171,6 +167,7 @@ char	*skip_inside(char quote, char *s);
 char	*dequotencpy(int start, int end, char *s);
 int		copy_args(t_cmd **cmd, char *prompt);
 int		redirections(char c1, char c2);
-void	expansion(t_env *env, char **segments);
+void	expansion(t_cmd **cmd, char *str);
+
 
 #endif
