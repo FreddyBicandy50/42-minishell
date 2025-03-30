@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/17 20:19:33 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 18:31:04 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char *command_token(t_cmd **cmd, char *prompt)
 	return (prompt + len);
 }
 
-t_cmd *parsing(char *prompt)
+t_cmd *tokenizing(char *prompt)
 {
 	t_cmd *new_cmd;
 

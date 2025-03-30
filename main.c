@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/30 13:40:00 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 18:54:56 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,36 +37,41 @@ t_cmd *lexical_analysis(char *input, t_env *env)
 	segments = expansion(env, segments);
 	while (segments[++i] != NULL)
 	{
-		printf("segment[%d]: %s\n", i, segments[i]);
-		// new_cmd = parsing(segments[i]);
-		// if (!new_cmd)
-		// {
-		// 	struct_free_cmd(cmd);
-		// 	cmd = NULL;
-		// 	break;
-		// }
-		// else
-		// 	struct_addback_list(&cmd, new_cmd);
+		new_cmd = tokenizing(segments[i]);
+		if (!new_cmd)
+		{
+			struct_free_cmd(cmd);
+			cmd = NULL;
+			break;
+		}
+		else
+			struct_addback_list(&cmd, new_cmd);
 	}
 	free_split(segments);
-	exit(0);
 	return (cmd);
 }
 
-t_cmd *tokenization(char *input, t_env *env)
+t_cmd *parsing(char *input, t_env *env)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
+	char *next_non_space;
+	int i;
 
 	input = skip_spaces(input);
 	if (!input || *input == '\0')
 		return (NULL);
-	cmd = NULL;
-	if (input[0] == '|')
-	{
-		printf("parse error near `|'\n");
-		env->exit_code = 2;
-		return (NULL);
-	}
+	i = 0;
+	while (input[i])
+    {
+        next_non_space = skip_spaces(input + i + 1);
+        if (input[0] == '|' || (i > 0 && (input[i] == '|' && next_non_space && *next_non_space == '|')))
+        {
+            printf("parse error near `|'\n");
+            env->exit_code = 2;
+            return (NULL);
+        }
+        i++;
+    }
 	if (skip_to_c(input, '\0') == NULL)
 	{
 		printf("minishell:Error unmatched redirections`\n");
@@ -108,7 +113,7 @@ int main(int argc, char *argv[], char *envp[])
 		if (input == NULL)
 			handle_eof();
 		add_history(input);
-		cmd = tokenization(input, env);
+		cmd = parsing(input, env);
 		free(input);
 		if (cmd)
 		{

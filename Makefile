@@ -9,7 +9,7 @@ SRCS = main.c \
 	Execution/executing.c Execution/helper_execute.c \
 	Get_next_line/get_next_line.c Get_next_line/get_next_line_utils.c \
 	System/set_env.c  System/signals.c \
-	Tokenization/parsing.c Tokenization/helper_parser.c  Tokenization/helper_functions.c \
+	Tokenization/tokenizing.c Tokenization/helper_tokenizer.c  Tokenization/helper_functions.c \
 
 OBJECTS = $(SRCS:.c=.o)
 

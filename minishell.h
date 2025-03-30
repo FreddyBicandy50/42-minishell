@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/30 12:45:19 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 18:30:29 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void	handle_sigquit(__attribute__((unused)) int sig);
 
 // Tokenization Folder
 	// parsing.c
-t_cmd	*parsing(char *prompt);
+t_cmd	*tokenizing(char *prompt);
 char	*rediretions_token(t_cmd **cmd, char *prompt);
 char	*args_token(t_cmd **cmd, int i, char *prompt);
 char	*flags_token(t_cmd **cmd, char *prompt);
