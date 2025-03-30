@@ -6,24 +6,15 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/30 12:53:03 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 23:29:54 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_error(t_cmd **cmd, char *message, char *str)
+void	update_redirections(t_cmd **cmd, t_redir *new_redirection)
 {
-	if (str)
-		printf("%s%s\n", message, str);
-	else
-		printf("%s\n", message);
-	struct_free_cmd(*cmd);
-}
-
-void update_redirections(t_cmd **cmd, t_redir *new_redirection)
-{
-	t_redir *temp;
+	t_redir	*temp;
 
 	if ((*cmd)->redirections == NULL)
 		(*cmd)->redirections = new_redirection;
@@ -34,14 +25,14 @@ void update_redirections(t_cmd **cmd, t_redir *new_redirection)
 			temp = temp->next;
 		temp->next = new_redirection;
 	}
-	return;
+	return ;
 }
 
-int redirection_param(t_cmd **cmd, char *prompt, int type)
+int	redirection_param(t_cmd **cmd, char *prompt, int type)
 {
-	char *filename;
-	int len;
-	t_redir *new_redirection;
+	char	*filename;
+	int		len;
+	t_redir	*new_redirection;
 
 	filename = skip_to_c(prompt, ' ');
 	len = filename - prompt;
@@ -65,12 +56,12 @@ int redirection_param(t_cmd **cmd, char *prompt, int type)
 	IF C IS ' ' (AKA space)
 	@RETURN "helo World this is a skip to c function"Code
 */
-char *skip_to_c(char *s, char c)
+char	*skip_to_c(char *s, char c)
 {
 	while (*s != '\0' && *s != c)
 	{
-		if ( (c != '|' && c!='$')  && redirections(*s, *(s + 1)) != 0)
-			break;
+		if ((c != '|' && c != '$') && redirections(*s, *(s + 1)) != 0)
+			break ;
 		if (isquote(*s))
 			s = skip_inside(*s, s + 1);
 		if (s == NULL)
@@ -92,10 +83,10 @@ char *skip_to_c(char *s, char c)
 	@RETURN 12 chars(how many letter we read from
 	prompt to be able to skip them with prompt+=len)
 */
-int copy_flag(t_cmd **cmd, int i, char *prompt)
+int	copy_flag(t_cmd **cmd, int i, char *prompt)
 {
-	char *flag;
-	int len;
+	char	*flag;
+	int		len;
 
 	flag = skip_to_c(prompt, ' ');
 	len = flag - prompt;

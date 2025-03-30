@@ -19,7 +19,8 @@
         "functional": "c",
         "tuple": "c",
         "type_traits": "c",
-        "utility": "c"
+        "utility": "c",
+        "curses.h": "c"
     },
     "files.autoSave": "afterDelay",
     "editor.fontSize": 21,

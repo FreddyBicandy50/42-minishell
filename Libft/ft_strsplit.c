@@ -6,15 +6,15 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 16:40:15 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 18:13:11 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 20:22:01 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void free_split(char **args)
+void	free_split(char **args)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (args[i] != NULL)
@@ -30,9 +30,9 @@ void free_split(char **args)
 	ex: ls "HELLO |WORLD" | grep "test" | sort
 	@RETURN number of commands=4
 */
-int ft_split_counts(char *s, char c)
+int	ft_split_counts(char *s, char c)
 {
-	size_t split_counts;
+	size_t	split_counts;
 
 	split_counts = 0;
 	s = skip_spaces(s);
@@ -41,11 +41,6 @@ int ft_split_counts(char *s, char c)
 		if (*s != c)
 		{
 			s = skip_to_c(s, c);
-			if (!s)
-			{
-				printf("Error: unmatched quotes\n");
-				return (-1);
-			}
 			split_counts++;
 		}
 		else
@@ -72,12 +67,12 @@ int ft_split_counts(char *s, char c)
 			copy this ...
 	find the manuals for skip to c for more details
 */
-char **ft_shell_split(char *s, char c)
+char	**ft_shell_split(char *s, char c)
 {
-	char *word_start;
-	char **tabs;
-	int split_counts;
-	size_t i;
+	char	*word_start;
+	char	**tabs;
+	int		split_counts;
+	size_t	i;
 
 	split_counts = ft_split_counts(s, c);
 	if (split_counts <= 0)
@@ -100,11 +95,11 @@ char **ft_shell_split(char *s, char c)
 	return (tabs);
 }
 
-char **ft_split(char *s, char c)
+char	**ft_split(char *s, char c)
 {
-	const char *word_start;
-	char **tabs;
-	size_t i;
+	const char	*word_start;
+	char		**tabs;
+	size_t		i;
 
 	tabs = malloc((ft_wordcount(s, c) + 1) * sizeof(char *));
 	if (!s || !tabs)

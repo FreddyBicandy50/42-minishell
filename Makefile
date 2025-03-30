@@ -8,8 +8,8 @@ SRCS = main.c \
 	Builtin/cd.c Builtin/echo.c Builtin/env.c Builtin/exit.c Builtin/export.c Builtin/pwd.c Builtin/unset.c \
 	Execution/executing.c Execution/helper_execute.c \
 	Get_next_line/get_next_line.c Get_next_line/get_next_line_utils.c \
-	System/set_env.c  System/signals.c \
-	Tokenization/tokenizing.c Tokenization/helper_tokenizer.c  Tokenization/helper_functions.c \
+	System/set_env.c  System/signals.c\
+	Tokenization/tokenizing.c Tokenization/helper_tokenizer.c  Tokenization/helper_functions.c Tokenization/helper_expander.c \
 
 OBJECTS = $(SRCS:.c=.o)
 

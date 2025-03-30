@@ -1,7 +1,12 @@
-//TODO 
-   ls -la "TEST"  '$noexpande here'$expande_here $expander | grep -$FLAG   
+// TODO HERE_DOC 
 
+# Mar 29/2025
 
+   implemented expansion with norm
+   added hepler_expander
+   fixed norm errors
+   fixed exit codes 
+   
 
 # Mar 16/2025
    

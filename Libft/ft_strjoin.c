@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 17:06:47 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/24 22:50:21 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 19:40:19 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (join);
 }
 
-char *ft_strjoin_free(char *s1, char *s2)
+char	*ft_strjoin_free(char *s1, char *s2)
 {
-    char *joined;
-    
-    if (!s1 || !s2)
-        return (NULL);
-    joined = ft_strjoin(s1, s2);
-    free(s1);
-    return (joined);
+	char	*joined;
+
+	if (!s1 || !s2)
+		return (NULL);
+	joined = ft_strjoin(s1, s2);
+	free(s1);
+	return (joined);
 }

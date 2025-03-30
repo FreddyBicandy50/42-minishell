@@ -6,11 +6,18 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:49:04 by amokdad           #+#    #+#             */
-/*   Updated: 2025/03/16 18:25:25 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 23:23:27 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_error(t_env **env, char *errmessage, int error_code)
+{
+	printf("%s\n", errmessage);
+	(*env)->exit_code = error_code;
+	(*env)->exit_status = 1;
+}
 
 void	handle_eof(void)
 {
@@ -28,10 +35,8 @@ void	handle_sigint(__attribute__((unused)) int sig)
 	g_signal = 130;
 }
 
-void	signals()
+void	signals(void)
 {
-	
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	}
-		
+}

@@ -6,17 +6,17 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 18:12:09 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 23:29:41 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void execute(char *path, t_cmd **cmd, char *envp[])
+void	execute(char *path, t_cmd **cmd, char *envp[])
 {
-	char **exec_args;
-	int i;
-	int j;
+	char	**exec_args;
+	int		i;
+	int		j;
 
 	j = 0;
 	i = 1;
@@ -40,28 +40,27 @@ void execute(char *path, t_cmd **cmd, char *envp[])
 	free(exec_args);
 }
 
-void check_cmd(t_cmd **cmd, char *envp[])
+void	check_cmd(t_cmd **cmd, char *envp[])
 {
-	char *path;
-	pid_t pid;
+	char	*path;
+	pid_t	pid;
 
 	path = find_path((*cmd)->command, envp);
 	if (!path)
-		return;
+		return ;
 	pid = fork();
 	if (pid == 0)
 	{
-		//handle_redirection(*cmd);
 		execute(path, cmd, envp);
 	}
 	else if (pid < 0)
-		ft_error(cmd, "Error forking", NULL);
+		printf("Error forking");
 	else
 		wait(NULL);
 	free(path);
 }
 
-void executing(t_cmd **cmd, char *envp[])
+void	executing(t_cmd **cmd, char *envp[])
 {
 	check_cmd(cmd, envp);
 }

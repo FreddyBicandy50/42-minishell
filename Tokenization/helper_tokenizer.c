@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helper_parser.c                                    :+:      :+:    :+:   */
+/*   helper_tokenizer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/30 14:13:54 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 23:28:14 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 	skips everything inside the quotations
 	@RETURN test hello world | grep test
 */
-char *skip_inside(char quote, char *s)
+char	*skip_inside(char quote, char *s)
 {
 	while (*s != '\0' && *s != quote)
 		s++;
@@ -41,12 +41,12 @@ char *skip_inside(char quote, char *s)
 
 	@RETURN	example on dequote and copyTEST\0
 */
-char *dequotencpy(int start, int end, char *s)
+char	*dequotencpy(int start, int end, char *s)
 {
-	int i;
-	int j;
-	char *dest;
-	char in_quote;
+	int		i;
+	int		j;
+	char	*dest;
+	char	in_quote;
 
 	i = -1;
 	j = 0;
@@ -68,7 +68,8 @@ char *dequotencpy(int start, int end, char *s)
 /*
 	@EXAMPLE -ARG1 -FLAG2 -ARG2 > Filename
 
-	check if the command is echo everything after we specify a flag is consider args
+	check if the command is echo everything after we
+		specify a flag is consider args
 	except for redirections
 
 	ELSE:then
@@ -77,10 +78,10 @@ char *dequotencpy(int start, int end, char *s)
 		copy without quotes
 		update list of commands arguments
 */
-int copy_args(t_cmd **cmd, char *prompt)
+int	copy_args(t_cmd **cmd, char *prompt)
 {
-	int len;
-	char *argument;
+	int		len;
+	char	*argument;
 
 	len = 0;
 	if (ft_strncmp((*cmd)->command, "echo", 4) == 0)
@@ -105,80 +106,27 @@ int copy_args(t_cmd **cmd, char *prompt)
 	return (len);
 }
 
-char *expand(t_env *env, char *key)
-{
-	char *expanded;
-	char *rawvar;
-	char *value;
-	int i;
-
-	if (*key != '$')
-		return NULL;
-	key++;
-	if (*key >= '0' && *key <= '9')
-	{
-		key++;
-		return (ft_strdup(key));
-	}
-	i = 0;
-	while (key[i] != '\0' && ft_isalnum(key[i]))
-		i++;
-	rawvar = ft_strndup(key, i);
-	value = get_env_value(env, rawvar);
-	free(rawvar);
-	key += i;
-	if (value == NULL)
-		return (ft_strdup(key));
-	expanded = ft_strjoin(value, key);
-	free(value);
-	return (expanded);
-}
-
 /*
 	@EXAMPLE $HOME/test
 
 	@RETURN /home/user/test
 */
-char **expansion(t_env *env, char **segments)
+char	**expansion(t_env *env, char **segments)
 {
-	int i;
-	int len;
-	char **expandedsegments;
-	char *prev;
-	char *next;
-	char *s;
-	char *value;
+	int			i;
+	t_expand	expander;
 
-	s = ft_strdup(" ");
-	prev = NULL;
-	i = 0;
-	while (segments[i])
-		i++;
-	expandedsegments = malloc(sizeof(char *) * (i + 1));
-	i = -1;
+	i = init_expansion(&expander, segments);
 	while (segments[++i])
 	{
-		next = ft_strdup(segments[i]);
-		while (s)
-		{
-			free(s);
-			s = ft_strdup(skip_to_c(next, '$'));
-			if (!s || !*s)
-				break;
-			len = skip_to_c(next, '$') - next;
-			value = expand(env, s);
-			prev = ft_strndup(next, len);
-			free(next);
-			next = ft_strjoin(prev, value);
-			free(prev);
-			free(value);
-		}
-		expandedsegments[i] = ft_strdup(next);
-		free(next);
+		expander.next_section = ft_strdup(segments[i]);
+		expansion_mechanism(&expander, env);
+		expander.expanded_segements[i] = ft_strdup(expander.next_section);
+		free(expander.next_section);
 	}
-	if (s)
-		free(s);
+	if (expander.section)
+		free(expander.section);
 	free_split(segments);
-	expandedsegments[i] = NULL;
-	return expandedsegments;
+	expander.expanded_segements[i] = NULL;
+	return (expander.expanded_segements);
 }

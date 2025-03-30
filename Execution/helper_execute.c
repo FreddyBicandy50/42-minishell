@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 18:48:39 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 18:12:02 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 19:39:25 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 char	*find_variable(char **envp)
 {
-	(void) *envp;
-	
+	(void)*envp;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 14:38:55 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/03/16 18:08:51 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 23:25:25 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ void	handle_input_redirection(t_cmd **cmd)
 
 void	execute_command(t_cmd **cmd, char **envp, int *pipe_fd)
 {
-	int pid;
+	int		pid;
+	char	*path;
 
 	pid = fork();
 	if (pid == 0)
@@ -110,7 +111,7 @@ void	execute_command(t_cmd **cmd, char **envp, int *pipe_fd)
 		handle_redirection(cmd, pipe_fd);
 		if (built_in_functions(cmd, envp) == 1)
 		{
-			char *path = find_path((*cmd)->command, envp);
+			path = find_path((*cmd)->command, envp);
 			if (path)
 			{
 				execute(path, cmd, envp);
@@ -130,7 +131,7 @@ void	execute_command(t_cmd **cmd, char **envp, int *pipe_fd)
 
 void	wait_for_children(void)
 {
-	int status;
+	int	status;
 
 	while (wait(&status) > 0)
 		;
@@ -138,7 +139,7 @@ void	wait_for_children(void)
 
 void	parser(t_cmd **cmd, char **envp)
 {
-	int pipe_fd[2];
+	int	pipe_fd[2];
 
 	while (*cmd != NULL)
 	{
