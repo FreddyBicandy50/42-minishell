@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/17 21:45:22 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 12:45:19 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ extern	int g_signal;
 typedef struct s_env
 {
 	char			*variable_name;
+	char			*value;
 	bool			flag;
 	int				exit_code;
 	struct s_env	*next;
@@ -171,6 +172,6 @@ char	*skip_inside(char quote, char *s);
 char	*dequotencpy(int start, int end, char *s);
 int		copy_args(t_cmd **cmd, char *prompt);
 int		redirections(char c1, char c2);
-void	expansion(t_env *env, char **segments);
+char **expansion(t_env *env, char **segments);
 
 #endif

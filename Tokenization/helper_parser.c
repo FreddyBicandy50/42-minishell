@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/29 10:01:13 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 14:13:54 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,46 +104,81 @@ int copy_args(t_cmd **cmd, char *prompt)
 	}
 	return (len);
 }
-void expansion(t_env *env, char **segments)
+
+char *expand(t_env *env, char *key)
+{
+	char *expanded;
+	char *rawvar;
+	char *value;
+	int i;
+
+	if (*key != '$')
+		return NULL;
+	key++;
+	if (*key >= '0' && *key <= '9')
+	{
+		key++;
+		return (ft_strdup(key));
+	}
+	i = 0;
+	while (key[i] != '\0' && ft_isalnum(key[i]))
+		i++;
+	rawvar = ft_strndup(key, i);
+	value = get_env_value(env, rawvar);
+	free(rawvar);
+	key += i;
+	if (value == NULL)
+		return (ft_strdup(key));
+	expanded = ft_strjoin(value, key);
+	free(value);
+	return (expanded);
+}
+
+/*
+	@EXAMPLE $HOME/test
+
+	@RETURN /home/user/test
+*/
+char **expansion(t_env *env, char **segments)
 {
 	int i;
 	int len;
-	char **Exp_seg;
+	char **expandedsegments;
 	char *prev;
 	char *next;
 	char *s;
 	char *value;
 
-	s = strdup(" ");
+	s = ft_strdup(" ");
 	prev = NULL;
 	i = 0;
 	while (segments[i])
 		i++;
-	Exp_seg = malloc(sizeof(char *) * i);
+	expandedsegments = malloc(sizeof(char *) * (i + 1));
 	i = -1;
 	while (segments[++i])
 	{
-		next = strdup(set_page_length[i]);
+		next = ft_strdup(segments[i]);
 		while (s)
 		{
 			free(s);
-			s = strdup(skip_to_c(next, '$'));
-			if (*s == '\0' || s == NULL)
+			s = ft_strdup(skip_to_c(next, '$'));
+			if (!s || !*s)
 				break;
 			len = skip_to_c(next, '$') - next;
-			value = get_env_value(env,s);
-			prev = strndup(next, len);
+			value = expand(env, s);
+			prev = ft_strndup(next, len);
 			free(next);
 			next = ft_strjoin(prev, value);
 			free(prev);
 			free(value);
 		}
-		Exp_seg[i++] = strdup(next);
+		expandedsegments[i] = ft_strdup(next);
 		free(next);
 	}
 	if (s)
 		free(s);
 	free_split(segments);
-	segments = Exp_seg;
-	return;
+	expandedsegments[i] = NULL;
+	return expandedsegments;
 }

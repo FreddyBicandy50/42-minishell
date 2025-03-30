@@ -6,13 +6,14 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/25 00:19:14 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 13:40:00 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int g_signal = 0;
+
 /*
  *input= ls -la "test" | grep "test"
  *Steps:
@@ -21,31 +22,34 @@ int g_signal = 0;
  *	each string in the returned segment is a command
  *  start tokenization method
  */
+
 t_cmd *lexical_analysis(char *input, t_env *env)
 {
 	t_cmd *cmd;
 	t_cmd *new_cmd;
 	char **segments;
 	int i;
-
+	(void)*new_cmd;
 	i = -1;
 	cmd = NULL;
 	new_cmd = NULL;
 	segments = ft_shell_split(input, '|');
-	expansion(env,segments);
+	segments = expansion(env, segments);
 	while (segments[++i] != NULL)
 	{
-		new_cmd = parsing(segments[i]);
-		if (!new_cmd)
-		{
-			struct_free_cmd(cmd);
-			cmd = NULL;
-			break;
-		}
-		else
-			struct_addback_list(&cmd, new_cmd);
+		printf("segment[%d]: %s\n", i, segments[i]);
+		// new_cmd = parsing(segments[i]);
+		// if (!new_cmd)
+		// {
+		// 	struct_free_cmd(cmd);
+		// 	cmd = NULL;
+		// 	break;
+		// }
+		// else
+		// 	struct_addback_list(&cmd, new_cmd);
 	}
 	free_split(segments);
+	exit(0);
 	return (cmd);
 }
 
@@ -108,7 +112,6 @@ int main(int argc, char *argv[], char *envp[])
 		free(input);
 		if (cmd)
 		{
-			expansion(env, cmd);
 			struct_print_list(cmd);
 			// executing(&cmd, envp);
 			struct_free_cmd(cmd);
