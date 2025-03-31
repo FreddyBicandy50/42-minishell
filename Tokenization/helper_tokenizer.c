@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/31 17:07:16 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:30:57 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,6 @@ char	*dequotencpy(int start, int end, char *s)
 	dest = malloc(sizeof(char) * (end - start + 1));
 	while (++i < (end - start) && s[start + i])
 	{
-		if (in_quote == '\"')
-		{
-				
-		}
 		if (in_quote != '\0' && s[start + i] == in_quote)
 			in_quote = '\0';
 		else if (in_quote == '\0' && isquote(s[start + i]))
