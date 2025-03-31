@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/30 23:24:59 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/31 13:46:01 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_env
 	char			*variable_name;
 	char			*value;
 	int				exit_code;
-	bool			exit_status;
+	bool			exit_status; 
 	struct s_env	*next;
 }					t_env;
 
@@ -175,7 +175,9 @@ int					copy_args(t_cmd **cmd, char *prompt);
 	// helper_expander.c
 int					init_expansion(t_expand *expander, char **segments);
 void				expansion_mechanism(t_expand *expander, t_env *env);
-	// helper_functions.c
+int					expander_quotes(char *s, int start, int end, char **dest);
+
+// helper_functions.c
 int					redirection_param(t_cmd **cmd, char *prompt, int type);
 char				*skip_to_c(char *s, char c);
 int					copy_flag(t_cmd **cmd, int i, char *prompt);

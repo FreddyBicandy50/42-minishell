@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:44:06 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/30 21:28:13 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/31 12:17:00 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,15 @@ void	expansion_mechanism(t_expand *expander, t_env *env)
 		free(expander->prev_section);
 		free(expander->var_value);
 	}
+}
+
+int	expander_quotes(char *s, int start, int end, char **dest)
+{
+	(void) dest;
+	printf("Expander quotes\n");
+	printf("start = %d\n", start);
+	printf("end = %d\n", end);
+	printf("s= %s\n", s+start);
+	printf("dest= %s\n", *dest);
+	exit(0);
 }
