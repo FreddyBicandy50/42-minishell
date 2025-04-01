@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helper_parser.c                                    :+:      :+:    :+:   */
+/*   helper_tokenizer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/16 18:07:27 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:55:19 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 	skips everything inside the quotations
 	@RETURN test hello world | grep test
 */
-char *skip_inside(char quote, char *s)
+char	*skip_inside(char quote, char *s)
 {
 	while (*s != '\0' && *s != quote)
 		s++;
@@ -41,28 +41,30 @@ char *skip_inside(char quote, char *s)
 
 	@RETURN	example on dequote and copyTEST\0
 */
-char	*dequotencpy(int start, int end, char *s)
+char	*dequotencpy(int start, int end, char *s, t_env *env)
 {
-	int i;
-	int j;
-	char *dest;
-	char in_quote;
+	int		i;
+	int		j;
+	char	*dest;
+	char	in_quote;
 
+	(void)*env;
 	i = -1;
 	j = 0;
 	in_quote = '\0';
 	dest = malloc(sizeof(char) * (end - start + 1));
-	if (!dest)
-		return (NULL);
 	while (++i < (end - start) && s[start + i])
 	{
+		if (in_quote == '\"')
+		{
+			dest[j] = '\0';
+			i += expansion_quotes((start + i) - 1, s, &dest,env);
+			j = ft_strlen(dest);
+		}
 		if (in_quote != '\0' && s[start + i] == in_quote)
 			in_quote = '\0';
 		else if (in_quote == '\0' && isquote(s[start + i]))
-		{
-			expansion(NULL, s);
 			in_quote = s[start + i];
-		}
 		else
 			dest[j++] = s[start + i];
 	}
@@ -73,7 +75,8 @@ char	*dequotencpy(int start, int end, char *s)
 /*
 	@EXAMPLE -ARG1 -FLAG2 -ARG2 > Filename
 
-	check if the command is echo everything after we specify a flag is consider args
+	check if the command is echo everything after we
+		specify a flag is consider args
 	except for redirections
 
 	ELSE:then
@@ -82,10 +85,10 @@ char	*dequotencpy(int start, int end, char *s)
 		copy without quotes
 		update list of commands arguments
 */
-int copy_args(t_cmd **cmd, char *prompt)
+int	copy_args(t_cmd **cmd, char *prompt, t_env *env)
 {
-	int len;
-	char *argument;
+	int		len;
+	char	*argument;
 
 	len = 0;
 	if (ft_strncmp((*cmd)->command, "echo", 4) == 0)
@@ -94,14 +97,14 @@ int copy_args(t_cmd **cmd, char *prompt)
 		while (*argument != '\0' && !redirections(*argument, *(argument + 1)))
 			argument++;
 		len = argument - prompt;
-		argument = dequotencpy(0, len, prompt);
+		argument = dequotencpy(0, len, prompt, env);
 		struct_update_args(cmd, argument);
 	}
 	else
 	{
 		argument = skip_to_c(prompt, ' ');
 		len = argument - prompt;
-		argument = dequotencpy(0, len, prompt);
+		argument = dequotencpy(0, len, prompt, env);
 		if (*argument == '\0')
 			free(argument);
 		else
@@ -110,14 +113,27 @@ int copy_args(t_cmd **cmd, char *prompt)
 	return (len);
 }
 
-void expansion(t_cmd **cmd, char *str)
+/*
+	@EXAMPLE $HOME/test
+
+	@RETURN /home/user/test
+*/
+char	**expansion(t_env *env, char **segments)
 {
-	int i;
-	(void)*cmd;
-	(void)str;
-	(void)i;
+	int			i;
+	t_expand	expander;
 
-	i = 0;
-
-
+	i = init_expansion(&expander, segments);
+	while (segments[++i])
+	{
+		expander.next_section = ft_strdup(segments[i]);
+		expansion_mechanism(&expander, env);
+		expander.expanded_segements[i] = ft_strdup(expander.next_section);
+		free(expander.next_section);
+	}
+	if (expander.section)
+		free(expander.section);
+	free_split(segments);
+	expander.expanded_segements[i] = NULL;
+	return (expander.expanded_segements);
 }

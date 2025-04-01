@@ -1,18 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/19 13:56:17 by marvin           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_signal = 0;
+int		g_signal = 0;
+
 /*
  *input= ls -la "test" | grep "test"
  *Steps:
@@ -21,27 +11,27 @@ int g_signal = 0;
  *	each string in the returned segment is a command
  *  start tokenization method
  */
-t_cmd *lexical_analysis(char *input, t_env **env)
+
+t_cmd	*lexical_analysis(char *input, t_env *env)
 {
-	t_cmd *cmd;
-	t_cmd *new_cmd;
-	char **segments;
-	int i;
+	t_cmd	*cmd;
+	t_cmd	*new_cmd;
+	char	**segments;
+	int		i;
 
 	i = -1;
 	cmd = NULL;
 	new_cmd = NULL;
 	segments = ft_shell_split(input, '|');
-	if (segments == NULL)
-		return (NULL);
+	segments = expansion(env, segments);
 	while (segments[++i] != NULL)
 	{
-		new_cmd = parsing(segments[i],env);
+	 	new_cmd = tokenizing(segments[i],env);
 		if (!new_cmd)
 		{
 			struct_free_cmd(cmd);
 			cmd = NULL;
-			break;
+			break ;
 		}
 		else
 			struct_addback_list(&cmd, new_cmd);
@@ -50,29 +40,32 @@ t_cmd *lexical_analysis(char *input, t_env **env)
 	return (cmd);
 }
 
-t_cmd *tokenization(char *input, t_env **env, char **envp)
+t_cmd	*parsing(char *input, t_env **env)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
+	char	*n;
+	int		i;
 
-	*env = save_envp(envp);
-	if (*env == NULL)
-		return NULL;
+	cmd = NULL;
 	input = skip_spaces(input);
 	if (!input || *input == '\0')
 		return (NULL);
-	cmd = NULL;
-	if (input[0] == '|')
+	i = 0;
+	while (input[i])
 	{
-		printf("parse error near `|'\n");
-		(*env)->exit_code = 2;
-		return (NULL);
+		n = skip_spaces(input + (i + 1));
+		if (input[0] == '|' || (i > 0 && ((*n == '|' || *n == '\0')
+					&& input[i] == '|')))
+		{
+			ft_error(env, "parse error near `|'", 130);
+			return (NULL);
+		}
+		i++;
 	}
 	if (skip_to_c(input, '\0') == NULL)
-	{
-		printf("minishell:Error unmatched redirections`\n");
-		return (NULL);
-	}
-	cmd = lexical_analysis(input,env);
+		ft_error(env, "parse error unmatched quotes`", 130);
+	if ((*env)->exit_status != 1)
+		cmd = lexical_analysis(input, *env);
 	return (cmd);
 }
 
@@ -92,30 +85,33 @@ t_cmd *tokenization(char *input, t_env **env, char **envp)
 		-handle neccesary dequoting
 	*parser phase pass all data and fetch environment to execute
 */
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	char *input;
-	t_cmd *cmd;
-	t_env *env;
+	char	*input;
+	t_cmd	*cmd;
+	t_env	*env;
 
 	signals();
 	(void)argv;
 	(void)argc;
+	cmd = NULL;
+	env = save_envp(envp);
 	while (1)
 	{
 		input = readline(PROMPT);
 		if (input == NULL)
 			handle_eof();
 		add_history(input);
-		cmd = tokenization(input, &env, envp);
+		cmd = parsing(input, &env);
 		free(input);
-		if (cmd)
+		if (cmd && env->exit_status != 1)
 		{
-			// expansion(&cmd,envp);
 			struct_print_list(cmd);
 			executing(&cmd, envp);
 			struct_free_cmd(cmd);
 		}
+		env->exit_status = 0;
 	}
+	free_envp(env);
 	return (0);
 }

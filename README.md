@@ -1,8 +1,15 @@
-//TODO 
-   Executing Pipes and redirecitons , heredoc
-   dollar sign expansion
-   exit code
+// TODO HERE_DOC 
 
+# Mar 29/2025
+   added  $_ variable case
+   doing the double/single quote thingy
+   
+# Mar 29/2025
+
+   implemented expansion with norm
+   added hepler_expander
+   fixed norm errors
+   fixed exit codes 
 
 # Mar 16/2025
    

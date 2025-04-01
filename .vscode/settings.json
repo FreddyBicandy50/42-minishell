@@ -13,7 +13,14 @@
         "memory": "c",
         "new": "c",
         "history.h": "c",
-        "random": "c"
+        "random": "c",
+        "system_error": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "curses.h": "c"
     },
     "files.autoSave": "afterDelay",
     "editor.fontSize": 21,

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 17:49:16 by amokdad           #+#    #+#             */
-/*   Updated: 2025/03/16 18:10:51 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/03/30 23:29:08 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	update_pwd(t_cmd **cmd, char **envp)
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd != NULL)
 	{
-		// set_new_pwd_at_env(new_pwd, envp);
 		set_env("PWD=", new_pwd, envp);
 		free(new_pwd);
 	}
