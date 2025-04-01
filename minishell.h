@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/31 13:46:01 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:17:46 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ char				*ft_strdup(char *s);
 char				*ft_strndup(const char *s, size_t n);
 	// ft_strjoin.c
 char				*ft_strjoin(char *s1, char *s2);
+char				*ft_strjoin_extra(char *s1, char *s2,int len_extra);
 char				*ft_strjoin_free(char *s1, char *s2);
 	// ft_strlcpy.c
 size_t				ft_strlcpy(char *dst, char *src, size_t size);
@@ -165,26 +166,26 @@ void				handle_sigint(int sig);
 void				handle_sigquit(__attribute__((unused)) int sig);
 
 // Tokenization Folder
-	// parsing.c
-t_cmd				*tokenizing(char *prompt);
-char				*rediretions_token(t_cmd **cmd, char *prompt);
-char				*args_token(t_cmd **cmd, int i, char *prompt);
-char				*flags_token(t_cmd **cmd, char *prompt);
-char				*command_token(t_cmd **cmd, char *prompt);
-int					copy_args(t_cmd **cmd, char *prompt);
+	// tokenizing.c
+t_cmd				*tokenizing(char *prompt,t_env * env);
+char				*rediretions_token(t_cmd **cmd, char *prompt,t_env *env);
+char				*args_token(t_cmd **cmd, int i, char *prompt,t_env *env);
+char				*flags_token(t_cmd **cmd, char *prompt,t_env *env);
+char				*command_token(t_cmd **cmd, char *prompt,t_env *env);
 	// helper_expander.c
 int					init_expansion(t_expand *expander, char **segments);
 void				expansion_mechanism(t_expand *expander, t_env *env);
 int					expander_quotes(char *s, int start, int end, char **dest);
+int					expansion_quotes(int index,char *s,char **dest,t_env *env);
 
-// helper_functions.c
-int					redirection_param(t_cmd **cmd, char *prompt, int type);
+	// helper_functions.c
+int					redirection_param(t_cmd **cmd, char *prompt, int type,t_env *env);
 char				*skip_to_c(char *s, char c);
-int					copy_flag(t_cmd **cmd, int i, char *prompt);
-	// helper_parser.c
+int					copy_flag(t_cmd **cmd, int i, char *prompt,t_env *env);
+	// helper_tokenizer.c
 char				*skip_inside(char quote, char *s);
-char				*dequotencpy(int start, int end, char *s);
-int					copy_args(t_cmd **cmd, char *prompt);
+char				*dequotencpy(int start, int end, char *s,t_env *env);
+int					copy_args(t_cmd **cmd, char *prompt,t_env *env);
 int					redirections(char c1, char c2);
 char				**expansion(t_env *env, char **segments);
 

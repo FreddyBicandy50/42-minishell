@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/30 23:29:54 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:29:40 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	update_redirections(t_cmd **cmd, t_redir *new_redirection)
 	return ;
 }
 
-int	redirection_param(t_cmd **cmd, char *prompt, int type)
+int	redirection_param(t_cmd **cmd, char *prompt, int type,t_env *env)
 {
 	char	*filename;
 	int		len;
@@ -41,7 +41,7 @@ int	redirection_param(t_cmd **cmd, char *prompt, int type)
 		printf("./minishell: error expected filename near %c\n", *prompt);
 		return (-1);
 	}
-	filename = dequotencpy(0, len, prompt);
+	filename = dequotencpy(0, len, prompt,env);
 	new_redirection = (t_redir *)malloc(sizeof(t_redir));
 	new_redirection->filename = filename;
 	new_redirection->type = type;
@@ -83,14 +83,14 @@ char	*skip_to_c(char *s, char c)
 	@RETURN 12 chars(how many letter we read from
 	prompt to be able to skip them with prompt+=len)
 */
-int	copy_flag(t_cmd **cmd, int i, char *prompt)
+int	copy_flag(t_cmd **cmd, int i, char *prompt,t_env *env)
 {
 	char	*flag;
 	int		len;
 
 	flag = skip_to_c(prompt, ' ');
 	len = flag - prompt;
-	flag = dequotencpy(i, len, prompt);
+	flag = dequotencpy(i, len, prompt,env);
 	struct_update_flags(cmd, flag, (*cmd)->flag);
 	return (len);
 }

@@ -6,13 +6,14 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/31 21:36:35 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:11:05 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		g_signal = 0;
+
 /*
  *input= ls -la "test" | grep "test"
  *Steps:
@@ -36,7 +37,7 @@ t_cmd	*lexical_analysis(char *input, t_env *env)
 	segments = expansion(env, segments);
 	while (segments[++i] != NULL)
 	{
-	 	new_cmd = tokenizing(segments[i]);
+	 	new_cmd = tokenizing(segments[i],env);
 		if (!new_cmd)
 		{
 			struct_free_cmd(cmd);

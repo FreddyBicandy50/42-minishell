@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/31 21:30:57 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:55:19 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,26 @@ char	*skip_inside(char quote, char *s)
 
 	@RETURN	example on dequote and copyTEST\0
 */
-char	*dequotencpy(int start, int end, char *s)
+char	*dequotencpy(int start, int end, char *s, t_env *env)
 {
 	int		i;
 	int		j;
 	char	*dest;
 	char	in_quote;
 
-	// ls"$var test $HOME" -la
+	(void)*env;
 	i = -1;
 	j = 0;
 	in_quote = '\0';
 	dest = malloc(sizeof(char) * (end - start + 1));
 	while (++i < (end - start) && s[start + i])
 	{
+		if (in_quote == '\"')
+		{
+			dest[j] = '\0';
+			i += expansion_quotes((start + i) - 1, s, &dest,env);
+			j = ft_strlen(dest);
+		}
 		if (in_quote != '\0' && s[start + i] == in_quote)
 			in_quote = '\0';
 		else if (in_quote == '\0' && isquote(s[start + i]))
@@ -79,7 +85,7 @@ char	*dequotencpy(int start, int end, char *s)
 		copy without quotes
 		update list of commands arguments
 */
-int	copy_args(t_cmd **cmd, char *prompt)
+int	copy_args(t_cmd **cmd, char *prompt, t_env *env)
 {
 	int		len;
 	char	*argument;
@@ -91,14 +97,14 @@ int	copy_args(t_cmd **cmd, char *prompt)
 		while (*argument != '\0' && !redirections(*argument, *(argument + 1)))
 			argument++;
 		len = argument - prompt;
-		argument = dequotencpy(0, len, prompt);
+		argument = dequotencpy(0, len, prompt, env);
 		struct_update_args(cmd, argument);
 	}
 	else
 	{
 		argument = skip_to_c(prompt, ' ');
 		len = argument - prompt;
-		argument = dequotencpy(0, len, prompt);
+		argument = dequotencpy(0, len, prompt, env);
 		if (*argument == '\0')
 			free(argument);
 		else
