@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/01 19:11:05 by fbicandy         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -118,7 +107,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (cmd && env->exit_status != 1)
 		{
 			struct_print_list(cmd);
-			// executing(&cmd, envp);
+			executing(&cmd, envp);
 			struct_free_cmd(cmd);
 		}
 		env->exit_status = 0;

@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/01 20:17:46 by fbicandy         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -150,6 +140,7 @@ void				struct_print_list(t_cmd *cmd);
 	// ft_word_count.c
 size_t				ft_wordcount(char *s, char c);
 
+
 // System Folder
 	// set_env.c
 void				free_envp(t_env *env);
@@ -165,6 +156,7 @@ void				handle_sigint(int sig);
 void				handle_sigint(int sig);
 void				handle_sigquit(__attribute__((unused)) int sig);
 
+
 // Tokenization Folder
 	// tokenizing.c
 t_cmd				*tokenizing(char *prompt,t_env * env);
@@ -178,6 +170,7 @@ void				expansion_mechanism(t_expand *expander, t_env *env);
 int					expander_quotes(char *s, int start, int end, char **dest);
 int					expansion_quotes(int index,char *s,char **dest,t_env *env);
 
+
 	// helper_functions.c
 int					redirection_param(t_cmd **cmd, char *prompt, int type,t_env *env);
 char				*skip_to_c(char *s, char c);
@@ -188,5 +181,6 @@ char				*dequotencpy(int start, int end, char *s,t_env *env);
 int					copy_args(t_cmd **cmd, char *prompt,t_env *env);
 int					redirections(char c1, char c2);
 char				**expansion(t_env *env, char **segments);
+
 
 #endif
