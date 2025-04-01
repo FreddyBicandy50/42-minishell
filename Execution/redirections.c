@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/03/23 16:24:08 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:32:12 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,32 @@
 // 			without removing existing content.
 // 3(<<) ----> open heredoc
 
-void	handle_heredoc(t_redir *redir)
-{
-	char	input_buffer[1024];
-	FILE	*input_stream;
-	int		fd;
+// void	handle_heredoc(t_redir *redir)
+// {
+// 	char	input_buffer[1024];
+// 	FILE	*input_stream;
+// 	int		fd;
 
-	input_stream = fopen("/tmp/heredoc_input.txt", "w+");
-	if (input_stream == NULL)
-	{
-		perror("Error opening temporary file for heredoc");
-		exit(1);
-	}
-	while (1)
-	{
-		write(1, "heredoc> ", 9);
-		fgets(input_buffer, sizeof(input_buffer), stdin);
-		if (strncmp(input_buffer, redir->filename,
-				strlen(redir->filename)) == 0)
-			break ;
-		fputs(input_buffer, input_stream);
-	}
-	fclose(input_stream);
-	fd = open("/tmp/heredoc_input.txt", O_RDONLY);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-}
+// 	input_stream = fopen("/tmp/heredoc_input.txt", "w+");
+// 	if (input_stream == NULL)
+// 	{
+// 		perror("Error opening temporary file for heredoc");
+// 		exit(1);
+// 	}
+// 	while (1)
+// 	{
+// 		write(1, "heredoc> ", 9);
+// 		fgets(input_buffer, sizeof(input_buffer), stdin);
+// 		if (strncmp(input_buffer, redir->filename,
+// 				strlen(redir->filename)) == 0)
+// 			break ;
+// 		fputs(input_buffer, input_stream);
+// 	}
+// 	fclose(input_stream);
+// 	fd = open("/tmp/heredoc_input.txt", O_RDONLY);
+// 	dup2(fd, STDIN_FILENO);
+// 	close(fd);
+// }
 
 void	handle_append(t_redir *redir)
 {
@@ -84,10 +84,9 @@ void	handle_redirection(t_cmd *cmd)
 	int		fd;
 	t_redir	*redir;
 
-	if (cmd->redirections)
-		redir = cmd->redirections;
-	else 
+	if (!cmd->redirections)
 		return ;
+	redir = cmd->redirections;
 	printf("Redirecting to file: %s\n", redir->filename);
 	printf("Redirecting type: %d\n", redir->type);
 	while (redir != NULL)
@@ -115,34 +114,34 @@ void	handle_redirection(t_cmd *cmd)
 
 void	restore_std(t_cmd *cmd)
 {
-	t_redir	*redir;
+	// t_redir	*redir;
 	int		saved_stdin;
 	int		saved_stdout;
 
-
+	
+	(void)cmd;
 	saved_stdin = dup(STDIN_FILENO);
-	if (saved_stdin == -1) {
-		perror("Error saving STDIN");
-		exit(1);
-	}
 	saved_stdout = dup(STDOUT_FILENO);
-	if (saved_stdout == -1) {
-		perror("Error saving STDOUT");
+	if (saved_stdin == -1 || saved_stdout == -1)
+	{
+		perror("Error saving STDIN/STDOUT");
 		exit(1);
 	}
-	redir = cmd->redirections;
-	while (redir != NULL)
-	{
-		if (redir->type == 1)
-		{
-			dup2(saved_stdin, STDIN_FILENO);
-		}
-		else if (redir->type == 2 || redir->type == 4)
-		{
-			dup2(saved_stdout, STDOUT_FILENO);
-		}
-		redir = redir->next;
-	}
+	// redir = cmd->redirections;
+	// while (redir != NULL)
+	// {
+	// 	if (redir->type == 1)
+	// 	{
+	// 		dup2(saved_stdin, STDIN_FILENO);
+	// 	}
+	// 	else if (redir->type == 2 || redir->type == 4)
+	// 	{
+	// 		dup2(saved_stdout, STDOUT_FILENO);
+	// 	}
+	// 	redir = redir->next;
+	// }
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
 	close(saved_stdout);
 }
