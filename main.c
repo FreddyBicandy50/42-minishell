@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/01 19:11:05 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:50:02 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_cmd	*lexical_analysis(char *input, t_env *env)
 	segments = expansion(env, segments);
 	while (segments[++i] != NULL)
 	{
-	 	new_cmd = tokenizing(segments[i],env);
+		new_cmd = tokenizing(segments[i], env);
 		if (!new_cmd)
 		{
 			struct_free_cmd(cmd);
@@ -73,7 +73,7 @@ t_cmd	*parsing(char *input, t_env **env)
 		}
 		i++;
 	}
-	if (skip_to_c(input, '\0') == NULL)
+	if (skip_to_c(input, '\0', (*env)->expanding) == NULL)
 		ft_error(env, "parse error unmatched quotes`", 130);
 	if ((*env)->exit_status != 1)
 		cmd = lexical_analysis(input, *env);
@@ -105,7 +105,6 @@ int	main(int argc, char *argv[], char *envp[])
 	signals();
 	(void)argv;
 	(void)argc;
-	cmd = NULL;
 	env = save_envp(envp);
 	while (1)
 	{
@@ -119,8 +118,8 @@ int	main(int argc, char *argv[], char *envp[])
 		{
 			struct_print_list(cmd);
 			// executing(&cmd, envp);
-			struct_free_cmd(cmd);
 		}
+		struct_free_cmd(cmd);
 		env->exit_status = 0;
 	}
 	free_envp(env);

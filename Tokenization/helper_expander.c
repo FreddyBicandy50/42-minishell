@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:44:06 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/01 20:18:10 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:35:56 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ void	expansion_mechanism(t_expand *expander, t_env *env)
 	while (expander->section)
 	{
 		free(expander->section);
-		expander->section = ft_strdup(skip_to_c(expander->next_section, '$'));
+		expander->section = ft_strdup(skip_to_c(expander->next_section, '$',env->expanding));
 		if (!expander->section || !*expander->section)
 			break ;
-		expander->len_section = skip_to_c(expander->next_section, '$')
+		expander->len_section = skip_to_c(expander->next_section, '$',env->expanding)
 			- expander->next_section;
 		expander->var_value = expand(env, expander->section);
 		expander->prev_section = ft_strndup(expander->next_section,
