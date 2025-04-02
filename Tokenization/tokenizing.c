@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/02 17:49:27 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:07:57 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ char	*rediretions_token(t_cmd **cmd, char *prompt, t_env *env)
 		type = redirections(*prompt, *(prompt + 1));
 		if (type < 0)
 		{
-			printf("./minishell:error unmatched redirections near %c\n",
-				*(prompt + 1));
+			ft_error(env, "error unmatched redirections", 130);
 			return (NULL);
 		}
 		if (type == 4 || type == 3)
@@ -130,7 +129,7 @@ char	*command_token(t_cmd **cmd, char *prompt, t_env *env)
 		prompt += redirection_param(cmd, skip_spaces(prompt), type, env) + 1;
 	}
 	prompt = skip_spaces(prompt);
-	command = skip_to_c(prompt, ' ',env->expanding);
+	command = skip_to_c(prompt, ' ', env->expanding);
 	len = command - prompt;
 	command = dequotencpy(0, len, prompt);
 	if (*cmd != NULL)

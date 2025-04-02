@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:44:06 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/02 17:35:56 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:07:06 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,28 @@ void	expansion_mechanism(t_expand *expander, t_env *env)
 	}
 }
 
-int	expansion_quotes(int index, char *s, char **dest, t_env *env)
-{
-	char	quotes;
-	char	*prev;
-	char	*next;
-	char	**quoted_str;
+// int	expansion_quotes(int index, char *s, char **dest, t_env *env)
+// {
+// 	char	quotes;
+// 	char	*prev;
+// 	char	*next;
+// 	char	**quoted_str;
 
-	quotes = s[index++];
-	s += index;
-	next = strdup(s);
-	index = 0;
-	while (next[index] != quotes)
-		index++;
-	quoted_str = malloc(sizeof(char *) * 2);
-	quoted_str[0] = strndup(s, index);
-	quoted_str[1] = NULL;
-	quoted_str = expansion(env, quoted_str);
-	prev = strdup(*dest);
-	free(*dest);
-	*dest = ft_strjoin_extra(prev, quoted_str[0], ft_strlen(next + index + 1));
-	free_split(quoted_str);
-	free(next);
-	free(prev);
-	return (index);
-}
+// 	quotes = s[index++];
+// 	s += index;
+// 	next = strdup(s);
+// 	index = 0;
+// 	while (next[index] != quotes)
+// 		index++;
+// 	quoted_str = malloc(sizeof(char *) * 2);
+// 	quoted_str[0] = strndup(s, index);
+// 	quoted_str[1] = NULL;
+// 	quoted_str = expansion(env, quoted_str);
+// 	prev = strdup(*dest);
+// 	free(*dest);
+// 	*dest = ft_strjoin_extra(prev, quoted_str[0], ft_strlen(next + index + 1));
+// 	free_split(quoted_str);
+// 	free(next);
+// 	free(prev);
+// 	return (index);
+// }
