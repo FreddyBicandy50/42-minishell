@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/02 17:50:02 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:05:45 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	main(int argc, char *argv[], char *envp[])
 	env = save_envp(envp);
 	while (1)
 	{
+		env->exit_status = 0;
 		input = readline(PROMPT);
 		if (input == NULL)
 			handle_eof();
@@ -115,12 +116,8 @@ int	main(int argc, char *argv[], char *envp[])
 		cmd = parsing(input, &env);
 		free(input);
 		if (cmd && env->exit_status != 1)
-		{
-			struct_print_list(cmd);
-			// executing(&cmd, envp);
-		}
+			executing(&cmd, envp);
 		struct_free_cmd(cmd);
-		env->exit_status = 0;
 	}
 	free_envp(env);
 	return (0);

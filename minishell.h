@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/03 12:56:02 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:04:52 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_env
 	char			*variable_name;
 	char			*value;
 	int				exit_code;
-	int				expand_index;
 	bool			exit_status;
 	bool			expanding;
 	struct s_env	*next;
