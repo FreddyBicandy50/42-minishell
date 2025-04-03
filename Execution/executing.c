@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/03/31 13:23:28 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:55:17 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	check_cmd(t_cmd **cmd, char *envp[])
 	pid = fork();
 	if (pid == 0)
 		execute(path, cmd, envp);
- 	else if (pid < 0)
+	else if (pid < 0)
 		printf("Error forking");
 	else
 		wait(NULL);

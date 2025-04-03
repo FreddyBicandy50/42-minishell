@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/02 19:08:47 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:56:38 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	redirection_param(t_cmd **cmd, char *prompt, int type, t_env *env)
 	len = filename - prompt;
 	if (len <= 0 || *prompt == '\0')
 	{
-		ft_error(env, "error expected filename", 130);
+		ft_error(&env, "error expected filename", 130);
 		return (-1);
 	}
 	filename = dequotencpy(0, len, prompt);

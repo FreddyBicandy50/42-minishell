@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/02 17:49:20 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:56:02 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ t_env				*save_envp(char **envp);
 void				set_env(char *var, char *value, char **envp);
 char				*get_env_value(t_env *env, char *key);
 // signals.c
-void				ft_error(t_env **cmd, char *errmessage, int error_code);
+void				ft_error(t_env **env, char *errmessage, int error_code);
 void				signals(void);
 void				handle_eof(void);
 void				handle_eof(void);
