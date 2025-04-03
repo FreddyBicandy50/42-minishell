@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/03 12:56:31 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:59:17 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,14 @@ char	*flags_token(t_cmd **cmd, char *prompt, t_env *env)
 		-dequote the result and copy it
 	@RETURN  -Flag1 -Flag2 arg1 arg2 -Flag3 > file1 file2 file3
 */
-char	*command_token(t_cmd **cmd, char *prompt, t_env *env)
+char	*command_token(t_cmd **cmd, char *prompt, t_env *env, int type)
 {
 	char	*command;
 	size_t	len;
-	int		type;
 
 	len = 0;
-	type = redirections(*prompt, *(prompt + 1));
+	if (*prompt != '\0')
+		type = redirections(*prompt, *(prompt + 1));
 	if (type != 0)
 	{
 		if (type == 4 || type == 3)
@@ -144,7 +144,7 @@ t_cmd	*tokenizing(char *prompt, t_env *env)
 	t_cmd	*new_cmd;
 
 	new_cmd = NULL;
-	prompt = command_token(&new_cmd, prompt, env);
+	prompt = command_token(&new_cmd, skip_spaces(prompt), env, 0);
 	if (*prompt != '\0')
 		prompt = flags_token(&new_cmd, prompt, env);
 	if (*prompt != '\0')

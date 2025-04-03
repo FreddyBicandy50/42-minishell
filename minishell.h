@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/03 13:04:52 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:59:34 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ t_cmd				*tokenizing(char *prompt, t_env *env);
 char				*rediretions_token(t_cmd **cmd, char *prompt, t_env *env);
 char				*args_token(t_cmd **cmd, int i, char *prompt, t_env *env);
 char				*flags_token(t_cmd **cmd, char *prompt, t_env *env);
-char				*command_token(t_cmd **cmd, char *prompt, t_env *env);
+char				*command_token(t_cmd **cmd, char *prompt, t_env *env, int type);
 // helper_expander.c
 int					init_expansion(t_expand *expander, char **segments);
 void				expansion_mechanism(t_expand *expander, t_env *env);
