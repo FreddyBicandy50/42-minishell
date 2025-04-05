@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/01 19:29:40 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:00:05 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,20 @@ void	update_redirections(t_cmd **cmd, t_redir *new_redirection)
 	return ;
 }
 
-int	redirection_param(t_cmd **cmd, char *prompt, int type,t_env *env)
+int	redirection_param(t_cmd **cmd, char *prompt, int type, t_env *env)
 {
 	char	*filename;
 	int		len;
 	t_redir	*new_redirection;
 
-	filename = skip_to_c(prompt, ' ');
+	filename = skip_to_c(prompt, ' ', env->expanding);
 	len = filename - prompt;
 	if (len <= 0 || *prompt == '\0')
 	{
-		printf("./minishell: error expected filename near %c\n", *prompt);
+		ft_error(&env, "error expected filename", 130);
 		return (-1);
 	}
-	filename = dequotencpy(0, len, prompt,env);
+	filename = dequotencpy(0, len, prompt);
 	new_redirection = (t_redir *)malloc(sizeof(t_redir));
 	new_redirection->filename = filename;
 	new_redirection->type = type;
@@ -56,16 +56,26 @@ int	redirection_param(t_cmd **cmd, char *prompt, int type,t_env *env)
 	IF C IS ' ' (AKA space)
 	@RETURN "helo World this is a skip to c function"Code
 */
-char	*skip_to_c(char *s, char c)
+char	*skip_to_c(char *s, char c, bool expanding)
 {
+	char	outer_quote;
+
+	outer_quote = '\0';
 	while (*s != '\0' && *s != c)
 	{
+		if (isquote(*s) && outer_quote == '\0')
+			outer_quote = *s;
 		if ((c != '|' && c != '$') && redirections(*s, *(s + 1)) != 0)
 			break ;
-		if (isquote(*s))
+		if (isquote(*s) && !expanding)
+			s = skip_inside(*s, s + 1);
+		if (expanding && outer_quote == '\'')
 			s = skip_inside(*s, s + 1);
 		if (s == NULL)
 			return (NULL);
+		if (outer_quote != '\0' && *s == outer_quote)
+			outer_quote = '\0';
+		outer_quote = '\0';
 		s++;
 	}
 	return (s);
@@ -83,14 +93,14 @@ char	*skip_to_c(char *s, char c)
 	@RETURN 12 chars(how many letter we read from
 	prompt to be able to skip them with prompt+=len)
 */
-int	copy_flag(t_cmd **cmd, int i, char *prompt,t_env *env)
+int	copy_flag(t_cmd **cmd, int i, char *prompt, t_env *env)
 {
 	char	*flag;
 	int		len;
 
-	flag = skip_to_c(prompt, ' ');
+	flag = skip_to_c(prompt, ' ', env->expanding);
 	len = flag - prompt;
-	flag = dequotencpy(i, len, prompt,env);
+	flag = dequotencpy(i, len, prompt);
 	struct_update_flags(cmd, flag, (*cmd)->flag);
 	return (len);
 }

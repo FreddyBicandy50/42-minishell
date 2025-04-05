@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/01 21:12:24 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:59:17 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ char	*rediretions_token(t_cmd **cmd, char *prompt, t_env *env)
 		type = redirections(*prompt, *(prompt + 1));
 		if (type < 0)
 		{
-			printf("./minishell:error unmatched redirections near %c\n",
-				*(prompt + 1));
+			ft_error(&env, "error unmatched redirections", 130);
 			return (NULL);
 		}
 		if (type == 4 || type == 3)
@@ -112,14 +111,14 @@ char	*flags_token(t_cmd **cmd, char *prompt, t_env *env)
 		-dequote the result and copy it
 	@RETURN  -Flag1 -Flag2 arg1 arg2 -Flag3 > file1 file2 file3
 */
-char	*command_token(t_cmd **cmd, char *prompt, t_env *env)
+char	*command_token(t_cmd **cmd, char *prompt, t_env *env, int type)
 {
 	char	*command;
 	size_t	len;
-	int		type;
 
 	len = 0;
-	type = redirections(*prompt, *(prompt + 1));
+	if (*prompt != '\0')
+		type = redirections(*prompt, *(prompt + 1));
 	if (type != 0)
 	{
 		if (type == 4 || type == 3)
@@ -130,9 +129,9 @@ char	*command_token(t_cmd **cmd, char *prompt, t_env *env)
 		prompt += redirection_param(cmd, skip_spaces(prompt), type, env) + 1;
 	}
 	prompt = skip_spaces(prompt);
-	command = skip_to_c(prompt, ' ');
+	command = skip_to_c(prompt, ' ', env->expanding);
 	len = command - prompt;
-	command = dequotencpy(0, len, prompt, env);
+	command = dequotencpy(0, len, prompt);
 	if (*cmd != NULL)
 		(*cmd)->command = command;
 	else
@@ -145,7 +144,7 @@ t_cmd	*tokenizing(char *prompt, t_env *env)
 	t_cmd	*new_cmd;
 
 	new_cmd = NULL;
-	prompt = command_token(&new_cmd, prompt, env);
+	prompt = command_token(&new_cmd, skip_spaces(prompt), env, 0);
 	if (*prompt != '\0')
 		prompt = flags_token(&new_cmd, prompt, env);
 	if (*prompt != '\0')

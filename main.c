@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
+/*   Updated: 2025/04/03 20:00:16 by fbicandy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -26,7 +37,7 @@ t_cmd	*lexical_analysis(char *input, t_env *env)
 	segments = expansion(env, segments);
 	while (segments[++i] != NULL)
 	{
-	 	new_cmd = tokenizing(segments[i],env);
+		new_cmd = tokenizing(segments[i], env);
 		if (!new_cmd)
 		{
 			struct_free_cmd(cmd);
@@ -62,7 +73,7 @@ t_cmd	*parsing(char *input, t_env **env)
 		}
 		i++;
 	}
-	if (skip_to_c(input, '\0') == NULL)
+	if (skip_to_c(input, '\0', (*env)->expanding) == NULL)
 		ft_error(env, "parse error unmatched quotes`", 130);
 	if ((*env)->exit_status != 1)
 		cmd = lexical_analysis(input, *env);
@@ -94,10 +105,10 @@ int	main(int argc, char *argv[], char *envp[])
 	signals();
 	(void)argv;
 	(void)argc;
-	cmd = NULL;
 	env = save_envp(envp);
 	while (1)
 	{
+		env->exit_status = 0;
 		input = readline(PROMPT);
 		if (input == NULL)
 			handle_eof();
@@ -105,11 +116,11 @@ int	main(int argc, char *argv[], char *envp[])
 		cmd = parsing(input, &env);
 		free(input);
 		if (cmd && env->exit_status != 1)
-		{
+    {
 			struct_print_list(cmd);
-			executing(&cmd, envp);
-			struct_free_cmd(cmd);
-		}
+      executing(&cmd, envp);
+    }
+    struct_free_cmd(cmd);
 		env->exit_status = 0;
 	}
 	free_envp(env);

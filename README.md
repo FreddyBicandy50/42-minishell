@@ -1,5 +1,14 @@
 // TODO HERE_DOC 
 
+# Apr 3/2025
+   
+   fixed invalid read / seg faul in expanding invalid variable at the command tokenization level
+
+# Apr 2/2025
+   
+   fixed norm
+   fixed expansion and did it in new way much better
+   
 # Mar 29/2025
    added  $_ variable case
    doing the double/single quote thingy

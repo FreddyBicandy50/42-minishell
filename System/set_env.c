@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/03/30 23:06:43 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:05:57 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ t_env	*save_envp(char **envp)
 		temp = new_node;
 		envp++;
 	}
-	head->exit_status = 0;
 	head->exit_code = 0;
+	head->expanding = FALSE;
 	return (head);
 }
 
