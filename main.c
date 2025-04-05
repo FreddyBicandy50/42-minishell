@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/05 20:03:16 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/05 20:10:10 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_cmd	*lexical_analysis(char *input, t_env *env)
 			cmd = NULL;
 			break ;
 		}
-
 		else
 			struct_addback_list(&cmd, new_cmd);
 	}
@@ -119,7 +118,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (cmd && env->exit_status != 1)
 		{
 			struct_print_list(cmd);
-			executing(&cmd, envp,env);
+			executing(&cmd, envp, env);
 		}
 		struct_free_cmd(cmd);
 		env->exit_status = 0;
