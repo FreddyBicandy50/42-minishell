@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/01 19:32:12 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:02:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 // 	close(fd);
 // }
 
-void	handle_append(t_redir *redir)
+int	handle_append(t_redir *redir)
 {
 	int		fd;
 
@@ -55,13 +55,12 @@ void	handle_append(t_redir *redir)
 	if (fd == -1)
 	{
 		perror("Append redirection failed");
-		exit(1);
+		return (STDOUT_FILENO);
 	}
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
+	return (fd);
 }
 
-void	handle_write(t_redir *redir)
+int	handle_write(t_redir *redir)
 {
 	int	fd;
 
@@ -69,79 +68,103 @@ void	handle_write(t_redir *redir)
 	if (fd == -1)
 	{
 		perror("Output redirection failed");
-		exit(1);
+		return (STDOUT_FILENO);
 	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
-	{
-		perror("Error redirecting output to file");
-		exit(1);
-	}
-	close(fd);
+	return (fd);
 }
 
-void	handle_redirection(t_cmd *cmd)
+int	handle_read_file(t_redir *redir)
 {
-	int		fd;
-	t_redir	*redir;
+	int	fd;
+	
+	fd = open(redir->filename, O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Input redirection failed");
+		return (STDIN_FILENO);
+	}
+	return (fd);
+}
 
-	if (!cmd->redirections)
-		return ;
+t_fd	handle_redirection(t_cmd *cmd)
+{
+	t_redir	*redir;
+	t_fd	f;
+
+	f.fd_1 = STDIN_FILENO;
+    f.fd_2 = STDOUT_FILENO;
 	redir = cmd->redirections;
-	printf("Redirecting to file: %s\n", redir->filename);
-	printf("Redirecting type: %d\n", redir->type);
-	while (redir != NULL)
+	if (redir == NULL)
+		return (f);
+	while (redir)
 	{
 		if (redir->type == 1)
-		{
-			fd = open(redir->filename, O_RDONLY);
-			if (fd == -1)
-			{
-				perror("Input redirection failed");
-				exit(1);
-			}
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
+			f.fd_1 = handle_read_file(redir);
 		else if (redir->type == 2)
-			handle_write(redir);
+			f.fd_2 = handle_write(redir);
 		else if (redir->type == 4)
-			handle_append(redir);
+			f.fd_2 =handle_append(redir);
 		// else if (ft_strcmp(redir->type, "<<") == 0)
 		// 	handle_heredoc(redir);
 		redir = redir->next;
 	}
+	return (f);
 }
 
-void	restore_std(t_cmd *cmd)
+void	restore_std(t_cmd *cmd, t_fd f)
 {
-	// t_redir	*redir;
-	int		saved_stdin;
-	int		saved_stdout;
+	t_redir	*redir;
+
+	redir = cmd->redirections;
+	if (redir == NULL)
+		return ;
+	dup(f.fd_2);
+	dup(f.fd_1);
+	if (f.fd_1 != STDIN_FILENO)
+		if (dup2(f.fd_1, STDIN_FILENO) == -1)
+		{
+			perror("Error restoring stdin");
+		}
+	if (f.fd_2 != STDOUT_FILENO)
+		if (dup2(f.fd_2, STDOUT_FILENO) == -1)
+		{
+			perror("Error restoring stdout");
+		}
+	if (f.fd_1 != STDIN_FILENO)
+        close(f.fd_1);
+    if (f.fd_2 != STDOUT_FILENO)
+        close(f.fd_2);
+}
+// void	restore_std(t_cmd *cmd)
+// {
+// 	// t_redir	*redir;
+// 	int		saved_stdin;
+// 	int		saved_stdout;
 
 	
-	(void)cmd;
-	saved_stdin = dup(STDIN_FILENO);
-	saved_stdout = dup(STDOUT_FILENO);
-	if (saved_stdin == -1 || saved_stdout == -1)
-	{
-		perror("Error saving STDIN/STDOUT");
-		exit(1);
-	}
-	// redir = cmd->redirections;
-	// while (redir != NULL)
-	// {
-	// 	if (redir->type == 1)
-	// 	{
-	// 		dup2(saved_stdin, STDIN_FILENO);
-	// 	}
-	// 	else if (redir->type == 2 || redir->type == 4)
-	// 	{
-	// 		dup2(saved_stdout, STDOUT_FILENO);
-	// 	}
-	// 	redir = redir->next;
-	// }
-	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDOUT_FILENO);
-	close(saved_stdin);
-	close(saved_stdout);
-}
+// 	(void)cmd;
+// 	saved_stdin = dup(STDIN_FILENO);
+// 	saved_stdout = dup(STDOUT_FILENO);
+// 	if (saved_stdin == -1 || saved_stdout == -1)
+// 	{
+// 		perror("Error saving STDIN/STDOUT");
+// 		exit(1);
+// 	}
+// 	// redir = cmd->redirections;
+// 	// while (redir != NULL)
+// 	// {
+// 	// 	if (redir->type == 1)
+// 	// 	{
+// 	// 		dup2(saved_stdin, STDIN_FILENO);
+// 	// 	}
+// 	// 	else if (redir->type == 2 || redir->type == 4)
+// 	// 	{
+// 	// 		dup2(saved_stdout, STDOUT_FILENO);
+// 	// 	}
+// 	// 	redir = redir->next;
+// 	// }
+// 	dup2(saved_stdin, STDIN_FILENO);
+// 	dup2(saved_stdout, STDOUT_FILENO);
+// 	close(saved_stdin);
+// 	close(saved_stdout);
+// }
