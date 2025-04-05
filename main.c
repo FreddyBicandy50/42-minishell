@@ -116,9 +116,12 @@ int	main(int argc, char *argv[], char *envp[])
 		cmd = parsing(input, &env);
 		free(input);
 		if (cmd && env->exit_status != 1)
+    {
 			struct_print_list(cmd);
-		// executing(&cmd, envp);
-		struct_free_cmd(cmd);
+      executing(&cmd, envp);
+    }
+    struct_free_cmd(cmd);
+		env->exit_status = 0;
 	}
 	free_envp(env);
 	return (0);

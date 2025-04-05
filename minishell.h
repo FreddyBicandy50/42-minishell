@@ -34,6 +34,12 @@
 extern int			g_signal;
 # define PROMPT "\001\e[33m\00242-minishell\001\e[32m\002 ➜\001\e[0m\002 "
 
+typedef struct s_fd
+{
+	int	fd_1;
+	int	fd_2;
+}	t_fd;
+
 typedef struct s_expand
 {
 	char			*section;
@@ -88,12 +94,13 @@ void				pwd_cmd(void);
 void				my_unset(t_cmd **cmd, char **envp);
 
 // Execution Folder
-// exectuting.c
-void				executing(t_cmd **cmd, char *envp[]);
+	// exectuting.c
 void				execute(char *path, t_cmd **cmd, char *envp[]);
 void				executing(t_cmd **cmd, char *envp[]);
-void				check_cmd(t_cmd **cmd, char *envp[]);
-// helper_execute.c
+int					check_cmd(t_cmd **cmd, char *envp[]);
+t_fd				handle_redirection(t_cmd *cmd);
+void				restore_std(t_cmd *cmd, t_fd f);
+	// helper_execute.c
 char				*find_path(char *cmd, char **envp);
 int					built_in_functions(t_cmd **cmd, char **envp);
 
@@ -151,6 +158,7 @@ void				struct_print_list(t_cmd *cmd);
 // ft_word_count.c
 size_t				ft_wordcount(char *s, char c);
 
+
 // System Folder
 // set_env.c
 void				free_envp(t_env *env);
@@ -165,6 +173,7 @@ void				handle_eof(void);
 void				handle_sigint(int sig);
 void				handle_sigint(int sig);
 void				handle_sigquit(__attribute__((unused)) int sig);
+
 
 // Tokenization Folder
 // tokenizing.c
@@ -186,10 +195,17 @@ int					redirection_param(t_cmd **cmd, char *prompt, int type,
 char				*skip_to_c(char *s, char c, bool expanding);
 int					copy_flag(t_cmd **cmd, int i, char *prompt, t_env *env);
 // helper_tokenizer.c
+
+	// helper_functions.c
+int					redirection_param(t_cmd **cmd, char *prompt, int type,t_env *env);
+char				*skip_to_c(char *s, char c);
+int					copy_flag(t_cmd **cmd, int i, char *prompt,t_env *env);
+	// helper_tokenizer.c
 char				*skip_inside(char quote, char *s);
 char				*dequotencpy(int start, int end, char *s);
 int					copy_args(t_cmd **cmd, char *prompt, t_env *env);
 int					redirections(char c1, char c2);
 char				**expansion(t_env *env, char **segments);
+
 
 #endif
