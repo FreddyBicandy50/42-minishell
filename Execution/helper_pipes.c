@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 14:38:55 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/03 13:03:29 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:58:29 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,22 +137,22 @@ void	wait_for_children(void)
 		;
 }
 
-void	parser(t_cmd **cmd, char **envp)
-{
-	int	pipe_fd[2];
+// void	parser(t_cmd **cmd, char **envp)
+// {
+// 	int	pipe_fd[2];
 
-	while (*cmd != NULL)
-	{
-		if ((*cmd)->next != NULL)
-			handle_pipe(cmd, pipe_fd);
-		execute_command(cmd, envp, pipe_fd);
-		if ((*cmd)->next != NULL)
-		{
-			dup2(pipe_fd[0], STDIN_FILENO);
-			close(pipe_fd[0]);
-			close(pipe_fd[1]);
-		}
-		cmd = &(*cmd)->next;
-	}
-	wait_for_children();
-}
+// 	while (*cmd != NULL)
+// 	{
+// 		if ((*cmd)->next != NULL)
+// 			handle_pipe(cmd, pipe_fd);
+// 		execute_command(cmd, envp, pipe_fd);
+// 		if ((*cmd)->next != NULL)
+// 		{
+// 			dup2(pipe_fd[0], STDIN_FILENO);
+// 			close(pipe_fd[0]);
+// 			close(pipe_fd[1]);
+// 		}
+// 		cmd = &(*cmd)->next;
+// 	}
+// 	wait_for_children();
+// }

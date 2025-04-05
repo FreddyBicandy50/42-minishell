@@ -6,13 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/03 20:00:16 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/05 20:03:16 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int		g_signal = 0;
 
 /*
  *input= ls -la "test" | grep "test"
@@ -22,6 +20,8 @@ int		g_signal = 0;
  *	each string in the returned segment is a command
  *  start tokenization method
  */
+
+int		g_signal = 0;
 
 t_cmd	*lexical_analysis(char *input, t_env *env)
 {
@@ -44,6 +44,7 @@ t_cmd	*lexical_analysis(char *input, t_env *env)
 			cmd = NULL;
 			break ;
 		}
+
 		else
 			struct_addback_list(&cmd, new_cmd);
 	}
@@ -116,11 +117,11 @@ int	main(int argc, char *argv[], char *envp[])
 		cmd = parsing(input, &env);
 		free(input);
 		if (cmd && env->exit_status != 1)
-    {
+		{
 			struct_print_list(cmd);
-      executing(&cmd, envp);
-    }
-    struct_free_cmd(cmd);
+			executing(&cmd, envp,env);
+		}
+		struct_free_cmd(cmd);
 		env->exit_status = 0;
 	}
 	free_envp(env);

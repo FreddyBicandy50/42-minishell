@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/03 19:59:17 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/05 20:01:02 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	*command_token(t_cmd **cmd, char *prompt, t_env *env, int type)
 		else
 			prompt++;
 		*cmd = struct_create_list(NULL, *cmd);
-		prompt += redirection_param(cmd, skip_spaces(prompt), type, env) + 1;
+		prompt += redirection_param(cmd, skip_spaces(prompt), type, env);
 	}
 	prompt = skip_spaces(prompt);
 	command = skip_to_c(prompt, ' ', env->expanding);

@@ -106,4 +106,4 @@ FIXED:
 
 ## Dec/29/2024
    
-   FIXED: STRDUP and > and implemented unmatched quotes, ADDED LOGS,
+   FIXED: STRDUP and > and implemented unmatched quotes, ADDED LOGS,Builtin
