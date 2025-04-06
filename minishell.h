@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/05 16:37:19 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:56:15 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+typedef struct s_pipe
+{
+	int	fd[2];
+	int	saved_fd;
+}	t_pipe;
+
 // Built Folder
 // cd.c
 void				cd_cmd(t_cmd **cmd, char **envp);
@@ -95,14 +101,27 @@ void				my_unset(t_cmd **cmd, char **envp);
 
 // Execution Folder
 // exectuting.c
-void				simple_execution(t_cmd **cmd, char *envp[], t_env *env);
+void				check_cmd(t_cmd **cmd, char *envp[], t_env *env);
 void				executing(t_cmd **cmd, char *envp[], t_env *env);
 void				execute(char *path, t_cmd **cmd, char *envp[]);
-int					check_cmd(t_cmd **cmd, char *envp[]);
 t_fd				handle_redirection(t_cmd *cmd);
 // helper_execute.c
 char				*find_path(char *cmd, char **envp);
 int					built_in_functions(t_cmd **cmd, char **envp);
+
+//helper_execute2.c
+void				handle_parent_process(t_pipe *pipe_fd, t_cmd **cmd);
+void				handle_child_process(t_cmd **cmd, t_pipe pipe_fd,
+						t_env *env, char *envp[]);
+pid_t				create_process(void);
+int					create_pipe(int fd[2]);
+void				wait_for_children(void);
+
+//helper_redirections.c
+void				restore_original_fds(int original_stdin,
+						int original_stdout);
+int					save_original_fds(int *original_stdin,
+						int *original_stdout);
 
 // Get_next_line Folder
 // get_next_line.c

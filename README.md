@@ -1,5 +1,9 @@
 // TODO HERE_DOC 
 
+# Apr 6/2025
+
+   i want to handle SHLVL in env //shell level;
+   
 # Apr 3/2025
    
    fixed invalid read / seg faul in expanding invalid variable at the command tokenization level

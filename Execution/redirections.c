@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/05 16:02:00 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/06 16:01:34 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	handle_write(t_redir *redir)
 int	handle_read_file(t_redir *redir)
 {
 	int	fd;
-	
+
 	fd = open(redir->filename, O_RDONLY);
 	if (fd == -1)
 	{
@@ -92,7 +92,7 @@ t_fd	handle_redirection(t_cmd *cmd)
 	t_fd	f;
 
 	f.fd_1 = STDIN_FILENO;
-    f.fd_2 = STDOUT_FILENO;
+	f.fd_2 = STDOUT_FILENO;
 	redir = cmd->redirections;
 	if (redir == NULL)
 		return (f);
@@ -103,7 +103,7 @@ t_fd	handle_redirection(t_cmd *cmd)
 		else if (redir->type == 2)
 			f.fd_2 = handle_write(redir);
 		else if (redir->type == 4)
-			f.fd_2 =handle_append(redir);
+			f.fd_2 = handle_append(redir);
 		// else if (ft_strcmp(redir->type, "<<") == 0)
 		// 	handle_heredoc(redir);
 		redir = redir->next;
@@ -111,60 +111,23 @@ t_fd	handle_redirection(t_cmd *cmd)
 	return (f);
 }
 
-void	restore_std(t_cmd *cmd, t_fd f)
-{
-	t_redir	*redir;
-
-	redir = cmd->redirections;
-	if (redir == NULL)
-		return ;
-	dup(f.fd_2);
-	dup(f.fd_1);
-	if (f.fd_1 != STDIN_FILENO)
-		if (dup2(f.fd_1, STDIN_FILENO) == -1)
-		{
-			perror("Error restoring stdin");
-		}
-	if (f.fd_2 != STDOUT_FILENO)
-		if (dup2(f.fd_2, STDOUT_FILENO) == -1)
-		{
-			perror("Error restoring stdout");
-		}
-	if (f.fd_1 != STDIN_FILENO)
-        close(f.fd_1);
-    if (f.fd_2 != STDOUT_FILENO)
-        close(f.fd_2);
-}
-// void	restore_std(t_cmd *cmd)
+// void	restore_std(t_cmd *cmd, t_fd f)
 // {
-// 	// t_redir	*redir;
-// 	int		saved_stdin;
-// 	int		saved_stdout;
+// 	t_redir	*redir;
 
-	
-// 	(void)cmd;
-// 	saved_stdin = dup(STDIN_FILENO);
-// 	saved_stdout = dup(STDOUT_FILENO);
-// 	if (saved_stdin == -1 || saved_stdout == -1)
-// 	{
-// 		perror("Error saving STDIN/STDOUT");
-// 		exit(1);
-// 	}
-// 	// redir = cmd->redirections;
-// 	// while (redir != NULL)
-// 	// {
-// 	// 	if (redir->type == 1)
-// 	// 	{
-// 	// 		dup2(saved_stdin, STDIN_FILENO);
-// 	// 	}
-// 	// 	else if (redir->type == 2 || redir->type == 4)
-// 	// 	{
-// 	// 		dup2(saved_stdout, STDOUT_FILENO);
-// 	// 	}
-// 	// 	redir = redir->next;
-// 	// }
-// 	dup2(saved_stdin, STDIN_FILENO);
-// 	dup2(saved_stdout, STDOUT_FILENO);
-// 	close(saved_stdin);
-// 	close(saved_stdout);
+// 	redir = cmd->redirections;
+// 	if (redir == NULL)
+// 		return ;
+// 	dup(f.fd_2);
+// 	dup(f.fd_1);
+// 	if (f.fd_1 != STDIN_FILENO)
+// 		if (dup2(f.fd_1, STDIN_FILENO) == -1)
+// 			perror("Error restoring stdin");
+// 	if (f.fd_2 != STDOUT_FILENO)
+// 		if (dup2(f.fd_2, STDOUT_FILENO) == -1)
+// 			perror("Error restoring stdout");
+// 	if (f.fd_1 != STDIN_FILENO)
+// 		close(f.fd_1);
+// 	if (f.fd_2 != STDOUT_FILENO)
+// 		close(f.fd_2);
 // }
