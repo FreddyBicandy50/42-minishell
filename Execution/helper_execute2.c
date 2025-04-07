@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 16:11:17 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/06 16:56:30 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:02:06 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ pid_t	create_process(void)
 }
 
 void	handle_child_process(t_cmd **cmd, t_pipe pipe_fd,
-			t_env *env, char *envp[])
+			t_env **env, char *envp[])
 {
 	if ((*cmd)->next != NULL)
 	{

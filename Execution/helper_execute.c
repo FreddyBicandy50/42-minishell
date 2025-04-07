@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 18:48:39 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/06 15:56:54 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:02:30 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,24 +75,24 @@ void	execute(char *path, t_cmd **cmd, char *envp[])
 	else
 		exec_args[i] = NULL;
 	if (execve(path, exec_args, envp) == -1)
-		perror("Error executing command");
+		perror("command not found");//127 exit code
 	free(exec_args);
 }
 
-int	built_in_functions(t_cmd **cmd, char **envp)
+int	built_in_functions(t_cmd **cmd, char **envp, t_env **env)
 {
 	if (ft_strcmp((*cmd)->command, "echo") == 0)
 		echo_cmd(cmd);
 	else if (ft_strcmp((*cmd)->command, "cd") == 0)
-		cd_cmd(cmd, envp);
+		cd_cmd(cmd, env);
 	else if (ft_strcmp((*cmd)->command, "pwd") == 0)
 		pwd_cmd();
 	else if (ft_strcmp((*cmd)->command, "export") == 0)
-		my_export(cmd, envp);
+		my_export(cmd, env);
 	else if (ft_strcmp((*cmd)->command, "unset") == 0)
 		my_unset(cmd, envp);
 	else if (ft_strcmp((*cmd)->command, "env") == 0)
-		env_cmd(envp);
+		env_cmd(env);
 	else if (ft_strcmp((*cmd)->command, "exit") == 0)
 		exit_minishell();
 	else

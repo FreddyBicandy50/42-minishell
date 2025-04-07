@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/06 16:58:20 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:05:43 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,19 @@ void	handle_dup2(t_fd ff)
 		dup2(ff.fd_2, STDOUT_FILENO);
 }
 
-void	check_cmd(t_cmd **cmd, char *envp[], t_env *env)
+void	check_cmd(t_cmd **cmd, char *envp[], t_env **env)
 {
 	pid_t	pid;
 	int		check_builtins;
 	t_fd	ff;
 	char	*path;
 
-	(void)env;
 	ff = handle_redirection(*cmd);
 	pid = fork();
 	if (pid == 0)
 	{
 		handle_dup2(ff);
-		check_builtins = built_in_functions(cmd, envp);
+		check_builtins = built_in_functions(cmd, envp, env);
 		if (check_builtins)
 		{
 			path = find_path((*cmd)->command, envp);
@@ -68,7 +67,7 @@ void	check_cmd(t_cmd **cmd, char *envp[], t_env *env)
 		wait(NULL);
 }
 
-void	execute_simple_cmd(t_cmd **cmd, char *envp[], t_env *env)
+void	execute_simple_cmd(t_cmd **cmd, char *envp[], t_env **env)
 {
 	pid_t	pid;
 	t_fd	ff;
@@ -81,7 +80,7 @@ void	execute_simple_cmd(t_cmd **cmd, char *envp[], t_env *env)
 		return ;
 	ff = handle_redirection(*cmd);
 	handle_dup2(ff);
-	check_builtins = built_in_functions(cmd, envp);
+	check_builtins = built_in_functions(cmd, envp, env);
 	if (check_builtins)
 	{
 		pid = fork();
@@ -98,18 +97,14 @@ void	execute_simple_cmd(t_cmd **cmd, char *envp[], t_env *env)
 }
 
 
-void	executing(t_cmd **cmd, char *envp[], t_env *env)
+void	executing(t_cmd **cmd, char *envp[], t_env **env)
 {
 	t_pipe	pipe_fd;
 	pid_t	pid;
-	char	*path;
 
-	path = find_path((*cmd)->command, envp);
 	if ((*cmd)->next == NULL)
 	{
 		execute_simple_cmd(cmd, envp, env);
-		if (path)
-			free(path);
 		return ;
 	}
 	pipe_fd.saved_fd = STDIN_FILENO;

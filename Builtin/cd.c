@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 17:49:16 by amokdad           #+#    #+#             */
-/*   Updated: 2025/03/30 23:29:08 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:03:54 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 // 	envp[i + 1] = NULL;
 // }
 
-void	update_pwd(t_cmd **cmd, char **envp)
+void	update_pwd(t_cmd **cmd, t_env **env)
 {
 	char	*new_pwd;
 
@@ -56,21 +56,21 @@ void	update_pwd(t_cmd **cmd, char **envp)
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd != NULL)
 	{
-		set_env("PWD=", new_pwd, envp);
+		set_env("PWD=", new_pwd, env);
 		free(new_pwd);
 	}
 	else
 		perror("bash: cd: getcwd failed");
 }
 
-void	cd_cmd(t_cmd **cmd, char **envp)
+void	cd_cmd(t_cmd **cmd, t_env **env)
 {
 	char	*old_pwd;
 
 	if (!cmd || !(*cmd))
 		return ;
 	old_pwd = getcwd(NULL, 0);
-	set_env("OLDPWD=", old_pwd, envp);
+	set_env("OLDPWD=", old_pwd, env);
 	free(old_pwd);
 	if ((*cmd)->arg == NULL || (*cmd)->arg[0] == NULL)
 	{
@@ -79,5 +79,5 @@ void	cd_cmd(t_cmd **cmd, char **envp)
 	}
 	else if (chdir((*cmd)->arg[0]) == -1)
 		perror("bash: cd");
-	update_pwd(cmd, envp);
+	update_pwd(cmd, env);
 }

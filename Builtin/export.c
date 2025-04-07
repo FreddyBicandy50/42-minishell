@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:43:06 by amokdad           #+#    #+#             */
-/*   Updated: 2025/03/16 18:11:43 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:03:13 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,18 @@
 // next if yes split at '='
 // finaly set_env the variable and the value
 // or if not do nothing and return
-void	my_export(t_cmd **cmd, char **envp)
+
+int	check_valid(char *var, t_env **env)
+{
+	if (!(ft_isalpha(var[0]) || var[0] == '_'))
+	{
+		ft_error(env, "export: not an identifier", 1);
+		return (1);
+	}
+	return (0);
+}
+
+void	my_export(t_cmd **cmd, t_env **env)
 {
 	int		i;
 	char	*equal_sign;
@@ -32,7 +43,12 @@ void	my_export(t_cmd **cmd, char **envp)
 		if (equal_sign != NULL)
 		{
 			name = ft_split((*cmd)->arg[i], '=');
-			set_env(name[0], equal_sign, envp);
+			if (check_valid(name[0], env))
+			{
+				free(name);
+				return ;
+			}
+			set_env(name[0], equal_sign + 1, env);
 			free(name);
 		}
 		i++;

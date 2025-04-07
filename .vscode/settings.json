@@ -20,7 +20,9 @@
         "tuple": "c",
         "type_traits": "c",
         "utility": "c",
-        "curses.h": "c"
+        "curses.h": "c",
+        "optional": "c",
+        "ostream": "c"
     },
     "files.autoSave": "afterDelay",
     "editor.fontSize": 21,

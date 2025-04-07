@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/03 13:05:57 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/07 18:43:43 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,37 +65,31 @@ t_env	*save_envp(char **envp)
 	return (head);
 }
 
-static void	update_value(int i, char *var, char *value, char **envp)
+void	set_env(char *var, char *value, t_env **env)
 {
-	size_t	new_len;
+	t_env	*curr;
+	t_env	*new_node;
 
-	new_len = ft_strlen(var) + ft_strlen(value) + 1;
-	envp[i] = (char *)malloc(new_len);
-	if (envp[i] == NULL)
+	curr = *env;
+	while (curr)
 	{
-		perror("malloc");
-		return ;
-	}
-	ft_strlcpy(envp[i], var, ft_strlen(var) + 1);
-	ft_strcat(envp[i], value);
-}
-
-void	set_env(char *var, char *value, char **envp)
-{
-	int		i;
-	size_t	len;
-
-	len = ft_strlen(var);
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], var, len) == 0)
+		if (ft_strncmp(curr->variable_name, var, ft_strlen(var) + 1) == 0)
 		{
-			update_value(i, var, value, envp);
+			free(curr->value);
+			curr->value = ft_strdup(value);
 			return ;
 		}
-		i++;
+		if (curr->next == NULL)
+			break ;
+		curr = curr->next;
 	}
-	update_value(i, var, value, envp);
-	envp[i + 1] = NULL;
+	new_node = (t_env *)malloc(sizeof(t_env));
+	new_node->variable_name = ft_strdup(var);
+	new_node->value = ft_strdup(value);
+	new_node->next = NULL;
+	if (curr)
+		curr->next = new_node;
+	else
+		*env = new_node;
 }
+// ft_isalnum(key[i]) || key[i] == '_'
