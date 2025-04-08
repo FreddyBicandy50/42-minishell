@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/07 19:05:43 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:31:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	check_cmd(t_cmd **cmd, char *envp[], t_env **env)
 	if (pid == 0)
 	{
 		handle_dup2(ff);
-		check_builtins = built_in_functions(cmd, envp, env);
+		check_builtins = built_in_functions(cmd, env);
 		if (check_builtins)
 		{
 			path = find_path((*cmd)->command, envp);
@@ -80,7 +80,7 @@ void	execute_simple_cmd(t_cmd **cmd, char *envp[], t_env **env)
 		return ;
 	ff = handle_redirection(*cmd);
 	handle_dup2(ff);
-	check_builtins = built_in_functions(cmd, envp, env);
+	check_builtins = built_in_functions(cmd, env);
 	if (check_builtins)
 	{
 		pid = fork();

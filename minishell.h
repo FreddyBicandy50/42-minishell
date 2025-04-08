@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/07 19:06:51 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:31:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void				my_export(t_cmd **cmd, t_env **env);
 // pwd.c
 void				pwd_cmd(void);
 // unset.c
-void				my_unset(t_cmd **cmd, char **envp);
+void				my_unset(t_cmd **cmd, t_env **env);
 
 // Execution Folder
 // exectuting.c
@@ -107,7 +107,7 @@ void				execute(char *path, t_cmd **cmd, char *envp[]);
 t_fd				handle_redirection(t_cmd *cmd);
 // helper_execute.c
 char				*find_path(char *cmd, char **envp);
-int					built_in_functions(t_cmd **cmd, char **envp, t_env **env);
+int					built_in_functions(t_cmd **cmd, t_env **env);
 
 //helper_execute2.c
 void				handle_parent_process(t_pipe *pipe_fd, t_cmd **cmd);

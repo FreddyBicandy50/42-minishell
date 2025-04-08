@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_execute.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 18:48:39 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/07 19:02:30 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:30:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	execute(char *path, t_cmd **cmd, char *envp[])
 	free(exec_args);
 }
 
-int	built_in_functions(t_cmd **cmd, char **envp, t_env **env)
+int	built_in_functions(t_cmd **cmd, t_env **env)
 {
 	if (ft_strcmp((*cmd)->command, "echo") == 0)
 		echo_cmd(cmd);
@@ -90,7 +90,7 @@ int	built_in_functions(t_cmd **cmd, char **envp, t_env **env)
 	else if (ft_strcmp((*cmd)->command, "export") == 0)
 		my_export(cmd, env);
 	else if (ft_strcmp((*cmd)->command, "unset") == 0)
-		my_unset(cmd, envp);
+		my_unset(cmd, env);
 	else if (ft_strcmp((*cmd)->command, "env") == 0)
 		env_cmd(env);
 	else if (ft_strcmp((*cmd)->command, "exit") == 0)

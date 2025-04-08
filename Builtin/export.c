@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:43:06 by amokdad           #+#    #+#             */
-/*   Updated: 2025/04/07 19:03:13 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:42:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@ int	check_valid(char *var, t_env **env)
 	}
 	return (0);
 }
+void free_name(char **name)
+{
+	int j;
+
+	j = 0;
+	while (name[j])
+	{
+		free(name[j]);
+		j++;
+	}
+	free(name);
+	return ;
+}
 
 void	my_export(t_cmd **cmd, t_env **env)
 {
@@ -45,11 +58,11 @@ void	my_export(t_cmd **cmd, t_env **env)
 			name = ft_split((*cmd)->arg[i], '=');
 			if (check_valid(name[0], env))
 			{
-				free(name);
+				free_name(name);
 				return ;
 			}
 			set_env(name[0], equal_sign + 1, env);
-			free(name);
+			free_name(name);
 		}
 		i++;
 	}

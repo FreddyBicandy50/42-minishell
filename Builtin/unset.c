@@ -3,35 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:43:06 by amokdad           #+#    #+#             */
-/*   Updated: 2025/03/30 19:39:05 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:32:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	my_unset(t_cmd **cmd, char **envp)
+void free_current(t_env *current)
 {
-	int		i;
-	size_t	len;
+	free(current->variable_name);
+	free(current->value);
+	free(current);
+}
 
+void	my_unset(t_cmd **cmd, t_env **env)
+{
+	size_t	len;
+	t_env  *current;
+	t_env  *prev;
+
+	current = *env;
+	prev = NULL;
 	len = ft_strlen((*cmd)->arg[0]);
-	i = 0;
-	while (envp[i])
+	while (current)
 	{
-		if (ft_strncmp(envp[i], (*cmd)->arg[0], len) == 0
-			&& (envp[i][len] == '=' || envp[i][len] == '\0'))
+		if (ft_strncmp(current->variable_name, (*cmd)->arg[0], len) == 0
+			&& (current->variable_name[len] == '=' || current->variable_name[len] == '\0'))
 		{
-			while (envp[i])
-			{
-				envp[i] = envp[i + 1];
-				i++;
-			}
-			envp[i] = NULL;
+			if (ft_strncmp((*cmd)->arg[0], "_", 1) == 0)
+				return ;
+			if (prev)
+				prev->next = current->next;
+			else
+				*env = current->next;
+			free_current(current);
 			break ;
 		}
-		i++;
+		prev = current;
+		current = current->next;
 	}
 }
