@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:43:13 by amokdad           #+#    #+#             */
-/*   Updated: 2025/03/16 18:11:12 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:53:14 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exit_minishell(void)
+void	exit_minishell(t_cmd **cmd, t_env **env)
 {
+	struct_free_cmd(*cmd);
+	free_envp(*env);
 	printf("\n\nexit minishell ... \n\n");
 	exit (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/07 18:43:43 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:05:15 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	free_envp(t_env *env)
 	{
 		temp = env;
 		free(env->variable_name);
+		free(env->value);
 		env = env->next;
 		free(temp);
 	}

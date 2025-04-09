@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/08 18:31:06 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/09 17:53:05 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ typedef struct s_pipe
 // cd.c
 void				cd_cmd(t_cmd **cmd, t_env **env);
 // echo.c
-void				echo_cmd(t_cmd **cmd);
+void				echo_cmd(t_cmd **cmd, t_env **env);
 // env.c
 void				env_cmd(t_env **env);
 // exit.c
-void				exit_minishell(void);
+void				exit_minishell(t_cmd **cmd, t_env **env);
 // export.c
 void				my_export(t_cmd **cmd, t_env **env);
 // pwd.c
@@ -103,7 +103,7 @@ void				my_unset(t_cmd **cmd, t_env **env);
 // exectuting.c
 void				check_cmd(t_cmd **cmd, char *envp[], t_env **env);
 void				executing(t_cmd **cmd, char *envp[], t_env **env);
-void				execute(char *path, t_cmd **cmd, char *envp[]);
+void				execute(char *path, t_cmd **cmd, t_env **env);
 t_fd				handle_redirection(t_cmd *cmd);
 // helper_execute.c
 char				*find_path(char *cmd, char **envp);

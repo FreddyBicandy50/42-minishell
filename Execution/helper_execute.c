@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_execute.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 18:48:39 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/08 18:30:51 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/09 17:52:42 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,38 +51,38 @@ char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-void	execute(char *path, t_cmd **cmd, char *envp[])
-{
-	char	**exec_args;
-	int		i;
-	int		j;
+// void	execute(char *path, t_cmd **cmd, char *envp[], t_env **env)
+// {
+// 	char	**exec_args;
+// 	int		i;
+// 	int		j;
 
-	j = 0;
-	i = 1;
-	exec_args = malloc(sizeof(char *) * ((*cmd)->arg_number + 2));
-	exec_args[0] = (*cmd)->command;
-	while (j < (*cmd)->arg_number)
-	{
-		exec_args[i] = (*cmd)->arg[j];
-		i++;
-		j++;
-	}
-	if ((*cmd)->flag && *(*cmd)->flag)
-	{
-		exec_args[i] = (*cmd)->flag;
-		exec_args[i + 1] = NULL;
-	}
-	else
-		exec_args[i] = NULL;
-	if (execve(path, exec_args, envp) == -1)
-		perror("command not found");//127 exit code
-	free(exec_args);
-}
+// 	j = 0;
+// 	i = 1;
+// 	exec_args = malloc(sizeof(char *) * ((*cmd)->arg_number + 2));
+// 	exec_args[0] = (*cmd)->command;
+// 	while (j < (*cmd)->arg_number)
+// 	{
+// 		exec_args[i] = (*cmd)->arg[j];
+// 		i++;
+// 		j++;
+// 	}
+// 	if ((*cmd)->flag && *(*cmd)->flag)
+// 	{
+// 		exec_args[i] = (*cmd)->flag;
+// 		exec_args[i + 1] = NULL;
+// 	}
+// 	else
+// 		exec_args[i] = NULL;
+// 	if (execve(path, exec_args, envp) == -1)
+// 		ft_error(env, "command not found", 127);
+// 	free(exec_args);
+// }
 
 int	built_in_functions(t_cmd **cmd, t_env **env)
 {
 	if (ft_strcmp((*cmd)->command, "echo") == 0)
-		echo_cmd(cmd);
+		echo_cmd(cmd, env);
 	else if (ft_strcmp((*cmd)->command, "cd") == 0)
 		cd_cmd(cmd, env);
 	else if (ft_strcmp((*cmd)->command, "pwd") == 0)
@@ -94,7 +94,7 @@ int	built_in_functions(t_cmd **cmd, t_env **env)
 	else if (ft_strcmp((*cmd)->command, "env") == 0)
 		env_cmd(env);
 	else if (ft_strcmp((*cmd)->command, "exit") == 0)
-		exit_minishell();
+		exit_minishell(cmd, env);
 	else
 		return (1);
 	return (0);

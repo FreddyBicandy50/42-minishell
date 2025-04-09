@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/08 18:31:43 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/09 17:30:31 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
 
-void	execute_command(t_cmd **cmd, char **envp)
+void	execute_command(t_cmd **cmd, char **envp, t_env **env)
 {
 	int		pid;
 	char	*path;
@@ -26,7 +26,7 @@ void	execute_command(t_cmd **cmd, char **envp)
 		path = find_path((*cmd)->command, envp);
 		if (path)
 		{
-			execute(path, cmd, envp);
+			execute(path, cmd, env);
 			free(path);
 		}
 		else
@@ -59,7 +59,7 @@ void	check_cmd(t_cmd **cmd, char *envp[], t_env **env)
 		if (check_builtins)
 		{
 			path = find_path((*cmd)->command, envp);
-			execute(path, cmd, envp);
+			execute(path, cmd, env);
 		}
 		exit(0);
 	}
@@ -88,7 +88,7 @@ void	execute_simple_cmd(t_cmd **cmd, char *envp[], t_env **env)
 		{
 			path = find_path((*cmd)->command, envp);
 			handle_dup2(ff);
-			execute(path, cmd, envp);
+			execute(path, cmd, env);
 		}
 		else
 			wait_for_children();
