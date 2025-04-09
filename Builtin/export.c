@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:43:06 by amokdad           #+#    #+#             */
-/*   Updated: 2025/04/08 18:42:34 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/09 19:23:14 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ int	check_valid(char *var, t_env **env)
 	}
 	return (0);
 }
-void free_name(char **name)
+
+void	free_name(char **name)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (name[j])

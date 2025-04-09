@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/09 18:05:15 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:07:43 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,3 @@ void	set_env(char *var, char *value, t_env **env)
 	else
 		*env = new_node;
 }
-// ft_isalnum(key[i]) || key[i] == '_'

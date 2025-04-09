@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:24:00 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/09 17:40:50 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:24:00 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ static char	**build_exec_args(t_cmd *cmd)
 	j = 0;
 	args = malloc(sizeof(char *) * (cmd->arg_number + 3));
 	if (!args)
+	{
+		free(args);
 		return (NULL);
+	}
 	args[0] = cmd->command;
 	while (j < cmd->arg_number)
 		args[i++] = cmd->arg[j++];
@@ -84,23 +87,24 @@ static char	**build_exec_args(t_cmd *cmd)
 	return (args);
 }
 
-void	execute(char *path, t_cmd **cmd, t_env **env)
+void	execute(char *path, t_cmd **cmd, char *envp[], t_env **env)
 {
 	char	**args;
-	char	**envp;
+	char	**cenvp;
 
+	(void)envp;
 	args = build_exec_args(*cmd);
 	if (!args)
 		ft_error(env, "malloc failed", 1);
-	envp = env_to_envp(*env);
-	if (!envp)
+	cenvp = env_to_envp(*env);
+	if (!cenvp)
 	{
 		free(args);
 		ft_error(env, "env error", 1);
 	}
-	if (execve(path, args, envp) == -1)
+	if (execve(path, args, cenvp) == -1)
 	{
-		free_string_array(envp);
+		free_string_array(cenvp);
 		free(args);
 		ft_error(env, "command not found", 127);
 	}

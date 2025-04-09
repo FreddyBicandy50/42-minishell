@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/09 17:30:31 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:02:01 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	execute_command(t_cmd **cmd, char **envp, t_env **env)
 	if (pid == 0)
 	{
 		handle_redirection(*cmd);
-		path = find_path((*cmd)->command, envp);
+		path = find_path((*cmd)->command, envp, env);
 		if (path)
 		{
-			execute(path, cmd, env);
+			execute(path, cmd, envp, env);
 			free(path);
 		}
 		else
@@ -58,13 +58,18 @@ void	check_cmd(t_cmd **cmd, char *envp[], t_env **env)
 		check_builtins = built_in_functions(cmd, env);
 		if (check_builtins)
 		{
-			path = find_path((*cmd)->command, envp);
-			execute(path, cmd, env);
+			path = find_path((*cmd)->command, envp, env);
+			if (!path)
+			{
+				ft_error(env, "command not found", 127);
+				exit(1);
+			}
+			execute(path, cmd, envp, env);
 		}
 		exit(0);
 	}
 	else
-		wait(NULL);
+		wait_for_children();
 }
 
 void	execute_simple_cmd(t_cmd **cmd, char *envp[], t_env **env)
@@ -75,7 +80,6 @@ void	execute_simple_cmd(t_cmd **cmd, char *envp[], t_env **env)
 	int		check_builtins;
 	char	*path;
 
-	(void)env;
 	if (save_original_fds(&original_fds.fd_1, &original_fds.fd_2) == -1)
 		return ;
 	ff = handle_redirection(*cmd);
@@ -86,9 +90,15 @@ void	execute_simple_cmd(t_cmd **cmd, char *envp[], t_env **env)
 		pid = fork();
 		if (pid == 0)
 		{
-			path = find_path((*cmd)->command, envp);
+			path = find_path((*cmd)->command, envp, env);
+			if (!path)
+			{
+				ft_error(env, "command not found", 127);
+				exit(1);
+			}
 			handle_dup2(ff);
-			execute(path, cmd, env);
+			execute(path, cmd, envp, env);
+			exit(1);
 		}
 		else
 			wait_for_children();
@@ -107,7 +117,7 @@ void	executing(t_cmd **cmd, char *envp[], t_env **env)
 		execute_simple_cmd(cmd, envp, env);
 		return ;
 	}
-	pipe_fd.saved_fd = STDIN_FILENO;
+	pipe_fd.saved_fd = dup(STDIN_FILENO);
 	while (*cmd != NULL)
 	{
 		if ((*cmd)->next != NULL)

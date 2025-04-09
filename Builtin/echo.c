@@ -6,18 +6,17 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 10:07:17 by amokdad           #+#    #+#             */
-/*   Updated: 2025/04/09 15:00:42 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/09 19:24:26 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	echo_cmd(t_cmd **cmd, t_env **env)
+void	echo_cmd(t_cmd **cmd)
 {
 	int	i;
 	int	j;
 
-	(void)env;
 	if ((*cmd)->arg == NULL && (*cmd)->flag != NULL
 		&& ft_strcmp((*cmd)->flag, "-n") == 0)
 		return ;
