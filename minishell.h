@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/09 19:37:37 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:56:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,9 @@ void				handle_child_process(t_cmd **cmd, t_pipe pipe_fd,
 pid_t				create_process(void);
 int					create_pipe(int fd[2]);
 void				wait_for_children(void);
-
+//helper_execute5.c
+void				increment_SHLVL(t_env **env);
+void				decrement_SHLVL(t_env **env);
 //helper_redirections.c
 void				restore_original_fds(int original_stdin,
 						int original_stdout);
@@ -128,6 +130,11 @@ int					save_original_fds(int *original_stdin,
 char				*get_next_line(int fd);
 
 // Libft Folder
+
+// ft_ atoi.c
+int	ft_atoi(const char *nptr);
+//ft_itoa.c
+char	*ft_itoa(int n);
 // ft_char_is.c
 int					isquote(char c);
 int					redirections(char c1, char c2);

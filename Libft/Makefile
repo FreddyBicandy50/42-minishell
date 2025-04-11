@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2025/02/15 13:14:10 by fbicandy         ###   ########.fr        #
+#    Updated: 2025/04/10 09:44:26 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ ft_strsplit.c\
 ft_strtrim.c\
 ft_struct_lst.c\
 ft_struct_update_lst.c\
-ft_word_count.c
+ft_word_count.c\
+ft_atoi.c\
+ft_itoa.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

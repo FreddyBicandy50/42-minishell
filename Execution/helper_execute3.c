@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_execute3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:24:00 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/09 20:24:00 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:27:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,12 @@ void	execute(char *path, t_cmd **cmd, char *envp[], t_env **env)
 		free(args);
 		ft_error(env, "env error", 1);
 	}
+	if	(ft_strncmp("./", (*cmd)->command, 2) == 0)
+		increment_SHLVL(env);
 	if (execve(path, args, cenvp) == -1)
 	{
+		if	(ft_strncmp("./", (*cmd)->command, 2) == 0)
+			decrement_SHLVL(env);
 		free_string_array(cenvp);
 		free(args);
 		ft_error(env, "command not found", 127);
