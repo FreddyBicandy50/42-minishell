@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/12 15:59:48 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:02:08 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	main(int argc, char *argv[], char *envp[])
 	char			*input;
 	t_cmd			*cmd;
 	static t_env	*env;
-
+	
 	signals();
 	(void)argv;
 	(void)argc;

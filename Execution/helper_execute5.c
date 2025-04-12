@@ -15,12 +15,17 @@
 
 #include "../minishell.h"
 
+
 void	increment_shlvl(t_env **env)
 {
-	char	*shlvl;
-	char	*temp;
-	int		level;
+	char *shlvl;
+	char *temp;
+	int level;
+	char *pwd;
 
+	pwd = getcwd(NULL, 0);
+	set_env("PWD", pwd, env);
+	free(pwd);
 	temp = get_env_value(*env, "SHLVL");
 	if (!temp)
 		level = 1;
@@ -36,7 +41,7 @@ void	increment_shlvl(t_env **env)
 
 void	inside_fork(t_fork pipe, t_env **env, t_cmd **cmd)
 {
-	char	*path;
+	char *path;
 
 	pipe.pid = fork();
 	if (pipe.pid == 0)
