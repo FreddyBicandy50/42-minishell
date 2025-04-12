@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/10 09:56:58 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/12 13:33:33 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void				my_unset(t_cmd **cmd, t_env **env);
 // exectuting.c
 void				check_cmd(t_cmd **cmd, char *envp[], t_env **env);
 void				executing(t_cmd **cmd, char *envp[], t_env **env);
-void				execute(char *path, t_cmd **cmd, char *envp[], t_env **env);
+int					execute(char *path, t_cmd **cmd, char *envp[], t_env **env);
 t_fd				handle_redirection(t_cmd *cmd);
 // helper_execute.c
 char				*find_path(char *cmd, char **envp, t_env **env);
@@ -117,8 +117,8 @@ pid_t				create_process(void);
 int					create_pipe(int fd[2]);
 void				wait_for_children(void);
 //helper_execute5.c
-void				increment_SHLVL(t_env **env);
-void				decrement_SHLVL(t_env **env);
+void				increment_shlvl(t_env **env);
+void				decrement_shlvl(t_env **env);
 //helper_redirections.c
 void				restore_original_fds(int original_stdin,
 						int original_stdout);

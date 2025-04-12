@@ -12,14 +12,14 @@
 
 #include "../minishell.h"
 
-void	increment_SHLVL(t_env **env)
+void	increment_shlvl(t_env **env)
 {
 	char	*shlvl;
 	int		level;
 
 	shlvl = get_env_value(*env, "SHLVL");
 	if (!shlvl)
-	level = 1;
+		level = 1;
 	else
 		level = ft_atoi(shlvl);
 	printf("\n %d\n", level);
@@ -31,19 +31,19 @@ void	increment_SHLVL(t_env **env)
 	printf("\n %d\n", level);
 }
 
-void	decrement_SHLVL(t_env **env)
-{
-	char	*shlvl;
-	int		level;
+// void	decrement_shlvl(t_env **env)
+// {
+// 	char	*shlvl;
+// 	int		level;
 
-	printf("anna hon");
-	shlvl = get_env_value(*env, "SHLVL");
-	if (!shlvl)
-   	 level = 1;
-	else
-		level = ft_atoi(shlvl);
-	level--;
-	shlvl = ft_itoa(level);
-	set_env("SHLVL", shlvl, env);
-	free (shlvl);
-}
+// 	printf("anna hon");
+// 	shlvl = get_env_value(*env, "SHLVL");
+// 	if (!shlvl)
+// 		level = 2;
+// 	else
+// 		level = ft_atoi(shlvl);
+// 	level--;
+// 	shlvl = ft_itoa(level);
+// 	set_env("SHLVL", shlvl, env);
+// 	free (shlvl);
+// }

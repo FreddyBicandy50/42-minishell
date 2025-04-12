@@ -6,34 +6,11 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/09 20:02:01 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/12 13:49:07 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
-
-void	execute_command(t_cmd **cmd, char **envp, t_env **env)
-{
-	int		pid;
-	char	*path;
-
-	pid = fork();
-	if (pid == -1)
-		exit(EXIT_FAILURE);
-	if (pid == 0)
-	{
-		handle_redirection(*cmd);
-		path = find_path((*cmd)->command, envp, env);
-		if (path)
-		{
-			execute(path, cmd, envp, env);
-			free(path);
-		}
-		else
-			perror("Command not found");
-		exit(0);
-	}
-}
 
 void	handle_dup2(t_fd ff)
 {

@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/09 18:01:17 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/12 13:48:54 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	(void)argc;
 	env = save_envp(envp);
+	increment_shlvl(&env);
 	while (1)
 	{
 		env->exit_status = 0;
