@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_execute4.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 20:08:38 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/09 20:13:29 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:12:08 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,13 @@ char	*handle_dot_slash(char *cmd)
 	return (result);
 }
 
-char	*find_path(char *cmd, char **envp, t_env **env)
+char	*find_path(char *cmd, t_env **env)
 {
 	char	**paths;
 	char	*result;
 	int		i;
 	char	*env_path;
 
-	(void)envp;
 	if (ft_strncmp(cmd, "./", 2) == 0)
 		return (handle_dot_slash(cmd));
 	env_path = get_env_value(*env, "PATH");

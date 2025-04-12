@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/06 16:01:34 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:58:33 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,46 +47,46 @@
 // 	close(fd);
 // }
 
-int	handle_append(t_redir *redir)
+int	handle_append(t_env **env, t_redir *redir)
 {
-	int		fd;
+	int	fd;
 
 	fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		perror("Append redirection failed");
+		ft_error(env, "Append redirection failed", 1, false);
 		return (STDOUT_FILENO);
 	}
 	return (fd);
 }
 
-int	handle_write(t_redir *redir)
+int	handle_write(t_env **env, t_redir *redir)
 {
 	int	fd;
 
 	fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		perror("Output redirection failed");
+		ft_error(env, "Output redirection failed", 1, false);
 		return (STDOUT_FILENO);
 	}
 	return (fd);
 }
 
-int	handle_read_file(t_redir *redir)
+int	handle_read_file(t_env **env, t_redir *redir)
 {
 	int	fd;
 
 	fd = open(redir->filename, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("Input redirection failed");
+		ft_error(env, "Input redirection failed", 0, false);
 		return (STDIN_FILENO);
 	}
 	return (fd);
 }
 
-t_fd	handle_redirection(t_cmd *cmd)
+t_fd	handle_redirection(t_env **env, t_cmd *cmd)
 {
 	t_redir	*redir;
 	t_fd	f;
@@ -99,13 +99,11 @@ t_fd	handle_redirection(t_cmd *cmd)
 	while (redir)
 	{
 		if (redir->type == 1)
-			f.fd_1 = handle_read_file(redir);
+			f.fd_1 = handle_read_file(env, redir);
 		else if (redir->type == 2)
-			f.fd_2 = handle_write(redir);
+			f.fd_2 = handle_write(env, redir);
 		else if (redir->type == 4)
-			f.fd_2 = handle_append(redir);
-		// else if (ft_strcmp(redir->type, "<<") == 0)
-		// 	handle_heredoc(redir);
+			f.fd_2 = handle_append(env, redir);
 		redir = redir->next;
 	}
 	return (f);

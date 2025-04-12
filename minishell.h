@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/12 13:33:33 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:00:22 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ typedef struct s_fd
 	int				fd_1;
 	int				fd_2;
 }					t_fd;
+
+typedef struct s_fork
+{
+	pid_t			pid;
+	t_fd			ff;
+	t_fd			original_fds;
+}					t_fork;
 
 typedef struct s_expand
 {
@@ -79,9 +86,9 @@ typedef struct s_cmd
 
 typedef struct s_pipe
 {
-	int	fd[2];
-	int	saved_fd;
-}	t_pipe;
+	int				fd[2];
+	int				saved_fd;
+}					t_pipe;
 
 // Built Folder
 // cd.c
@@ -101,29 +108,32 @@ void				my_unset(t_cmd **cmd, t_env **env);
 
 // Execution Folder
 // exectuting.c
-void				check_cmd(t_cmd **cmd, char *envp[], t_env **env);
-void				executing(t_cmd **cmd, char *envp[], t_env **env);
-int					execute(char *path, t_cmd **cmd, char *envp[], t_env **env);
-t_fd				handle_redirection(t_cmd *cmd);
+void				handle_dup2(t_fd ff);
+void				check_cmd(t_cmd **cmd, t_env **env);
+void				executing(t_cmd **cmd, t_env **env);
+int					execute(char *path, t_cmd **cmd, t_env **env);
+t_fd				handle_redirection(t_env **env, t_cmd *cmd);
 // helper_execute.c
-char				*find_path(char *cmd, char **envp, t_env **env);
+char				*find_path(char *cmd, t_env **env);
 int					built_in_functions(t_cmd **cmd, t_env **env);
 
-//helper_execute2.c
+// helper_execute2.c
 void				handle_parent_process(t_pipe *pipe_fd, t_cmd **cmd);
 void				handle_child_process(t_cmd **cmd, t_pipe pipe_fd,
-						t_env **env, char *envp[]);
-pid_t				create_process(void);
-int					create_pipe(int fd[2]);
-void				wait_for_children(void);
-//helper_execute5.c
+						t_env **env);
+pid_t				create_process(t_env **env);
+int					create_pipe(t_env **env, int fd[2]);
+void				wait_for_children(pid_t pid, t_env **env);
+
+// helper_execute5.c
 void				increment_shlvl(t_env **env);
-void				decrement_shlvl(t_env **env);
-//helper_redirections.c
+void				inside_fork(t_fork pipe, t_env **env, t_cmd **cmd);
+
+// helper_redirections.c
 void				restore_original_fds(int original_stdin,
-						int original_stdout);
-int					save_original_fds(int *original_stdin,
-						int *original_stdout);
+						int original_stdout, t_env **env);
+int					save_original_fds(int *original_stdin, int *original_stdout,
+						t_env **env);
 
 // Get_next_line Folder
 // get_next_line.c
@@ -132,9 +142,9 @@ char				*get_next_line(int fd);
 // Libft Folder
 
 // ft_ atoi.c
-int	ft_atoi(const char *nptr);
-//ft_itoa.c
-char	*ft_itoa(int n);
+int					ft_atoi(const char *nptr);
+// ft_itoa.c
+char				*ft_itoa(int n);
 // ft_char_is.c
 int					isquote(char c);
 int					redirections(char c1, char c2);
@@ -192,9 +202,10 @@ t_env				*save_envp(char **envp);
 void				set_env(char *var, char *value, t_env **env);
 char				*get_env_value(t_env *env, char *key);
 // signals.c
-void				ft_error(t_env **env, char *errmessage, int error_code);
+void				ft_error(t_env **env, char *errmessage, int error_code,
+						int fork);
 void				signals(void);
-void				handle_eof(void);
+void				handlehandle_eof(void);
 void				handle_eof(void);
 void				handle_sigint(int sig);
 void				handle_sigint(int sig);

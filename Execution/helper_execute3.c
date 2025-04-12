@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_execute3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:24:00 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/12 13:21:02 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:11:50 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,26 +87,25 @@ static char	**build_exec_args(t_cmd *cmd)
 	return (args);
 }
 
-int	execute(char *path, t_cmd **cmd, char *envp[], t_env **env)
+int	execute(char *path, t_cmd **cmd, t_env **env)
 {
 	char	**args;
 	char	**cenvp;
 
-	(void)envp;
 	args = build_exec_args(*cmd);
 	if (!args)
-		ft_error(env, "malloc failed", 1);
+		ft_error(env, "malloc failed", 1, false);
 	cenvp = env_to_envp(*env);
 	if (!cenvp)
 	{
 		free(args);
-		ft_error(env, "env error", 1);
+		ft_error(env, "env error", 1, false);
 	}
 	if (execve(path, args, cenvp) == -1)
 	{
 		free_string_array(cenvp);
 		free(args);
-		ft_error(env, "command not found", 127);
+		ft_error(env, "command not found", 1, false);
 		return (-1);
 	}
 	return (1);

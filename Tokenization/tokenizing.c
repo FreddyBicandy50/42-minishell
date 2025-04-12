@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/05 20:25:23 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:57:15 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*rediretions_token(t_cmd **cmd, char *prompt, t_env *env)
 		type = redirections(*prompt, *(prompt + 1));
 		if (type < 0)
 		{
-			ft_error(&env, "error unmatched redirections", 130);
+			ft_error(&env, "error unmatched redirections", 130, false);
 			return (NULL);
 		}
 		if (type == 4 || type == 3)

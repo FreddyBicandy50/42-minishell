@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:43:06 by amokdad           #+#    #+#             */
-/*   Updated: 2025/04/09 19:23:14 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:56:45 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_valid(char *var, t_env **env)
 {
 	if (!(ft_isalpha(var[0]) || var[0] == '_'))
 	{
-		ft_error(env, "export: not an identifier", 1);
+		ft_error(env, "export: not an identifier", 1, false);
 		return (1);
 	}
 	return (0);

@@ -6,17 +6,19 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:49:04 by amokdad           #+#    #+#             */
-/*   Updated: 2025/03/30 23:23:27 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:43:05 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_error(t_env **env, char *errmessage, int error_code)
+void	ft_error(t_env **env, char *errmessage, int error_code, int fork)
 {
 	printf("%s\n", errmessage);
-	(*env)->exit_code = error_code;
 	(*env)->exit_status = 1;
+	if (fork)
+		exit(error_code);
+	(*env)->exit_code = error_code;
 }
 
 void	handle_eof(void)

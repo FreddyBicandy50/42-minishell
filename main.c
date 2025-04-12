@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/12 13:48:54 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:59:48 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ t_cmd	*parsing(char *input, t_env **env)
 		if (input[0] == '|' || (i > 0 && ((*n == '|' || *n == '\0')
 					&& input[i] == '|')))
 		{
-			ft_error(env, "parse error near `|'", 130);
+			ft_error(env, "parse error near `|'", 130, false);
 			return (NULL);
 		}
 		i++;
 	}
 	if (skip_to_c(input, '\0', (*env)->expanding) == NULL)
-		ft_error(env, "parse error unmatched quotes`", 130);
+		ft_error(env, "parse error unmatched quotes`", 130, false);
 	if ((*env)->exit_status != 1)
 		cmd = lexical_analysis(input, *env);
 	return (cmd);
@@ -98,9 +98,9 @@ t_cmd	*parsing(char *input, t_env **env)
 */
 int	main(int argc, char *argv[], char *envp[])
 {
-	char	*input;
-	t_cmd	*cmd;
-	t_env	*env;
+	char			*input;
+	t_cmd			*cmd;
+	static t_env	*env;
 
 	signals();
 	(void)argv;
@@ -110,6 +110,7 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		env->exit_status = 0;
+		env->exit_code = 0;
 		input = readline(PROMPT);
 		if (input == NULL)
 			handle_eof();
@@ -117,13 +118,9 @@ int	main(int argc, char *argv[], char *envp[])
 		cmd = parsing(input, &env);
 		free(input);
 		if (cmd && env->exit_status != 1)
-		{
-			struct_print_list(cmd);
-			executing(&cmd, envp, &env);
-		}
+			executing(&cmd, &env);
 		struct_free_cmd(cmd);
 		env->exit_status = 0;
 	}
-	free_envp(env);
-	return (0);
+	return (free_envp(env), 0);
 }
