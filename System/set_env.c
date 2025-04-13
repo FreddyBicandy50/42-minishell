@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/12 13:47:34 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/13 22:53:20 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,11 @@ t_env	*save_envp(char **envp)
 		temp = new_node;
 		envp++;
 	}
-	head->exit_code = 0;
-	head->expanding = FALSE;
+	if (head)
+	{
+		head->exit_code = 0;
+		head->expanding = FALSE;
+	}
 	return (head);
 }
 

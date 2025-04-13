@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/12 15:15:44 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/13 22:25:28 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,18 @@ char	*skip_to_c(char *s, char c, bool expanding)
 	outer_quote = '\0';
 	while (*s != '\0' && *s != c)
 	{
-		if (isquote(*s) && outer_quote == '\0')
-			outer_quote = *s;
 		if ((c != '|' && c != '$') && redirections(*s, *(s + 1)) != 0)
 			break ;
-		if (isquote(*s) && !expanding)
+		if (isquote(*s) && outer_quote == '\0')
+			outer_quote = *s;
+		else if (*s == outer_quote)
+			outer_quote = '\0';
+		if (!expanding && isquote(*s))
 			s = skip_inside(*s, s + 1);
-		if (expanding && outer_quote == '\'')
+		else if (expanding && (*s == '\'' && outer_quote == '\''))
 			s = skip_inside(*s, s + 1);
 		if (s == NULL)
 			return (NULL);
-		if (outer_quote != '\0' && *s == outer_quote)
-			outer_quote = '\0';
-		outer_quote = '\0';
 		s++;
 	}
 	return (s);
