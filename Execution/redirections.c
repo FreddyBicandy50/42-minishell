@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/12 15:58:33 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:18:29 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,37 @@
 // 			without removing existing content.
 // 3(<<) ----> open heredoc
 
-// void	handle_heredoc(t_redir *redir)
-// {
-// 	char	input_buffer[1024];
-// 	FILE	*input_stream;
-// 	int		fd;
+int	handle_heredoc(t_env **env, t_redir *redir)
+{
+	char	input_buffer[1024];
+	FILE	*input_stream;
+	int		fd;
 
-// 	input_stream = fopen("/tmp/heredoc_input.txt", "w+");
-// 	if (input_stream == NULL)
-// 	{
-// 		perror("Error opening temporary file for heredoc");
-// 		exit(1);
-// 	}
-// 	while (1)
-// 	{
-// 		write(1, "heredoc> ", 9);
-// 		fgets(input_buffer, sizeof(input_buffer), stdin);
-// 		if (strncmp(input_buffer, redir->filename,
-// 				strlen(redir->filename)) == 0)
-// 			break ;
-// 		fputs(input_buffer, input_stream);
-// 	}
-// 	fclose(input_stream);
-// 	fd = open("/tmp/heredoc_input.txt", O_RDONLY);
-// 	dup2(fd, STDIN_FILENO);
-// 	close(fd);
-// }
+	(void)redir;
+	input_stream = fopen("/tmp/heredoc_input.txt", "w+");
+	if (input_stream == NULL)
+	{
+		perror("Error opening temporary file for heredoc");
+		exit(1);
+	}
+	while (1)
+	{
+		write(1, "heredoc>", 9);
+		read(STDIN_FILENO, input_buffer, sizeof(input_buffer));
+		if (strncmp(input_buffer, redir->filename,
+				strlen(redir->filename)) == 0)
+			break ;
+		fputs(input_buffer, input_stream);
+	}
+	fclose(input_stream);
+	fd = open("/tmp/heredoc_input.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		ft_error(env, "heredoc redirection failed", 1, false);
+		return (STDIN_FILENO);
+	}
+	return(fd);
+}
 
 int	handle_append(t_env **env, t_redir *redir)
 {
@@ -102,6 +107,8 @@ t_fd	handle_redirection(t_env **env, t_cmd *cmd)
 			f.fd_1 = handle_read_file(env, redir);
 		else if (redir->type == 2)
 			f.fd_2 = handle_write(env, redir);
+		else if (redir->type == 3)
+			f.fd_1 = handle_heredoc(env, redir);
 		else if (redir->type == 4)
 			f.fd_2 = handle_append(env, redir);
 		redir = redir->next;

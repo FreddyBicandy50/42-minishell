@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/12 16:00:22 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:20:46 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void				check_cmd(t_cmd **cmd, t_env **env);
 void				executing(t_cmd **cmd, t_env **env);
 int					execute(char *path, t_cmd **cmd, t_env **env);
 t_fd				handle_redirection(t_env **env, t_cmd *cmd);
+int					handle_heredoc(t_env **env, t_redir *redir);
 // helper_execute.c
 char				*find_path(char *cmd, t_env **env);
 int					built_in_functions(t_cmd **cmd, t_env **env);
