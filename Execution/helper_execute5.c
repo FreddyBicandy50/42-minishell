@@ -18,10 +18,10 @@
 
 void	increment_shlvl(t_env **env)
 {
-	char *shlvl;
-	char *temp;
-	int level;
-	char *pwd;
+	char	*shlvl;
+	char	*temp;
+	int		level;
+	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
 	set_env("PWD", pwd, env);
@@ -41,7 +41,7 @@ void	increment_shlvl(t_env **env)
 
 void	inside_fork(t_fork pipe, t_env **env, t_cmd **cmd)
 {
-	char *path;
+	char	*path;
 
 	pipe.pid = fork();
 	if (pipe.pid == 0)
@@ -51,9 +51,10 @@ void	inside_fork(t_fork pipe, t_env **env, t_cmd **cmd)
 			ft_error(env, ft_strjoin((*cmd)->command, ": command not found"), 1,
 				true);
 		handle_dup2(pipe.ff);
+		restoresignal();
 		execute(path, cmd, env);
 		ft_error(env, "", 1, true);
 	}
 	else
-		wait_for_children(pipe.pid, env);
+		wait_for_children(pipe.pid, env, cmd);
 }

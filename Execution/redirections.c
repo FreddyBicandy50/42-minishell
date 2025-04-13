@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/13 15:18:29 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:37:54 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,36 +20,90 @@
 // 			without removing existing content.
 // 3(<<) ----> open heredoc
 
+// int	handle_heredoc(t_env **env, t_redir *redir)
+// {
+// 	char	input_buffer[1024];
+// 	FILE	*input_stream;
+// 	int		fd;
+
+// 	(void)redir;
+// 	input_stream = fopen("/tmp/heredoc_input.txt", "w+");
+// 	if (input_stream == NULL)
+// 	{
+// 		perror("Error opening temporary file for heredoc");
+// 		exit(1);
+// 	}
+// 	while (1)
+// 	{
+// 		write(1, "heredoc>", 9);
+// 		read(STDIN_FILENO, input_buffer, sizeof(input_buffer));
+// 		if (strncmp(input_buffer, redir->filename,
+// 				strlen(redir->filename)) == 0)
+// 			break ;
+// 		fputs(input_buffer, input_stream);
+// 	}
+// 	fclose(input_stream);
+// 	fd = open("/tmp/heredoc_input.txt", O_RDONLY);
+// 	if (fd == -1)
+// 	{
+// 		ft_error(env, "heredoc redirection failed", 1, false);
+// 		return (STDIN_FILENO);
+// 	}
+// 	return (fd);
+// }
+
+static bool	is_delimiter(const char *buffer, const char *delimiter)
+{
+	size_t	len;
+
+	len = (size_t)ft_strlen((char *)delimiter);
+	return (ft_strncmp(buffer, delimiter, len) == 0
+		&& (buffer[len] == '\n' || buffer[len] == '\0'));
+}
+
 int	handle_heredoc(t_env **env, t_redir *redir)
 {
-	char	input_buffer[1024];
+	char	*input_line;
 	FILE	*input_stream;
 	int		fd;
 
-	(void)redir;
+	if (!redir || !redir->filename)
+		return (STDIN_FILENO);
 	input_stream = fopen("/tmp/heredoc_input.txt", "w+");
 	if (input_stream == NULL)
 	{
 		perror("Error opening temporary file for heredoc");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	while (1)
 	{
-		write(1, "heredoc>", 9);
-		read(STDIN_FILENO, input_buffer, sizeof(input_buffer));
-		if (strncmp(input_buffer, redir->filename,
-				strlen(redir->filename)) == 0)
+		write(1, "heredoc> ", 9);
+		input_line = calloc(BUFFER_SIZE, sizeof(char));
+		if (!input_line)
 			break ;
-		fputs(input_buffer, input_stream);
+		if (read(STDIN_FILENO, input_line, BUFFER_SIZE - 1) <= 0)
+		{
+			free(input_line);
+			break ;
+		}
+		input_line[strcspn(input_line, "\n")] = '\0';
+		if (is_delimiter(input_line, redir->filename))
+		{
+			free(input_line);
+			break ;
+		}
+		//if (redir->expand) we want to add this flag in parsing for cas cat << 'eof'
+			process_dollar_strings(&input_line, *env);
+		process_dollar_strings(&input_line, *env);
+		fputs(input_line, input_stream);
+		fputc('\n', input_stream);
+		free(input_line);
 	}
 	fclose(input_stream);
 	fd = open("/tmp/heredoc_input.txt", O_RDONLY);
 	if (fd == -1)
-	{
 		ft_error(env, "heredoc redirection failed", 1, false);
-		return (STDIN_FILENO);
-	}
-	return(fd);
+	return ((fd == -1) ? STDIN_FILENO : fd);
 }
 
 int	handle_append(t_env **env, t_redir *redir)

@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:43:06 by amokdad           #+#    #+#             */
-/*   Updated: 2025/04/13 15:05:33 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:53:36 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,13 @@ void	free_name(char **name)
 	return ;
 }
 
-// void	filter_export(t_cmd *cmd, t_env **env)
-// {
-// 	if (cmd->arg == NULL)
-// 	{
-// 		// sort
-// 	}
-// }
-
 void	my_export(t_cmd **cmd, t_env **env)
 {
 	int		i;
 	char	*equal_sign;
 	char	**name;
 
-	// filter_export(*cmd, env);
+	filter_export(cmd, env);
 	if (!cmd || !(*cmd) || !(*cmd)->arg)
 		return ;
 	i = 0;

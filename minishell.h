@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/13 15:20:46 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:17:02 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,14 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
+# include <stdbool.h>
+# include <ctype.h>
+# include <fcntl.h>
 
 extern int			g_signal;
+
 # define PROMPT "\001\e[33m\00242-minishell\001\e[32m\002 ➜\001\e[0m\002 "
+# define BUFFER_SIZE 1024
 
 typedef struct s_fd
 {
@@ -101,6 +106,8 @@ void				env_cmd(t_env **env);
 void				exit_minishell(t_cmd **cmd, t_env **env);
 // export.c
 void				my_export(t_cmd **cmd, t_env **env);
+// heper_export.c
+void				filter_export(t_cmd **cmd, t_env **env);
 // pwd.c
 void				pwd_cmd(void);
 // unset.c
@@ -113,6 +120,7 @@ void				check_cmd(t_cmd **cmd, t_env **env);
 void				executing(t_cmd **cmd, t_env **env);
 int					execute(char *path, t_cmd **cmd, t_env **env);
 t_fd				handle_redirection(t_env **env, t_cmd *cmd);
+void				process_dollar_strings(char **input, t_env *env);
 int					handle_heredoc(t_env **env, t_redir *redir);
 // helper_execute.c
 char				*find_path(char *cmd, t_env **env);
@@ -124,7 +132,7 @@ void				handle_child_process(t_cmd **cmd, t_pipe pipe_fd,
 						t_env **env);
 pid_t				create_process(t_env **env);
 int					create_pipe(t_env **env, int fd[2]);
-void				wait_for_children(pid_t pid, t_env **env);
+void				wait_for_children(pid_t pid, t_env **env, t_cmd **cmd);
 
 // helper_execute5.c
 void				increment_shlvl(t_env **env);
@@ -206,11 +214,11 @@ char				*get_env_value(t_env *env, char *key);
 void				ft_error(t_env **env, char *errmessage, int error_code,
 						int fork);
 void				signals(void);
-void				handlehandle_eof(void);
 void				handle_eof(void);
 void				handle_sigint(int sig);
-void				handle_sigint(int sig);
 void				handle_sigquit(__attribute__((unused)) int sig);
+void				ignoresignals(void);
+void				restoresignal(void);
 
 // Tokenization Folder
 // tokenizing.c

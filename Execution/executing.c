@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/12 15:58:13 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:48:36 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ void	check_cmd(t_cmd **cmd, t_env **env)
 			if (!path)
 				ft_error(env, ft_strjoin((*cmd)->command, "command not found"),
 					127, true);
+			restoresignal();
 			execute(path, cmd, env);
 		}
 		ft_error(env, "", 1, true);
 	}
 	else
-		wait_for_children(pid, env);
+		wait_for_children(pid, env, cmd);
 }
 
 void	execute_simple_cmd(t_cmd **cmd, t_env **env)
@@ -85,5 +86,5 @@ void	executing(t_cmd **cmd, t_env **env)
 			handle_parent_process(&pipe_fd, cmd);
 		cmd = &(*cmd)->next;
 	}
-	wait_for_children(pid, env);
+	wait_for_children(pid, env, cmd);
 }

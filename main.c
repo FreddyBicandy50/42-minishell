@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/13 15:22:55 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:23:22 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,13 @@ t_cmd	*parsing(char *input, t_env **env)
 		-handle neccesary dequoting
 	*parser phase pass all data and fetch environment to execute
 */
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	char			*input;
 	t_cmd			*cmd;
 	static t_env	*env;
-	
+
 	signals();
 	(void)argv;
 	(void)argc;
@@ -109,18 +110,20 @@ int	main(int argc, char *argv[], char *envp[])
 	increment_shlvl(&env);
 	while (1)
 	{
-		env->exit_status = 0;
 		env->exit_code = 0;
+		env->exit_status = 0;
 		input = readline(PROMPT);
 		if (input == NULL)
 			handle_eof();
+		if (g_signal == 130)
+			env->exit_code = g_signal;
+		g_signal = 0;
 		add_history(input);
 		cmd = parsing(input, &env);
 		free(input);
 		if (cmd && env->exit_status != 1)
 			executing(&cmd, &env);
 		struct_free_cmd(cmd);
-		env->exit_status = 0;
 	}
 	return (free_envp(env), 0);
 }

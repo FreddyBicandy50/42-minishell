@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_execute2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 16:11:17 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/12 15:42:56 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:11:57 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,19 @@ void	handle_parent_process(t_pipe *pipe_fd, t_cmd **cmd)
 	}
 }
 
-void	wait_for_children(pid_t pid, t_env **env)
+void	wait_for_children(pid_t pid, t_env **env, t_cmd **cmd)
 {
 	int	status;
 
+	(void)cmd;
+	ignoresignals();
 	waitpid(pid, &status, 0);
+	signals();
 	if (WIFEXITED(status))
 		(*env)->exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		(*env)->exit_code = 128 + WTERMSIG(status);
 	while (wait(&status) > 0)
 		;
+
 }
