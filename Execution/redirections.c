@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/14 20:56:04 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 23:13:50 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	handle_heredoc(t_env **env, char *eof)
 	char	**input_line;
 	int		fd;
 
-	if (!eof)
+	if (!eof || g_signal == 130)
 		return (STDIN_FILENO);
 	fd = open("/tmp/heredoc_input", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
