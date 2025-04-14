@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/13 22:39:32 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:14:21 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	copy_args(t_cmd **cmd, char *prompt, t_env *env)
 	}
 	else
 	{
-		argument = skip_to_c(prompt, ' ', env->expanding);
+		argument = skip_to_c(prompt, ' ', env->expanding, env->here_doc);
 		len = argument - prompt;
 		argument = dequotencpy(0, len, prompt);
 		if (*argument == '\0')

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/13 22:44:44 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:13:48 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_cmd	*parsing(char *input, t_env **env)
 		}
 		i++;
 	}
-	if (skip_to_c(input, '\0', (*env)->expanding) == NULL)
+	if (skip_to_c(input, '\0', (*env)->expanding, (*env)->here_doc) == NULL)
 		ft_error(env, "parse error unmatched quotes`", 130, false);
 	if ((*env)->exit_status != 1)
 		cmd = lexical_analysis(input, *env);

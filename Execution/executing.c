@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/13 16:48:36 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/14 08:24:32 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execute_simple_cmd(t_cmd **cmd, t_env **env)
 	if (save_original_fds(&pipe.original_fds.fd_1, &pipe.original_fds.fd_2,
 			env) == -1)
 		return ;
-	pipe.ff = handle_redirection(env,*cmd);
+	pipe.ff = handle_redirection(env, *cmd);
 	handle_dup2(pipe.ff);
 	check_builtins = built_in_functions(cmd, env);
 	if (check_builtins)

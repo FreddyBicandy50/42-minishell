@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/13 18:17:02 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:12:32 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_env
 	int				exit_code;
 	bool			exit_status;
 	bool			expanding;
+	bool			here_doc;
 	struct s_env	*next;
 }					t_env;
 
@@ -154,6 +155,8 @@ char				*get_next_line(int fd);
 int					ft_atoi(const char *nptr);
 // ft_itoa.c
 char				*ft_itoa(int n);
+// ft_calloc.c
+void				*ft_calloc(size_t elementCount, size_t elementSize);
 // ft_char_is.c
 int					isquote(char c);
 int					redirections(char c1, char c2);
@@ -238,7 +241,7 @@ int					expansion_quotes(int index, char *s, char **dest,
 // helper_functions.c
 int					redirection_param(t_cmd **cmd, char *prompt, int type,
 						t_env *env);
-char				*skip_to_c(char *s, char c, bool expanding);
+char				*skip_to_c(char *s, char c, bool expanding,	bool here_doc);
 int					copy_flag(t_cmd **cmd, int i, char *prompt, t_env *env);
 // helper_tokenizer.c
 char				*skip_inside(char quote, char *s);

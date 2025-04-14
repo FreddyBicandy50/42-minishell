@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:44:06 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/12 14:23:23 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:26:57 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ void	expansion_mechanism(t_expand *expander, t_env *env)
 	{
 		free(expander->section);
 		expander->section = ft_strdup(skip_to_c(expander->next_section, '$',
-					env->expanding));
+					env->expanding, env->here_doc));
 		if (!expander->section || !*expander->section)
 			break ;
 		expander->len_section = skip_to_c(expander->next_section, '$',
-				env->expanding) - expander->next_section;
+				env->expanding, env->here_doc) - expander->next_section;
 		if (ft_strncmp(expander->section, "$?", 2) == 0)
 			expander->var_value = ft_itoa(env->exit_code);
 		else
@@ -78,29 +78,3 @@ void	expansion_mechanism(t_expand *expander, t_env *env)
 		free(expander->var_value);
 	}
 }
-
-// int	expansion_quotes(int index, char *s, char **dest, t_env *env)
-// {
-// 	char	quotes;
-// 	char	*prev;
-// 	char	*next;
-// 	char	**quoted_str;
-
-// 	quotes = s[index++];
-// 	s += index;
-// 	next = strdup(s);
-// 	index = 0;
-// 	while (next[index] != quotes)
-// 		index++;
-// 	quoted_str = malloc(sizeof(char *) * 2);
-// 	quoted_str[0] = strndup(s, index);
-// 	quoted_str[1] = NULL;
-// 	quoted_str = expansion(env, quoted_str);
-// 	prev = strdup(*dest);
-// 	free(*dest);
-// 	*dest = ft_strjoin_extra(prev, quoted_str[0], ft_strlen(next + index + 1));
-// 	free_split(quoted_str);
-// 	free(next);
-// 	free(prev);
-// 	return (index);
-// }

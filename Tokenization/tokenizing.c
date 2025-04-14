@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/13 22:43:07 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:14:05 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ char	*command_token(t_cmd **cmd, char *prompt, t_env *env, int type)
 		prompt += redirection_param(cmd, skip_spaces(prompt), type, env);
 	}
 	prompt = skip_spaces(prompt);
-	command = skip_to_c(prompt, ' ', env->expanding);
+	command = skip_to_c(prompt, ' ', env->expanding, env->here_doc);
 	len = command - prompt;
 	command = dequotencpy(0, len, prompt);
 	if (*cmd != NULL)

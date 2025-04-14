@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/13 18:37:54 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:29:26 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,48 +57,47 @@ static bool	is_delimiter(const char *buffer, const char *delimiter)
 	size_t	len;
 
 	len = (size_t)ft_strlen((char *)delimiter);
-	return (ft_strncmp(buffer, delimiter, len) == 0
-		&& (buffer[len] == '\n' || buffer[len] == '\0'));
+	return (ft_strncmp(buffer, delimiter, len) == 0 && (buffer[len] == '\n'
+			|| buffer[len] == '\0'));
 }
 
 int	handle_heredoc(t_env **env, t_redir *redir)
 {
-	char	*input_line;
+	char	**input_line;
 	FILE	*input_stream;
 	int		fd;
 
 	if (!redir || !redir->filename)
 		return (STDIN_FILENO);
+	(*env)->here_doc = TRUE;
 	input_stream = fopen("/tmp/heredoc_input.txt", "w+");
 	if (input_stream == NULL)
-	{
-		perror("Error opening temporary file for heredoc");
-		exit(EXIT_FAILURE);
-	}
+		ft_error(env, "Error opening temporary file for heredoc", 1, false);
+	input_line = malloc(sizeof(char *) * 2);
+	input_line[1] = NULL;
 	while (1)
 	{
-		write(1, "heredoc> ", 9);
-		input_line = calloc(BUFFER_SIZE, sizeof(char));
+		write(1, ">", 1);
+		input_line[0] = ft_calloc(BUFFER_SIZE, sizeof(char));
 		if (!input_line)
 			break ;
-		if (read(STDIN_FILENO, input_line, BUFFER_SIZE - 1) <= 0)
+		if (read(STDIN_FILENO, input_line[0], BUFFER_SIZE - 1) <= 0)
 		{
 			free(input_line);
 			break ;
 		}
-		input_line[strcspn(input_line, "\n")] = '\0';
-		if (is_delimiter(input_line, redir->filename))
+		input_line[0][strcspn(input_line[0], "\n")] = '\0';
+		if (is_delimiter(input_line[0], redir->filename))
 		{
-			free(input_line);
+			free(input_line[0]);
 			break ;
 		}
-		//if (redir->expand) we want to add this flag in parsing for cas cat << 'eof'
-			process_dollar_strings(&input_line, *env);
-		process_dollar_strings(&input_line, *env);
-		fputs(input_line, input_stream);
+		input_line = expansion(*env, input_line);
+		fputs(input_line[0], input_stream);
 		fputc('\n', input_stream);
-		free(input_line);
+		free(input_line[0]);
 	}
+	free(input_line);
 	fclose(input_stream);
 	fd = open("/tmp/heredoc_input.txt", O_RDONLY);
 	if (fd == -1)

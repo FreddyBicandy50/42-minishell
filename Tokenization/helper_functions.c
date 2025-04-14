@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/13 22:25:28 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:14:53 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	redirection_param(t_cmd **cmd, char *prompt, int type, t_env *env)
 	int		len;
 	t_redir	*new_redirection;
 
-	filename = skip_to_c(prompt, ' ', env->expanding);
+	filename = skip_to_c(prompt, ' ', env->expanding, env->here_doc);
 	len = filename - prompt;
 	if (len <= 0 || *prompt == '\0')
 	{
@@ -56,7 +56,7 @@ int	redirection_param(t_cmd **cmd, char *prompt, int type, t_env *env)
 	IF C IS ' ' (AKA space)
 	@RETURN "helo World this is a skip to c function"Code
 */
-char	*skip_to_c(char *s, char c, bool expanding)
+char	*skip_to_c(char *s, char c, bool expanding, bool here_doc)
 {
 	char	outer_quote;
 
@@ -71,7 +71,8 @@ char	*skip_to_c(char *s, char c, bool expanding)
 			outer_quote = '\0';
 		if (!expanding && isquote(*s))
 			s = skip_inside(*s, s + 1);
-		else if (expanding && (*s == '\'' && outer_quote == '\''))
+		else if (expanding && (*s == '\'' && outer_quote == '\'')
+			&& here_doc == FALSE)
 			s = skip_inside(*s, s + 1);
 		if (s == NULL)
 			return (NULL);
@@ -97,7 +98,7 @@ int	copy_flag(t_cmd **cmd, int i, char *prompt, t_env *env)
 	char	*flag;
 	int		len;
 
-	flag = skip_to_c(prompt, ' ', env->expanding);
+	flag = skip_to_c(prompt, ' ', env->expanding,env->here_doc);
 	len = flag - prompt;
 	flag = dequotencpy(i, len, prompt);
 	struct_update_flags(cmd, flag, (*cmd)->flag);
