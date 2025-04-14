@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/14 23:13:50 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 23:17:31 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int	handle_heredoc(t_env **env, char *eof)
 	input_line[1] = NULL;
 	while (1)
 	{
+		if (!eof || g_signal == 130)
+			break ;
 		write(1, ">", 1);
 		input_line[0] = (char *)malloc(BUFFER_SIZE * sizeof(char));
 		if (read(STDIN_FILENO, input_line[0], BUFFER_SIZE - 1) <= 0)
@@ -160,7 +162,9 @@ t_fd	handle_redirection(t_env **env, t_cmd *cmd)
 		else if (redir->type == 2)
 			f.fd_2 = handle_write(env, redir);
 		else if (redir->type == 3)
+		{
 			f.fd_1 = handle_read_file(env, redir, TRUE);
+		}
 		else if (redir->type == 4)
 			f.fd_2 = handle_append(env, redir);
 		redir = redir->next;

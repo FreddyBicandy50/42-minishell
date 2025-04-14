@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 23:11:53 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 23:15:07 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	main(int argc, char *argv[], char *envp[])
 		add_history(input);
 		cmd = parsing(input, &env);
 		free(input);
-		if (cmd && env->exit_status != 1 && g_signal!=130)
+		if (cmd && env->exit_status != 1)
 		{
 			// struct_print_list(cmd);
 			executing(&cmd, &env);
