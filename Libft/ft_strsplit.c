@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 16:40:15 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 09:15:36 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:23:14 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	**ft_shell_split(char *s, char c)
 		if (*s != c)
 		{
 			word_start = s;
-			s = skip_to_c(s, c, FALSE,FALSE);
+			s = skip_to_c(s, c, FALSE, FALSE);
 			tabs[i] = ft_strndup(word_start, s - word_start);
 			i++;
 		}

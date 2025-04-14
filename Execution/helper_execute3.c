@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:24:00 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/12 16:11:50 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 21:51:19 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	execute(char *path, t_cmd **cmd, t_env **env)
 	{
 		free_string_array(cenvp);
 		free(args);
-		ft_error(env, "command not found", 1, false);
+		ft_error(env, "42-minishell: Permission denied!", 126, false);
 		return (-1);
 	}
 	return (1);

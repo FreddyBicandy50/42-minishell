@@ -6,13 +6,14 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 09:12:32 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 21:42:12 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <ctype.h>
 # include <curses.h>
 # include <dirent.h>
 # include <errno.h>
@@ -20,6 +21,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -30,9 +32,6 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
-# include <stdbool.h>
-# include <ctype.h>
-# include <fcntl.h>
 
 extern int			g_signal;
 
@@ -107,7 +106,7 @@ void				env_cmd(t_env **env);
 void				exit_minishell(t_cmd **cmd, t_env **env);
 // export.c
 void				my_export(t_cmd **cmd, t_env **env);
-// heper_export.c
+// heeper_export.c
 void				filter_export(t_cmd **cmd, t_env **env);
 // pwd.c
 void				pwd_cmd(void);
@@ -121,8 +120,8 @@ void				check_cmd(t_cmd **cmd, t_env **env);
 void				executing(t_cmd **cmd, t_env **env);
 int					execute(char *path, t_cmd **cmd, t_env **env);
 t_fd				handle_redirection(t_env **env, t_cmd *cmd);
-void				process_dollar_strings(char **input, t_env *env);
-int					handle_heredoc(t_env **env, t_redir *redir);
+int					handle_heredoc(t_env **env, char *eof);
+char				*relative_path(t_cmd **cmd, t_env **env);
 // helper_execute.c
 char				*find_path(char *cmd, t_env **env);
 int					built_in_functions(t_cmd **cmd, t_env **env);
@@ -167,6 +166,8 @@ int					ft_isalpha(int c);
 void				ft_strcat(char *dest, const char *src);
 // ft_strchr.c
 char				*ft_strchr(char const *str, int c);
+// ft_strcspn.c
+size_t				ft_strcspn(const char *s, const char *reject);
 // ft_strcmp.c
 int					ft_strcmp(char *s1, char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -217,7 +218,7 @@ char				*get_env_value(t_env *env, char *key);
 void				ft_error(t_env **env, char *errmessage, int error_code,
 						int fork);
 void				signals(void);
-void				handle_eof(void);
+void				handle_eof(t_env **env);
 void				handle_sigint(int sig);
 void				handle_sigquit(__attribute__((unused)) int sig);
 void				ignoresignals(void);
@@ -241,7 +242,7 @@ int					expansion_quotes(int index, char *s, char **dest,
 // helper_functions.c
 int					redirection_param(t_cmd **cmd, char *prompt, int type,
 						t_env *env);
-char				*skip_to_c(char *s, char c, bool expanding,	bool here_doc);
+char				*skip_to_c(char *s, char c, bool expanding, bool here_doc);
 int					copy_flag(t_cmd **cmd, int i, char *prompt, t_env *env);
 // helper_tokenizer.c
 char				*skip_inside(char quote, char *s);

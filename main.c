@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 09:13:48 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 22:36:05 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ t_cmd	*parsing(char *input, t_env **env)
 		if (input[0] == '|' || (i > 0 && ((*n == '|' || *n == '\0')
 					&& input[i] == '|')))
 		{
-			ft_error(env, "parse error near `|'", 130, false);
+			ft_error(env, "parse error near `|'", 2, false);
 			return (NULL);
 		}
 		i++;
 	}
 	if (skip_to_c(input, '\0', (*env)->expanding, (*env)->here_doc) == NULL)
-		ft_error(env, "parse error unmatched quotes`", 130, false);
+		ft_error(env, "parse error unmatched quotes`", 2, false);
 	if ((*env)->exit_status != 1)
 		cmd = lexical_analysis(input, *env);
 	return (cmd);
@@ -110,11 +110,10 @@ int	main(int argc, char *argv[], char *envp[])
 	increment_shlvl(&env);
 	while (1)
 	{
-		env->exit_code = 0;
 		env->exit_status = 0;
 		input = readline(PROMPT);
 		if (input == NULL)
-			handle_eof();
+			handle_eof(&env);
 		if (g_signal == 130)
 			env->exit_code = g_signal;
 		g_signal = 0;
@@ -122,8 +121,11 @@ int	main(int argc, char *argv[], char *envp[])
 		cmd = parsing(input, &env);
 		free(input);
 		if (cmd && env->exit_status != 1)
+		{
+			struct_print_list(cmd);
 			executing(&cmd, &env);
+		}
 		struct_free_cmd(cmd);
 	}
-	return (free_envp(env), 0);
+	return (free_envp(env), env->exit_code);
 }

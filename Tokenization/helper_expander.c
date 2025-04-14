@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:44:06 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 09:26:57 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 21:55:47 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ void	expansion_mechanism(t_expand *expander, t_env *env)
 		expander->len_section = skip_to_c(expander->next_section, '$',
 				env->expanding, env->here_doc) - expander->next_section;
 		if (ft_strncmp(expander->section, "$?", 2) == 0)
+		{
 			expander->var_value = ft_itoa(env->exit_code);
+			env->exit_code = 0;
+		}
 		else
 			expander->var_value = expand(env, expander->section);
 		expander->prev_section = ft_strndup(expander->next_section,

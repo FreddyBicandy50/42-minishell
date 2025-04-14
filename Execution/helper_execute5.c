@@ -46,9 +46,9 @@ void	inside_fork(t_fork pipe, t_env **env, t_cmd **cmd)
 	pipe.pid = fork();
 	if (pipe.pid == 0)
 	{
-		path = find_path((*cmd)->command, env);
+		path = relative_path(cmd, env);
 		if (!path)
-			ft_error(env, ft_strjoin((*cmd)->command, ": command not found"), 1,
+			ft_error(env, ft_strjoin((*cmd)->command, ": command not found"), 127,
 				true);
 		handle_dup2(pipe.ff);
 		restoresignal();

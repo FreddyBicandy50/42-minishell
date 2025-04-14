@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2025/04/10 09:44:26 by marvin           ###   ########.fr        #
+#    Updated: 2025/04/14 17:15:07 by fbicandy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ ft_char_is.c\
 ft_strcat.c\
 ft_strchr.c\
 ft_strcmp.c\
+ft_strcspn.c\
 ft_strdup.c\
 ft_strjoin.c\
 ft_strlcpy.c\

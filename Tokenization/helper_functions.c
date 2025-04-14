@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 09:14:53 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 20:28:03 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,15 @@ int	redirection_param(t_cmd **cmd, char *prompt, int type, t_env *env)
 	filename = skip_to_c(prompt, ' ', env->expanding, env->here_doc);
 	len = filename - prompt;
 	if (len <= 0 || *prompt == '\0')
-	{
-		ft_error(&env, "error expected filename", 130, false);
-		return (-1);
-	}
+		return (ft_error(&env, "error expected filename", 130, false), -1);
 	filename = dequotencpy(0, len, prompt);
 	new_redirection = (t_redir *)malloc(sizeof(t_redir));
 	new_redirection->filename = filename;
 	new_redirection->type = type;
 	new_redirection->next = NULL;
 	update_redirections(cmd, new_redirection);
+	if (type == 3)
+		handle_heredoc(&env, filename);
 	return (len);
 }
 
@@ -98,7 +97,7 @@ int	copy_flag(t_cmd **cmd, int i, char *prompt, t_env *env)
 	char	*flag;
 	int		len;
 
-	flag = skip_to_c(prompt, ' ', env->expanding,env->here_doc);
+	flag = skip_to_c(prompt, ' ', env->expanding, env->here_doc);
 	len = flag - prompt;
 	flag = dequotencpy(i, len, prompt);
 	struct_update_flags(cmd, flag, (*cmd)->flag);

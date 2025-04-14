@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/14 09:29:26 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 20:56:04 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,48 +61,44 @@ static bool	is_delimiter(const char *buffer, const char *delimiter)
 			|| buffer[len] == '\0'));
 }
 
-int	handle_heredoc(t_env **env, t_redir *redir)
+int	handle_heredoc(t_env **env, char *eof)
 {
 	char	**input_line;
-	FILE	*input_stream;
 	int		fd;
 
-	if (!redir || !redir->filename)
+	if (!eof)
 		return (STDIN_FILENO);
-	(*env)->here_doc = TRUE;
-	input_stream = fopen("/tmp/heredoc_input.txt", "w+");
-	if (input_stream == NULL)
+	fd = open("/tmp/heredoc_input", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd < 0)
 		ft_error(env, "Error opening temporary file for heredoc", 1, false);
 	input_line = malloc(sizeof(char *) * 2);
 	input_line[1] = NULL;
 	while (1)
 	{
 		write(1, ">", 1);
-		input_line[0] = ft_calloc(BUFFER_SIZE, sizeof(char));
-		if (!input_line)
-			break ;
+		input_line[0] = (char *)malloc(BUFFER_SIZE * sizeof(char));
 		if (read(STDIN_FILENO, input_line[0], BUFFER_SIZE - 1) <= 0)
-		{
-			free(input_line);
-			break ;
-		}
-		input_line[0][strcspn(input_line[0], "\n")] = '\0';
-		if (is_delimiter(input_line[0], redir->filename))
 		{
 			free(input_line[0]);
 			break ;
 		}
+		if (input_line[0])
+			input_line[0][ft_strcspn(input_line[0], "\n")] = '\0';
 		input_line = expansion(*env, input_line);
-		fputs(input_line[0], input_stream);
-		fputc('\n', input_stream);
+		if (is_delimiter(input_line[0], eof) || g_signal == 130)
+		{
+			free(input_line[0]);
+			break ;
+		}
+		write(fd, input_line[0], ft_strlen(input_line[0]));
+		write(fd, "\n", 1);
 		free(input_line[0]);
 	}
 	free(input_line);
-	fclose(input_stream);
 	fd = open("/tmp/heredoc_input.txt", O_RDONLY);
 	if (fd == -1)
 		ft_error(env, "heredoc redirection failed", 1, false);
-	return ((fd == -1) ? STDIN_FILENO : fd);
+	return (fd);
 }
 
 int	handle_append(t_env **env, t_redir *redir)
@@ -131,11 +127,14 @@ int	handle_write(t_env **env, t_redir *redir)
 	return (fd);
 }
 
-int	handle_read_file(t_env **env, t_redir *redir)
+int	handle_read_file(t_env **env, t_redir *redir, bool here_doc)
 {
 	int	fd;
 
-	fd = open(redir->filename, O_RDONLY);
+	if (here_doc)
+		fd = open("/tmp/heredoc_input", O_RDONLY);
+	else
+		fd = open(redir->filename, O_RDONLY);
 	if (fd == -1)
 	{
 		ft_error(env, "Input redirection failed", 0, false);
@@ -157,11 +156,11 @@ t_fd	handle_redirection(t_env **env, t_cmd *cmd)
 	while (redir)
 	{
 		if (redir->type == 1)
-			f.fd_1 = handle_read_file(env, redir);
+			f.fd_1 = handle_read_file(env, redir, FALSE);
 		else if (redir->type == 2)
 			f.fd_2 = handle_write(env, redir);
 		else if (redir->type == 3)
-			f.fd_1 = handle_heredoc(env, redir);
+			f.fd_1 = handle_read_file(env, redir, TRUE);
 		else if (redir->type == 4)
 			f.fd_2 = handle_append(env, redir);
 		redir = redir->next;

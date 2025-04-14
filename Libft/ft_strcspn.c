@@ -1,41 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_strcspn.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 10:07:17 by amokdad           #+#    #+#             */
-/*   Updated: 2025/04/14 21:55:13 by fbicandy         ###   ########.fr       */
+/*   Created: 2025/04/14 17:09:07 by fbicandy          #+#    #+#             */
+/*   Updated: 2025/04/14 17:10:01 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	echo_cmd(t_cmd **cmd)
+size_t	ft_strcspn(const char *s, const char *reject)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
 
-	if ((*cmd)->arg == NULL && (*cmd)->flag != NULL && ft_strcmp((*cmd)->flag,
-			"-n") == 0)
-		return ;
-	if ((*cmd)->arg == NULL)
-	{
-		printf("\n");
-		return ;
-	}
 	i = 0;
-	while ((*cmd)->arg[i] != NULL)
+	while (s[i])
 	{
 		j = 0;
-		while ((*cmd)->arg[i][j] != '\0')
+		while (reject[j])
 		{
-			printf("%c", (*cmd)->arg[i][j]);
+			if (s[i] == reject[j])
+				return (i);
 			j++;
 		}
 		i++;
 	}
-	if ((*cmd)->flag == NULL || ft_strcmp((*cmd)->flag, "-n") != 0)
-		printf("\n"); 
+	return (i);
 }

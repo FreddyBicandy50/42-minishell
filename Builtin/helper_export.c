@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_export.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 17:53:51 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/13 17:54:14 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/14 23:02:56 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	env_len(t_env *env)
 		len++;
 		env = env->next;
 	}
-	return (len);
+	return (len);`
 }
 
 void	sort_env_array(t_env **env_arr)

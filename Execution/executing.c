@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 08:24:32 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/14 21:50:27 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@ void	handle_dup2(t_fd ff)
 		dup2(ff.fd_1, STDIN_FILENO);
 	if (ff.fd_2 != STDOUT_FILENO)
 		dup2(ff.fd_2, STDOUT_FILENO);
+}
+char	*relative_path(t_cmd **cmd, t_env **env)
+{
+	char	*path;
+
+	path = NULL;
+	if (ft_strchr((*cmd)->command, '/') == NULL)
+		path = find_path((*cmd)->command, env);
+	else
+		path = (*cmd)->command;
+	return (path);
 }
 
 void	check_cmd(t_cmd **cmd, t_env **env)
@@ -35,7 +46,7 @@ void	check_cmd(t_cmd **cmd, t_env **env)
 		check_builtins = built_in_functions(cmd, env);
 		if (check_builtins)
 		{
-			path = find_path((*cmd)->command, env);
+			path = relative_path(cmd, env);
 			if (!path)
 				ft_error(env, ft_strjoin((*cmd)->command, "command not found"),
 					127, true);

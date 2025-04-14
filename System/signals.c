@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:49:04 by amokdad           #+#    #+#             */
-/*   Updated: 2025/04/13 17:19:50 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/14 21:41:14 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	ft_error(t_env **env, char *errmessage, int error_code, int fork)
 	(*env)->exit_code = error_code;
 }
 
-void	handle_eof(void)
+void	handle_eof(t_env **env)
 {
 	printf("\nExiting minishell...\n");
 	rl_clear_history();
-	exit(0);
+	exit((*env)->exit_code);
 }
 
 void	handle_sigint(__attribute__((unused)) int sig)
