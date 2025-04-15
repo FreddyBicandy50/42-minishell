@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 21:42:12 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/15 20:58:27 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ char				*ft_strnstr(const char *big, const char *little,
 						size_t len);
 // ft_split.c
 char				**ft_split(char *s, char c);
-char				**ft_shell_split(char *s, char c);
+char				**ft_shell_split(char *s, char c, t_env *env);
 void				free_split(char **args);
 // ft_strtrim.c
 char				*skip_spaces(char *str);
@@ -242,7 +242,7 @@ int					expansion_quotes(int index, char *s, char **dest,
 // helper_functions.c
 int					redirection_param(t_cmd **cmd, char *prompt, int type,
 						t_env *env);
-char				*skip_to_c(char *s, char c, bool expanding, bool here_doc);
+char				*skip_to_c(char *s, char c, t_env *env);
 int					copy_flag(t_cmd **cmd, int i, char *prompt, t_env *env);
 // helper_tokenizer.c
 char				*skip_inside(char quote, char *s);

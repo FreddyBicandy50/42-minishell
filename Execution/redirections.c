@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/14 23:17:31 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/15 10:05:50 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	handle_heredoc(t_env **env, char *eof)
 {
 	char	**input_line;
 	int		fd;
+	size_t	bytes_read;
 
 	if (!eof || g_signal == 130)
 		return (STDIN_FILENO);
@@ -79,11 +80,15 @@ int	handle_heredoc(t_env **env, char *eof)
 			break ;
 		write(1, ">", 1);
 		input_line[0] = (char *)malloc(BUFFER_SIZE * sizeof(char));
-		if (read(STDIN_FILENO, input_line[0], BUFFER_SIZE - 1) <= 0)
+		if (!input_line[0])
+			break ;
+		bytes_read = read(STDIN_FILENO, input_line[0], BUFFER_SIZE - 1);
+		if (bytes_read <= 0)
 		{
 			free(input_line[0]);
 			break ;
 		}
+		input_line[0][bytes_read] = '\0';
 		if (input_line[0])
 			input_line[0][ft_strcspn(input_line[0], "\n")] = '\0';
 		input_line = expansion(*env, input_line);
@@ -97,7 +102,7 @@ int	handle_heredoc(t_env **env, char *eof)
 		free(input_line[0]);
 	}
 	free(input_line);
-	fd = open("/tmp/heredoc_input.txt", O_RDONLY);
+	fd = open("/tmp/heredoc_input", O_RDONLY);
 	if (fd == -1)
 		ft_error(env, "heredoc redirection failed", 1, false);
 	return (fd);

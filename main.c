@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 23:15:07 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/15 22:39:13 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,15 @@
 
 int		g_signal = 0;
 
-t_cmd	*lexical_analysis(char *input, t_env *env)
+t_cmd	*lexical_analysis(t_env *env, char **segments)
 {
 	t_cmd	*cmd;
 	t_cmd	*new_cmd;
-	char	**segments;
 	int		i;
 
 	i = -1;
 	cmd = NULL;
 	new_cmd = NULL;
-	segments = ft_shell_split(input, '|');
 	segments = expansion(env, segments);
 	while (segments[++i] != NULL)
 	{
@@ -48,6 +46,17 @@ t_cmd	*lexical_analysis(char *input, t_env *env)
 			struct_addback_list(&cmd, new_cmd);
 	}
 	free_split(segments);
+	return (cmd);
+}
+t_cmd	*split_commands(char *input, t_env *env)
+{
+	t_cmd	*cmd;
+	char	**segments;
+
+	segments = ft_shell_split(input, '|', env);
+	if (env->exit_status == 1 || segments == NULL)
+		return (NULL);
+	cmd = lexical_analysis(env, segments);
 	return (cmd);
 }
 
@@ -67,16 +76,13 @@ t_cmd	*parsing(char *input, t_env **env)
 		n = skip_spaces(input + (i + 1));
 		if (input[0] == '|' || (i > 0 && ((*n == '|' || *n == '\0')
 					&& input[i] == '|')))
-		{
-			ft_error(env, "parse error near `|'", 2, false);
-			return (NULL);
-		}
+			return (ft_error(env, "parse error near `|'", 2, false), NULL);
 		i++;
 	}
-	if (skip_to_c(input, '\0', (*env)->expanding, (*env)->here_doc) == NULL)
-		ft_error(env, "parse error unmatched quotes`", 2, false);
+	if (skip_to_c(input, '\0', *env) == NULL)
+		return (ft_error(env, "parse error unmatched quotes`", 2, false), NULL);
 	if ((*env)->exit_status != 1)
-		cmd = lexical_analysis(input, *env);
+		cmd = split_commands(input, *env);
 	return (cmd);
 }
 
@@ -121,12 +127,7 @@ int	main(int argc, char *argv[], char *envp[])
 		cmd = parsing(input, &env);
 		free(input);
 		if (cmd && env->exit_status != 1)
-		{
-			// struct_print_list(cmd);
 			executing(&cmd, &env);
-		}else if(g_signal==130){
-				
-		}
 		struct_free_cmd(cmd);
 	}
 	return (free_envp(env), env->exit_code);

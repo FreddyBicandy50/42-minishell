@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 20:28:03 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/15 22:37:02 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	redirection_param(t_cmd **cmd, char *prompt, int type, t_env *env)
 	int		len;
 	t_redir	*new_redirection;
 
-	filename = skip_to_c(prompt, ' ', env->expanding, env->here_doc);
+	filename = skip_to_c(prompt, ' ', env);
 	len = filename - prompt;
 	if (len <= 0 || *prompt == '\0')
 		return (ft_error(&env, "error expected filename", 130, false), -1);
@@ -55,7 +55,7 @@ int	redirection_param(t_cmd **cmd, char *prompt, int type, t_env *env)
 	IF C IS ' ' (AKA space)
 	@RETURN "helo World this is a skip to c function"Code
 */
-char	*skip_to_c(char *s, char c, bool expanding, bool here_doc)
+char	*skip_to_c(char *s, char c, t_env *env)
 {
 	char	outer_quote;
 
@@ -68,13 +68,13 @@ char	*skip_to_c(char *s, char c, bool expanding, bool here_doc)
 			outer_quote = *s;
 		else if (*s == outer_quote)
 			outer_quote = '\0';
-		if (!expanding && isquote(*s))
+		if (!env->expanding && isquote(*s))
 			s = skip_inside(*s, s + 1);
-		else if (expanding && (*s == '\'' && outer_quote == '\'')
-			&& here_doc == FALSE)
+		else if (env->expanding && (*s == '\'' && outer_quote == '\'')
+			&& env->here_doc == FALSE)
 			s = skip_inside(*s, s + 1);
 		if (s == NULL)
-			return (NULL);
+			return (ft_error(&env, "", 2, false), NULL);
 		s++;
 	}
 	return (s);
@@ -97,7 +97,7 @@ int	copy_flag(t_cmd **cmd, int i, char *prompt, t_env *env)
 	char	*flag;
 	int		len;
 
-	flag = skip_to_c(prompt, ' ', env->expanding, env->here_doc);
+	flag = skip_to_c(prompt, ' ', env);
 	len = flag - prompt;
 	flag = dequotencpy(i, len, prompt);
 	struct_update_flags(cmd, flag, (*cmd)->flag);

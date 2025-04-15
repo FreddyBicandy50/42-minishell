@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 16:40:15 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 17:23:14 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/15 22:37:55 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,22 @@ void	free_split(char **args)
 	ex: ls "HELLO |WORLD" | grep "test" | sort
 	@RETURN number of commands=4
 */
-int	ft_split_counts(char *s, char c)
+int	ft_split_counts(char *s, char c, t_env *env)
 {
 	size_t	split_counts;
 
 	split_counts = 0;
 	s = skip_spaces(s);
-	while (*s)
+	while (env->exit_status != 1 && *s)
 	{
 		if (*s != c)
 		{
-			s = skip_to_c(s, c, 0, false);
+			s = skip_to_c(s, c, env);
+			if (env->exit_status == 1)
+			{
+				printf("error: unmatched quotes `\n");
+				return (split_counts);
+			}
 			split_counts++;
 		}
 		else
@@ -67,15 +72,15 @@ int	ft_split_counts(char *s, char c)
 			copy this ...
 	find the manuals for skip to c for more details
 */
-char	**ft_shell_split(char *s, char c)
+char	**ft_shell_split(char *s, char c, t_env *env)
 {
 	char	*word_start;
 	char	**tabs;
 	int		split_counts;
 	size_t	i;
 
-	split_counts = ft_split_counts(s, c);
-	if (split_counts <= 0)
+	split_counts = ft_split_counts(s, c, env);
+	if (split_counts <= 0 || env->exit_status==1)
 		return (NULL);
 	tabs = malloc((split_counts + 1) * sizeof(char *));
 	i = 0;
@@ -84,7 +89,7 @@ char	**ft_shell_split(char *s, char c)
 		if (*s != c)
 		{
 			word_start = s;
-			s = skip_to_c(s, c, FALSE, FALSE);
+			s = skip_to_c(s, c, env);
 			tabs[i] = ft_strndup(word_start, s - word_start);
 			i++;
 		}
