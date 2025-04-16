@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/15 20:58:27 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 11:23:18 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_env
 	char			*variable_name;
 	char			*value;
 	int				exit_code;
+	bool			quote_indentifier;
 	bool			exit_status;
 	bool			expanding;
 	bool			here_doc;
@@ -246,7 +247,7 @@ char				*skip_to_c(char *s, char c, t_env *env);
 int					copy_flag(t_cmd **cmd, int i, char *prompt, t_env *env);
 // helper_tokenizer.c
 char				*skip_inside(char quote, char *s);
-char				*dequotencpy(int start, int end, char *s);
+char				*dequotencpy(int start, int end, char *s,t_env **env);
 int					copy_args(t_cmd **cmd, char *prompt, t_env *env);
 int					redirections(char c1, char c2);
 char				**expansion(t_env *env, char **segments);

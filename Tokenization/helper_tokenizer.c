@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/15 20:56:13 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 11:31:09 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*skip_inside(char quote, char *s)
 
 	@RETURN	example on dequote and copyTEST\0
 */
-char	*dequotencpy(int start, int end, char *s)
+char	*dequotencpy(int start, int end, char *s, t_env **env)
 {
 	int		i;
 	int		j;
@@ -50,6 +50,7 @@ char	*dequotencpy(int start, int end, char *s)
 
 	i = -1;
 	j = 0;
+	(*env)->quote_indentifier = FALSE;
 	in_quote = '\0';
 	dest = malloc(sizeof(char) * (end - start + 1));
 	while (++i < (end - start) && s[start + i])
@@ -57,7 +58,10 @@ char	*dequotencpy(int start, int end, char *s)
 		if (in_quote != '\0' && s[start + i] == in_quote)
 			in_quote = '\0';
 		else if (in_quote == '\0' && isquote(s[start + i]))
+		{
+			(*env)->quote_indentifier = TRUE;
 			in_quote = s[start + i];
+		}
 		else
 			dest[j++] = s[start + i];
 	}
@@ -90,14 +94,14 @@ int	copy_args(t_cmd **cmd, char *prompt, t_env *env)
 		while (*argument != '\0' && !redirections(*argument, *(argument + 1)))
 			argument++;
 		len = argument - prompt;
-		argument = dequotencpy(0, len, prompt);
+		argument = dequotencpy(0, len, prompt, &env);
 		struct_update_args(cmd, argument);
 	}
 	else
 	{
 		argument = skip_to_c(prompt, ' ', env);
 		len = argument - prompt;
-		argument = dequotencpy(0, len, prompt);
+		argument = dequotencpy(0, len, prompt, &env);
 		if (*argument == '\0')
 			free(argument);
 		else

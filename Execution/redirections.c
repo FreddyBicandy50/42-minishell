@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/15 10:05:50 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 11:23:59 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	handle_heredoc(t_env **env, char *eof)
 	input_line[1] = NULL;
 	while (1)
 	{
+		(*env)->here_doc = TRUE;
 		if (!eof || g_signal == 130)
 			break ;
 		write(1, ">", 1);
@@ -91,7 +92,8 @@ int	handle_heredoc(t_env **env, char *eof)
 		input_line[0][bytes_read] = '\0';
 		if (input_line[0])
 			input_line[0][ft_strcspn(input_line[0], "\n")] = '\0';
-		input_line = expansion(*env, input_line);
+		if((*env)->quote_indentifier==FALSE)
+			input_line = expansion(*env, input_line);
 		if (is_delimiter(input_line[0], eof) || g_signal == 130)
 		{
 			free(input_line[0]);
@@ -101,6 +103,7 @@ int	handle_heredoc(t_env **env, char *eof)
 		write(fd, "\n", 1);
 		free(input_line[0]);
 	}
+	(*env)->here_doc = FALSE;
 	free(input_line);
 	fd = open("/tmp/heredoc_input", O_RDONLY);
 	if (fd == -1)

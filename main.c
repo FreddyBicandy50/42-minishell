@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/15 22:39:13 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 11:26:06 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_cmd	*lexical_analysis(t_env *env, char **segments)
 	free_split(segments);
 	return (cmd);
 }
+
 t_cmd	*split_commands(char *input, t_env *env)
 {
 	t_cmd	*cmd;

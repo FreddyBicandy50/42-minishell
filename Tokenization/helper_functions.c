@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/15 22:37:02 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 11:29:01 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	redirection_param(t_cmd **cmd, char *prompt, int type, t_env *env)
 	len = filename - prompt;
 	if (len <= 0 || *prompt == '\0')
 		return (ft_error(&env, "error expected filename", 130, false), -1);
-	filename = dequotencpy(0, len, prompt);
+	filename = dequotencpy(0, len, prompt, &env);
 	new_redirection = (t_redir *)malloc(sizeof(t_redir));
 	new_redirection->filename = filename;
 	new_redirection->type = type;
@@ -73,6 +73,8 @@ char	*skip_to_c(char *s, char c, t_env *env)
 		else if (env->expanding && (*s == '\'' && outer_quote == '\'')
 			&& env->here_doc == FALSE)
 			s = skip_inside(*s, s + 1);
+		if ((env->here_doc || env->expanding) && s == NULL)
+			return (NULL);
 		if (s == NULL)
 			return (ft_error(&env, "", 2, false), NULL);
 		s++;
@@ -99,7 +101,7 @@ int	copy_flag(t_cmd **cmd, int i, char *prompt, t_env *env)
 
 	flag = skip_to_c(prompt, ' ', env);
 	len = flag - prompt;
-	flag = dequotencpy(i, len, prompt);
+	flag = dequotencpy(i, len, prompt, &env);
 	struct_update_flags(cmd, flag, (*cmd)->flag);
 	return (len);
 }
