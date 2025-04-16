@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:44:06 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/16 16:42:26 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:30:54 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,4 @@ void	expansion_mechanism(t_expand *expander, t_env *env)
 		free(expander->prev_section);
 		free(expander->var_value);
 	}
-
 }

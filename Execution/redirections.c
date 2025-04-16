@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/16 17:19:31 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:16:27 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,45 +52,75 @@
 // 	return (fd);
 // }
 
+void	abc(__attribute__((unused)) int sig)
+{
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_signal = 130;
+	exit(0);
+}
+void	signal_heredoc()
+{
+	signal(SIGINT, abc);
+	signal(SIGQUIT, SIG_IGN);
+}
+
 int	handle_heredoc(t_env **env, char *eof)
 {
 	char	**input_line;
 	int		fd;
+	int		pid;
 
-	if (!eof || g_signal == 130)
-		return (STDIN_FILENO);
-	fd = open("/tmp/heredoc_input", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
-		ft_error(env, "Error opening temporary file for heredoc", 1, false);
-	input_line = malloc(sizeof(char *) * 2);
-	input_line[1] = NULL;
-	while (1)
+	fd = 0;
+	pid = fork();
+	if (pid == -1)
+		ft_error(env, "error fork in heredoc", 0, 0);
+	if (pid == 0)
 	{
-		(*env)->here_doc = TRUE;
-		if (!eof || g_signal == 130)
-			break ;
-		input_line[0] = readline(">");
-		if (input_line[0] == NULL)
+		
+		if (!eof)
+			exit(STDIN_FILENO);
+		fd = open("/tmp/heredoc_input", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (fd < 0)
+			ft_error(env, "Error opening temporary file for heredoc", 1, false);
+		input_line = malloc(sizeof(char *) * 2);
+		input_line[1] = NULL;
+		while (1)
 		{
+			signal_heredoc();
+			if (g_signal == 130)
+				break ;
+			(*env)->here_doc = TRUE;
+			if (!eof)
+				break ;
+			input_line[0] = readline(">");
+			if (input_line[0] == NULL || g_signal == 130)
+			{
+				free(input_line[0]);
+				break ;
+			}
+			if ((*env)->quote_indentifier == FALSE)
+				input_line = expansion(*env, input_line);
+			if (is_delimiter(input_line[0], eof))
+			{
+				free(input_line[0]);
+				break ;
+			}
+			write(fd, input_line[0], ft_strlen(input_line[0]));
+			write(fd, "\n", 1);
 			free(input_line[0]);
-			break ;
 		}
-		if ((*env)->quote_indentifier == FALSE)
-			input_line = expansion(*env, input_line);
-		if (is_delimiter(input_line[0], eof) || g_signal == 130)
-		{
-			free(input_line[0]);
-			break ;
-		}
-		write(fd, input_line[0], ft_strlen(input_line[0]));
-		write(fd, "\n", 1);
-		free(input_line[0]);
+		(*env)->here_doc = FALSE;
+		free(input_line);
+		fd = open("/tmp/heredoc_input", O_RDONLY);
+		if (fd == -1)
+			ft_error(env, "heredoc redirection failed", 1, false);
+		exit(0);
 	}
-	(*env)->here_doc = FALSE;
-	free(input_line);
-	fd = open("/tmp/heredoc_input", O_RDONLY);
-	if (fd == -1)
-		ft_error(env, "heredoc redirection failed", 1, false);
+	else
+		wait(NULL);
 	return (fd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/16 16:46:41 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:32:13 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	copy_args(t_cmd **cmd, char *prompt, t_env *env)
 		while (*argument != '\0' && !redirections(*argument, *(argument + 1)))
 			argument++;
 		len = argument - prompt;
-		argument = dequotencpy(0, len, prompt, &env);
+		argument = ft_strndup(prompt, len);
 		struct_update_args(cmd, argument);
 	}
 	else
@@ -128,6 +128,7 @@ char	**expansion(t_env *env, char **segments)
 		expansion_mechanism(&expander, env);
 		expander.expanded_segements[i] = ft_strdup(expander.next_section);
 		free(expander.next_section);
+		
 	}
 	if (expander.section)
 		free(expander.section);
