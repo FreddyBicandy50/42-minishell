@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/16 11:26:06 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:04:16 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		env->exit_status = 0;
-		input = readline(PROMPT);
+		input = readline(PPOPROMPT);
 		if (input == NULL)
 			handle_eof(&env);
 		if (g_signal == 130)

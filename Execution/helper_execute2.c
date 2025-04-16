@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_execute2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 16:11:17 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/13 17:11:57 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:52:56 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,4 @@ void	wait_for_children(pid_t pid, t_env **env, t_cmd **cmd)
 		(*env)->exit_code = 128 + WTERMSIG(status);
 	while (wait(&status) > 0)
 		;
-
 }

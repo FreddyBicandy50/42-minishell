@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/14 09:26:26 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:56:43 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ char	*get_env_value(t_env *env, char *key)
 	return (NULL);
 }
 
+void	init_envp(t_env **new_node)
+{
+	(*new_node)->exit_code = 0;
+	(*new_node)->expanding = FALSE;
+	(*new_node)->here_doc = FALSE;
+}
+
 t_env	*save_envp(char **envp)
 {
 	t_env	*head;
@@ -49,9 +56,7 @@ t_env	*save_envp(char **envp)
 	while (*envp)
 	{
 		new_node = (t_env *)malloc(sizeof(t_env));
-		new_node->exit_code = 0;
-		new_node->expanding = FALSE;
-		new_node->here_doc = FALSE;
+		init_envp(&new_node);
 		var_values = ft_split(*envp, '=');
 		new_node->variable_name = ft_strdup(var_values[0]);
 		new_node->value = ft_strdup(var_values[1]);

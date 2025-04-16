@@ -15,13 +15,12 @@
 
 #include "../minishell.h"
 
-
 void	increment_shlvl(t_env **env)
 {
 	char	*shlvl;
 	char	*temp;
-	int		level;
 	char	*pwd;
+	int		level;
 
 	pwd = getcwd(NULL, 0);
 	set_env("PWD", pwd, env);
@@ -48,8 +47,8 @@ void	inside_fork(t_fork pipe, t_env **env, t_cmd **cmd)
 	{
 		path = relative_path(cmd, env);
 		if (!path)
-			ft_error(env, ft_strjoin((*cmd)->command, ": command not found"), 127,
-				true);
+			ft_error(env, ft_strjoin((*cmd)->command, ": command not found"),
+				127, true);
 		handle_dup2(pipe.ff);
 		restoresignal();
 		execute(path, cmd, env);

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 10:07:17 by amokdad           #+#    #+#             */
-/*   Updated: 2025/04/14 21:55:13 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:52:47 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ void	echo_cmd(t_cmd **cmd)
 		i++;
 	}
 	if ((*cmd)->flag == NULL || ft_strcmp((*cmd)->flag, "-n") != 0)
-		printf("\n"); 
+		printf("\n");
 }

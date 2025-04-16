@@ -6,13 +6,15 @@
 #    By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 12:28:36 by fbicandy          #+#    #+#              #
-#    Updated: 2025/04/14 17:15:07 by fbicandy         ###   ########.fr        #
+#    Updated: 2025/04/16 15:39:56 by fbicandy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 SOURCES = \
+ft_itoa.c \
 ft_char_is.c\
+ft_error.c \
 ft_strcat.c\
 ft_strchr.c\
 ft_strcmp.c\
@@ -28,7 +30,6 @@ ft_struct_lst.c\
 ft_struct_update_lst.c\
 ft_word_count.c\
 ft_atoi.c\
-ft_itoa.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/16 11:23:18 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:14:35 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@
 
 extern int			g_signal;
 
-# define PROMPT "\001\e[33m\00242-minishell\001\e[32m\002 ➜\001\e[0m\002 "
-# define BUFFER_SIZE 1024
+# define PROMPT "\001\e[33m\00242-minishell\001\e[32m\002  "
+# define ARROW "➜\001\e[0m\002"
+# define PPOPROMPT "\001\e[33m\00242-minishell\001\e[32m\002  ➜\001\e[0m\002"
 
 typedef struct s_fd
 {
@@ -121,7 +122,7 @@ void				check_cmd(t_cmd **cmd, t_env **env);
 void				executing(t_cmd **cmd, t_env **env);
 int					execute(char *path, t_cmd **cmd, t_env **env);
 t_fd				handle_redirection(t_env **env, t_cmd *cmd);
-int					handle_heredoc(t_env **env, char *eof);
+void				handle_heredoc(t_env **env, char *eof);
 char				*relative_path(t_cmd **cmd, t_env **env);
 // helper_execute.c
 char				*find_path(char *cmd, t_env **env);
@@ -172,6 +173,8 @@ size_t				ft_strcspn(const char *s, const char *reject);
 // ft_strcmp.c
 int					ft_strcmp(char *s1, char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
+bool				is_delimiter(const char *buffer, const char *delimiter);
+
 // ft_strdup.c
 char				*ft_strdup(char *s);
 char				*ft_strndup(const char *s, size_t n);
@@ -247,7 +250,7 @@ char				*skip_to_c(char *s, char c, t_env *env);
 int					copy_flag(t_cmd **cmd, int i, char *prompt, t_env *env);
 // helper_tokenizer.c
 char				*skip_inside(char quote, char *s);
-char				*dequotencpy(int start, int end, char *s,t_env **env);
+char				*dequotencpy(int start, int end, char *s, t_env **env);
 int					copy_args(t_cmd **cmd, char *prompt, t_env *env);
 int					redirections(char c1, char c2);
 char				**expansion(t_env *env, char **segments);

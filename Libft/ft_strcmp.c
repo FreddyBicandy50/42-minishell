@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:50:47 by amokdad           #+#    #+#             */
-/*   Updated: 2025/03/16 18:12:45 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:34:38 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,19 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	i = 0;
 	while (i < n)
 	{
-		if ((unsigned char)s1[i] != (unsigned char)s2[i]
-			|| s1[i] == '\0' || s2[i] == '\0')
+		if ((unsigned char)s1[i] != (unsigned char)s2[i] || s1[i] == '\0'
+			|| s2[i] == '\0')
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
 	return (0);
+}
+
+bool	is_delimiter(const char *buffer, const char *delimiter)
+{
+	size_t	len;
+
+	len = (size_t)ft_strlen((char *)delimiter);
+	return (ft_strncmp(buffer, delimiter, len) == 0 && (buffer[len] == '\n'
+			|| buffer[len] == '\0'));
 }

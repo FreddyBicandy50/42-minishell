@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 16:40:15 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/15 22:37:55 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:41:37 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**ft_shell_split(char *s, char c, t_env *env)
 	size_t	i;
 
 	split_counts = ft_split_counts(s, c, env);
-	if (split_counts <= 0 || env->exit_status==1)
+	if (split_counts <= 0 || env->exit_status == 1)
 		return (NULL);
 	tabs = malloc((split_counts + 1) * sizeof(char *));
 	i = 0;

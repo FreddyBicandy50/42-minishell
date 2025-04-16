@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/14 21:50:27 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:49:17 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	handle_dup2(t_fd ff)
 	if (ff.fd_2 != STDOUT_FILENO)
 		dup2(ff.fd_2, STDOUT_FILENO);
 }
+
 char	*relative_path(t_cmd **cmd, t_env **env)
 {
 	char	*path;

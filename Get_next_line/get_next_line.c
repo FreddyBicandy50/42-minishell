@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/14 16:31:26 by fbicandy         ###   ########.fr       */
+/*   Created: 2025/04/16 15:54:25 by fbicandy          #+#    #+#             */
+/*   Updated: 2025/04/16 15:54:33 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "get_next_line.h"
 
@@ -108,18 +107,3 @@ char	*get_next_line(int fd)
 	buffer = ft_next(buffer);
 	return (line);
 }
-
-// int main(void)
-// {
-// 	int fd;
-// 	char *line;
-
-// 	fd = open("file.txt", O_RDONLY);
-// 	while ((line = get_next_line(fd)))
-// 	{
-// 		printf("%s", line);
-// 		free(line);
-// 	}
-// 	close(fd);
-// 	return (0);
-// }
