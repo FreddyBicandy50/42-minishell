@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 11:24:52 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/16 17:17:13 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:19:31 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,6 @@
 // 	}
 // 	return (fd);
 // }
-
-static bool	is_delimiter(const char *buffer, const char *delimiter)
-{
-	size_t	len;
-
-	len = (size_t)ft_strlen((char *)delimiter);
-	return (ft_strncmp(buffer, delimiter, len) == 0 && (buffer[len] == '\n'
-			|| buffer[len] == '\0'));
-}
 
 int	handle_heredoc(t_env **env, char *eof)
 {
