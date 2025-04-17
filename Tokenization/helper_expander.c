@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:44:06 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/16 19:30:54 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/16 21:20:18 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@ int	init_expansion(t_expand *expander, char **segments)
 	return (-1);
 }
 
+char	*get_expand_value(t_env *env, char *key, int *i, char *rawvar)
+{
+	char	*value;
+
+	if (*key == '?')
+	{
+		(*i)++;
+		value = ft_itoa(env->exit_code);
+	}
+	else
+		value = get_env_value(env, rawvar);
+	return (value);
+}
+
 char	*expand(t_env *env, char *key)
 {
 	char	*expanded;
@@ -32,9 +46,8 @@ char	*expand(t_env *env, char *key)
 	char	*value;
 	int		i;
 
-	if (*key != '$')
-		return (NULL);
 	key++;
+	rawvar = NULL;
 	if (*key >= '0' && *key <= '9')
 	{
 		key++;
@@ -44,7 +57,7 @@ char	*expand(t_env *env, char *key)
 	while (key[i] != '\0' && (ft_isalnum(key[i]) || key[i] == '_'))
 		i++;
 	rawvar = ft_strndup(key, i);
-	value = get_env_value(env, rawvar);
+	value = get_expand_value(env, key, &i, rawvar);
 	free(rawvar);
 	key += i;
 	if (value == NULL)
@@ -65,13 +78,13 @@ void	expansion_mechanism(t_expand *expander, t_env *env)
 			break ;
 		expander->len_section = skip_to_c(expander->next_section, '$', env)
 			- expander->next_section;
-		if (ft_strncmp(expander->section, "$?", 2) == 0)
-		{
-			expander->var_value = ft_itoa(env->exit_code);
-			env->exit_code = 0;
-		}
-		else
-			expander->var_value = expand(env, expander->section);
+		// if (ft_strncmp(expander->section, "$?", 2) == 0)
+		// {
+		// 	expander->var_value = ft_itoa(env->exit_code);
+		// 	env->exit_code = 0;
+		// }
+		// else
+		expander->var_value = expand(env, expander->section);
 		expander->prev_section = ft_strndup(expander->next_section,
 				expander->len_section);
 		free(expander->next_section);
