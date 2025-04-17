@@ -22,7 +22,8 @@
         "utility": "c",
         "curses.h": "c",
         "optional": "c",
-        "ostream": "c"
+        "ostream": "c",
+        "numbers": "c"
     },
     "files.autoSave": "afterDelay",
     "editor.fontSize": 21,

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/16 20:41:51 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/18 00:51:42 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,28 +109,21 @@ char	*flags_token(t_cmd **cmd, char *prompt, t_env *env)
 		-dequote the result and copy it
 	@RETURN  -Flag1 -Flag2 arg1 arg2 -Flag3 > file1 file2 file3
 */
-char	*command_token(t_cmd **cmd, char *prompt, t_env *env, int type)
+char	*command_token(t_cmd **cmd, char *prompt, t_env **env)
 {
 	char	*command;
 	size_t	len;
 
 	len = 0;
-	if (*prompt != '\0')
-		type = redirections(*prompt, *(prompt + 1));
-	if (type != 0)
-	{
-		if (type == 4 || type == 3)
-			prompt += 2;
-		else
-			prompt++;
-		*cmd = struct_create_list(NULL, *cmd);
-		prompt = skip_spaces(prompt);
-		prompt += redirection_param(cmd, skip_spaces(prompt), type, env);
-	}
 	prompt = skip_spaces(prompt);
-	command = skip_to_c(prompt, ' ', env);
+	command = skip_to_c(prompt, ' ', *env);
+	if (command == NULL)
+	{
+		ft_error(env, "parse error umatched quote`", 2, FALSE);
+		return (free(command), NULL);
+	}
 	len = command - prompt;
-	command = dequotencpy(0, len, prompt, &env);
+	command = dequotencpy(0, len, prompt, env);
 	if (*cmd != NULL)
 		(*cmd)->command = command;
 	else
@@ -141,19 +134,27 @@ char	*command_token(t_cmd **cmd, char *prompt, t_env *env, int type)
 t_cmd	*tokenizing(char *prompt, t_env *env)
 {
 	t_cmd	*new_cmd;
+	int		type;
 
 	new_cmd = NULL;
-	prompt = command_token(&new_cmd, skip_spaces(prompt), env, 0);
+	if (*prompt == '\0' || prompt == NULL)
+		return (ft_error(&env,"parse error :invalid command",2,FALSE), NULL);
+	if (*prompt != '\0' && prompt != NULL)
+		type = redirections(*prompt, *(prompt + 1));
+	if (type != 0)
+		prompt = check_redir(type, &env, &new_cmd, prompt);
+	if (prompt == NULL || env->exit_status == 1)
+		return (new_cmd);
+	prompt = command_token(&new_cmd, skip_spaces(prompt), &env);
+	if (env->exit_status == 1)
+		return (new_cmd);
 	if (*prompt != '\0')
 		prompt = flags_token(&new_cmd, prompt, env);
 	if (*prompt != '\0')
 	{
 		prompt = rediretions_token(&new_cmd, prompt, env);
 		if (!prompt)
-		{
-			struct_free_cmd(new_cmd);
-			return (NULL);
-		}
+			return (struct_free_cmd(new_cmd), NULL);
 	}
 	return (new_cmd);
 }

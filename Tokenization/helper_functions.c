@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:42:02 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/16 11:29:01 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/18 00:07:12 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ int	redirection_param(t_cmd **cmd, char *prompt, int type, t_env *env)
 	if (len <= 0 || *prompt == '\0')
 		return (ft_error(&env, "error expected filename", 130, false), -1);
 	filename = dequotencpy(0, len, prompt, &env);
+	if (*filename == '\0' || filename == NULL)
+	{
+		free(filename);
+		return (ft_error(&env, "error expected filename", 130, false), -1);
+	}
 	new_redirection = (t_redir *)malloc(sizeof(t_redir));
 	new_redirection->filename = filename;
 	new_redirection->type = type;

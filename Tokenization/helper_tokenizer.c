@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/17 21:12:29 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/18 00:24:15 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,9 @@ char	*dequotencpy(int start, int end, char *s, t_env **env)
 		else
 			dest[j++] = s[start + i];
 	}
-	dest[j] = '\0';
-	return (dest);
+	if (in_quote != '\0')
+		ft_error(env, "parse error unmatched quotes`", 2, FALSE);
+	return (dest[j] = '\0', dest);
 }
 
 /*
@@ -109,12 +110,13 @@ int	copy_args(t_cmd **cmd, char *prompt, t_env *env)
 	else
 	{
 		argument = skip_to_c(prompt, ' ', env);
+		if (argument == NULL)
+			return (free(argument), 0);
 		len = argument - prompt;
 		argument = dequotencpy(0, len, prompt, &env);
-		if (*argument == '\0')
-			free(argument);
-		else
-			struct_update_args(cmd, argument);
+		if (*argument == '\0' || env->exit_status == 1)
+			return (free(argument), len);
+		struct_update_args(cmd, argument);
 	}
 	return (len);
 }
@@ -146,4 +148,18 @@ char	**expansion(t_env *env, char **segments)
 	expander.expanded_segements[i] = NULL;
 	env->expanding = FALSE;
 	return (expander.expanded_segements);
+}
+
+char	*check_redir(int type, t_env **env, t_cmd **cmd, char *prompt)
+{
+	if (type == 4 || type == 3)
+		prompt += 2;
+	else
+		prompt++;
+	*cmd = struct_create_list(NULL, *cmd);
+	prompt = skip_spaces(prompt);
+	prompt += redirection_param(cmd, skip_spaces(prompt), type, *env);
+	if ((*env)->exit_status == 1)
+		return (struct_free_cmd(*cmd), NULL);
+	return (prompt);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/17 14:12:09 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/18 00:19:31 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ extern int			g_signal;
 
 # define PROMPT "\001\e[33m\00242-minishell\001\e[32m\002  "
 # define ARROW "➜\001\e[0m\002"
-# define PPOPROMPT "\001\e[33m\00242-minishell\001\e[32m\002  ➜\001\e[0m\002"
+# define PPOPROMPT "\001\e[33m\00242-minishell\001\e[32m\002  ➜\001\e[0m\002 "
 
 typedef struct s_fd
 {
@@ -234,8 +234,7 @@ t_cmd				*tokenizing(char *prompt, t_env *env);
 char				*rediretions_token(t_cmd **cmd, char *prompt, t_env *env);
 char				*args_token(t_cmd **cmd, int i, char *prompt, t_env *env);
 char				*flags_token(t_cmd **cmd, char *prompt, t_env *env);
-char				*command_token(t_cmd **cmd, char *prompt, t_env *env,
-						int type);
+char				*command_token(t_cmd **cmd, char *prompt, t_env **env);
 // helper_expander.c
 int					init_expansion(t_expand *expander, char **segments);
 void				expansion_mechanism(t_expand *expander, t_env *env);
@@ -254,5 +253,7 @@ char				*dequotencpy(int start, int end, char *s, t_env **env);
 int					copy_args(t_cmd **cmd, char *prompt, t_env *env);
 int					redirections(char c1, char c2);
 char				**expansion(t_env *env, char **segments);
+char				*check_redir(int type, t_env **env, t_cmd **cmd,
+						char *prompt);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/17 21:12:05 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/18 00:41:07 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ t_cmd	*lexical_analysis(t_env *env, char **segments)
 	i = -1;
 	cmd = NULL;
 	new_cmd = NULL;
+	(void)new_cmd;
 	segments = expansion(env, segments);
 	while (segments[++i] != NULL)
 	{
-		new_cmd = tokenizing(segments[i], env);
-		if (!new_cmd)
+		new_cmd = tokenizing(skip_spaces(segments[i]), env);
+		if (!new_cmd || env->exit_status == 1)
 		{
 			struct_free_cmd(cmd);
 			cmd = NULL;
@@ -105,7 +106,10 @@ void	start_engine(t_env *env)
 		cmd = parsing(input, &env);
 		free(input);
 		if (cmd && (env->exit_status != 1 && g_signal != 130))
+		{
+			struct_print_list(cmd);
 			executing(&cmd, &env);
+		}
 		struct_free_cmd(cmd);
 	}
 }
