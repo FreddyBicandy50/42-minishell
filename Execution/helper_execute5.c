@@ -36,6 +36,7 @@ void	increment_shlvl(t_env **env)
 	set_env("SHLVL", shlvl, env);
 	free(temp);
 	free(shlvl);
+	set_env("_", "_/usr/bin/env", env);
 }
 
 void	inside_fork(t_fork pipe, t_env **env, t_cmd **cmd)

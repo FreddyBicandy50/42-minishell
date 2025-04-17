@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:43:06 by amokdad           #+#    #+#             */
-/*   Updated: 2025/04/12 16:07:59 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:17:38 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	free_current(t_env *current)
 {
+	if (!current)
+		return ;
 	free(current->variable_name);
 	free(current->value);
 	free(current);
@@ -43,9 +45,7 @@ void	my_unset(t_cmd **cmd, t_env **env)
 	len = ft_strlen((*cmd)->arg[0]);
 	while (current)
 	{
-		if (ft_strncmp(current->variable_name, (*cmd)->arg[0], len) == 0
-			&& (current->variable_name[len] == '='
-				|| current->variable_name[len] == '\0'))
+		if (ft_strncmp(current->variable_name, (*cmd)->arg[0], len) == 0)
 		{
 			unset_helper(cmd, env, current, prev);
 			break ;

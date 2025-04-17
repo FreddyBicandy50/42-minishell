@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:06:11 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/17 15:13:51 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/17 16:20:01 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	free_envp(t_env *env)
 
 char	*get_env_value(t_env *env, char *key)
 {
+	if (!env)
+		return (NULL);
 	while (env)
 	{
 		if (ft_strcmp(env->variable_name, key) == 0)
