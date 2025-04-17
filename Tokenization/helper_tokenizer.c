@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/17 12:23:21 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/17 21:12:29 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,16 +135,10 @@ char	**expansion(t_env *env, char **segments)
 	while (segments[++i])
 	{
 		command = skip_spaces(segments[i]);
-		// if (strncmp(command, "echo ", 5))
-		// {
-			
-		// }
 		expander.next_section = ft_strdup(command);
 		expansion_mechanism(&expander, env);
 		expander.expanded_segements[i] = ft_strdup(expander.next_section);
 		free(expander.next_section);
-		// expansion_quote_identifier(expander.expanded_segements);
-		// printf("%s\n", expander.expanded_segements[i]);
 	}
 	if (expander.section)
 		free(expander.section);

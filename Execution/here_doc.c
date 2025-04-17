@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:34:42 by aal-mokd          #+#    #+#             */
-/*   Updated: 2025/04/17 13:16:48 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/17 21:13:10 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	handle_heredoc(t_env **env, char *eof)
 	char	**input_line;
 	int		fd;
 	int		pid;
-
 
 	fd = 0;
 	pid = fork();

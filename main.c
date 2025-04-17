@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/17 16:58:04 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/17 21:12:05 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  *input= ls -la "test" | grep "test"
  *Steps:
  *	if string is empty or has | at the start
- *	elif split the commands by pipes
+ *	elif split the com mands by pipes
  *	each string in the returned segment is a command
  *  start tokenization method
  */
@@ -87,6 +87,29 @@ t_cmd	*parsing(char *input, t_env **env)
 	return (cmd);
 }
 
+void	start_engine(t_env *env)
+{
+	t_cmd	*cmd;
+	char	*input;
+
+	while (1)
+	{
+		env->exit_status = 0;
+		input = readline(PPOPROMPT);
+		if (input == NULL)
+			handle_eof(&env);
+		if (g_signal == 130)
+			env->exit_code = g_signal;
+		g_signal = 0;
+		add_history(input);
+		cmd = parsing(input, &env);
+		free(input);
+		if (cmd && (env->exit_status != 1 && g_signal != 130))
+			executing(&cmd, &env);
+		struct_free_cmd(cmd);
+	}
+}
+
 /*
 	Program Workflow
 
@@ -106,8 +129,6 @@ t_cmd	*parsing(char *input, t_env **env)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char			*input;
-	t_cmd			*cmd;
 	static t_env	*env;
 
 	signals();
@@ -115,21 +136,6 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argc;
 	env = save_envp(envp);
 	increment_shlvl(&env);
-	while (1)
-	{
-		env->exit_status = 0;
-		input = readline(PPOPROMPT);
-		if (input == NULL)
-			handle_eof(&env);
-		if (g_signal == 130)
-			env->exit_code = g_signal;
-		g_signal = 0;
-		add_history(input);
-		cmd = parsing(input, &env);
-		free(input);
-		if (cmd && (env->exit_status != 1 && g_signal != 130))
-			executing(&cmd, &env);
-		struct_free_cmd(cmd);
-	}
+	start_engine(env);
 	return (free_envp(env), env->exit_code);
 }
