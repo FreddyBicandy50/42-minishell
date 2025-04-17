@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_execute.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 18:48:39 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/12 14:56:26 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:12:32 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	built_in_functions(t_cmd **cmd, t_env **env)
 	else if (ft_strcmp((*cmd)->command, "cd") == 0)
 		cd_cmd(cmd, env);
 	else if (ft_strcmp((*cmd)->command, "pwd") == 0)
-		pwd_cmd();
+		pwd_cmd(env);
 	else if (ft_strcmp((*cmd)->command, "export") == 0)
 		my_export(cmd, env);
 	else if (ft_strcmp((*cmd)->command, "unset") == 0)

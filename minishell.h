@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:48:04 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/17 12:46:57 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:12:09 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void				my_export(t_cmd **cmd, t_env **env);
 // heeper_export.c
 void				filter_export(t_cmd **cmd, t_env **env);
 // pwd.c
-void				pwd_cmd(void);
+void				pwd_cmd(t_env **env);
 // unset.c
 void				my_unset(t_cmd **cmd, t_env **env);
 
