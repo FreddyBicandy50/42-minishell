@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:43:13 by amokdad           #+#    #+#             */
-/*   Updated: 2025/04/18 20:05:13 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/18 20:44:36 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	exit_t(t_cmd **cmd, t_env **env, int tmp)
 	exit(tmp);
 }
 
-int	is_numeric(const char *str)
+int	ft_is_numeric(const char *str)
 {
 	int	i;
 
@@ -42,7 +42,7 @@ void	exit_minishell(t_cmd **cmd, t_env **env)
 
 	if ((*cmd)->arg_number == 0)
 		exit_t(cmd, env, (*env)->exit_code);
-	if (!is_numeric((*cmd)->arg[0]))
+	if (!ft_is_numeric((*cmd)->arg[0]))
 	{
 		printf("minishell: exit: %s: numeric argument required\n",
 			(*cmd)->arg[0]);
