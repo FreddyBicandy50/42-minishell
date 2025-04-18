@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:53:11 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/18 00:51:42 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/18 19:58:08 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ t_cmd	*tokenizing(char *prompt, t_env *env)
 
 	new_cmd = NULL;
 	if (*prompt == '\0' || prompt == NULL)
-		return (ft_error(&env,"parse error :invalid command",2,FALSE), NULL);
+		return (ft_error(&env, "parse error :invalid command", 2, FALSE), NULL);
 	if (*prompt != '\0' && prompt != NULL)
 		type = redirections(*prompt, *(prompt + 1));
 	if (type != 0)

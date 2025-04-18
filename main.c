@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/18 00:41:07 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/18 20:00:32 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,7 @@ void	start_engine(t_env *env)
 		cmd = parsing(input, &env);
 		free(input);
 		if (cmd && (env->exit_status != 1 && g_signal != 130))
-		{
-			struct_print_list(cmd);
 			executing(&cmd, &env);
-		}
 		struct_free_cmd(cmd);
 	}
 }
