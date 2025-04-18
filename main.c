@@ -6,20 +6,11 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:51:28 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/18 20:00:32 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/18 20:17:14 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
- *input= ls -la "test" | grep "test"
- *Steps:
- *	if string is empty or has | at the start
- *	elif split the com mands by pipes
- *	each string in the returned segment is a command
- *  start tokenization method
- */
 
 int		g_signal = 0;
 
@@ -50,6 +41,14 @@ t_cmd	*lexical_analysis(t_env *env, char **segments)
 	return (cmd);
 }
 
+/*
+ *input= ls -la "test" | grep "test"
+ *Steps:
+ *	if string is empty or has | at the start
+ *	elif split the com mands by pipes
+ *	each string in the returned segment is a command
+ *  start tokenization method
+*/
 t_cmd	*split_commands(char *input, t_env *env)
 {
 	t_cmd	*cmd;

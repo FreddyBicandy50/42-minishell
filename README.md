@@ -1,113 +1,79 @@
-// TODO HERE_DOC 
+# minishell
 
-# Apr 6/2025
+<p align="center">
+  <img src="https://github.com/FreddyBicandy50/FreddyBicandy50/blob/main/42_badges/minishelle.png" alt="minishell 42 project badge"/>
+</p>
 
-   i want to handle SHLVL in env //shell level;
-   
-# Apr 3/2025
-   
-   fixed invalid read / seg faul in expanding invalid variable at the command tokenization level
+## Status
 
-# Apr 2/2025
-   
-   fixed norm
-   fixed expansion and did it in new way much better
-   
-# Mar 29/2025
-   added  $_ variable case
-   doing the double/single quote thingy
-   
-# Mar 29/2025
+Started: 24/09/2024.
 
-   implemented expansion with norm
-   added hepler_expander
-   fixed norm errors
-   fixed exit codes 
+Finished: 18/04/2025.
 
-# Mar 16/2025
-   
-   in main.c => 
-               added global variable (g_signal)
-               in tokenization did save_env
-   int minishell.h =>
-               added struct of env
-               added expension function
-               save_envp
+Grade: pending...
 
-# Mar 10/2025
-   
-   fixed redirection error while sending empty value after redirection
+## Project Idea
 
-# Feb 22/2025
-   
-   more consise logs
-   Fixed <> causing memorie leaks <fbicandy>
-   new struct implementation
+Minishell is a 42 school team project to create a basic shell program in C. It implements redirections and pipes, as well as environment variable expansions and the cd, echo, env, exit, export, pwd and unset builtin commands.
 
-# Feb 15/2025
+## Usage
 
-   done merging
+Clone the repository:
 
-# Feb 5/2025
+```
+git https://github.com/FreddyBicandy50/42-minishell.git
+```
 
-   done redirections with some pending fixes
+To compile:
 
-//TODO 
+```
+cd minishell && make
+```
 
-    //Redirections , filenames, flags
-    //Multi redirecitons
-    //here_doc
+To run the program:
 
-# Feb 2/2025
+```
+./minishell
+```
 
-   done redirections with some pending fixes
+## Supported Features
 
-# Feb 1/2025
+Minishell is a miniature shell program based on Bash. Minishell supports:
 
-   fixed the cmd list appending to the first node only
+- Prompt display
+- Command history (up and down arrows)
+- System executables available from the environment (`ls`, `cat`, `grep`, etc.)
+- Local executables (`./minishell`)
+- Builtin commands :
+  - `echo` (and option `-n`)
+  - `cd` (with only a relative or absolute path)
+  - `pwd` (no options)
+  - `export` (no options)
+  - `unset` (no options)
+  - `env` (no options or arguments)
+  - `exit` (with exit number but no other options)
+- Pipes `|` which redirect output from one command to input for the next
+- Redirections:
+  - `>` redirects output
+  - `>>` redirects output in append mode
+  - `<` redirects input
+  - `<< DELIMITER` displays a new prompt, reads user input until reaching `DELIMITER`, redirects user input to command input (does not update history)
+- Environment variables (i.e. `$USER` or `$VAR`) that expand to their values.
+  - `$?` expands to the exit status of the most recently executed foreground pipeline.
+- User keyboard signals:
+  - `ctrl-c` displays a new prompt line.
+  - `ctrl-d` exits minishell
+  - `ctrl-\` does nothing
 
-# Feb 1/2025
+However, Minishell does not support `\`, `;`, `&&`, `||`, or wildcards.
 
-   orginized all files
+## Guides
 
-# Jan 31/2025
+The most interesting part of any project is the research that goes behind it. If you are a student, please don't miss out on that opportunity by simply following guides such as these. In any case, they should under no circumstances be your only source of information about this project. Try things, fail, research, try again and succeed! And maybe write your own guide about it. Writing really is the best way to learn.
 
-   Done commends, flags,args
+- [Bash reference manual](https://www.gnu.org/software/bash/manual/bash.html)
+- [Shell Program Explained](https://www.youtube.com/watch?v=ubt-UjcQUYg&t=473s&ab_channel=hhp3)
 
-# Jan 29/2025
+---
 
-   Comments rethinking...
-   functions renaming...
-   code refining...
-   
-# Jan 27/2025
-
-    BUG FIXED 
-    we have an error in get_next_command 
-        case command quote and args
-
-### TODO::catch flags after the redirections
-
-# Jan 2/2025
-
-    BUG FIXED 
-    we have an error in get_next_command 
-        case command quote and args
-        "l"s "Fredy"
-        out ls F
-
-## Dec/30/2024
-
-FIXED: 
-
-    dequote and copy in get next flags (GNF)
-    Fix the condition of spacing example    ls "-la her"
-            dont send i + 2 find another solution also keeps spaces
-
-FIXED: 
-    dequote and copy in get_next_command
-    memory leaks
-
-## Dec/29/2024
-   
-   FIXED: STRDUP and > and implemented unmatched quotes, ADDED LOGS,Builtin
+fbicandy@student.42.fr | LinkedIn: [fbicandy](https://www.linkedin.com/in/freddy-bicandy/)

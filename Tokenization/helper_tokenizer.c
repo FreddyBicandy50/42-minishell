@@ -6,7 +6,7 @@
 /*   By: fbicandy <fbicandy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 00:00:19 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/18 19:58:26 by fbicandy         ###   ########.fr       */
+/*   Updated: 2025/04/18 20:15:31 by fbicandy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,6 @@ char	*skip_inside(char quote, char *s)
 		return (NULL);
 	return (s);
 }
-
-// char	*expansion_quote_identifier(char *s)
-// {
-// 	while (s && *s != '\0')
-// 	{
-
-// 	}
-// 	return (s);
-// }
 
 /*
 	@EXAMPLE "example on dequote and copy"TEST
