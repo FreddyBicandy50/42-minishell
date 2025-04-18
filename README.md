@@ -20,19 +20,19 @@ Minishell is a 42 school team project to create a basic shell program in C. It i
 
 Clone the repository:
 
-```
+```shell
 git https://github.com/FreddyBicandy50/42-minishell.git
 ```
 
 To compile:
 
-```
+```shell
 cd minishell && make
 ```
 
 To run the program:
 
-```
+```shell
 ./minishell
 ```
 
