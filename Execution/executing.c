@@ -6,7 +6,7 @@
 /*   By: aal-mokd <aal-mokd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 09:46:22 by fbicandy          #+#    #+#             */
-/*   Updated: 2025/04/17 17:07:17 by aal-mokd         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:43:45 by aal-mokd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	executing(t_cmd **cmd, t_env **env)
 	if ((*cmd)->next == NULL)
 	{
 		execute_simple_cmd(cmd, env);
+		set_env("_", (*cmd)->command, env);
 		return ;
 	}
 	pipe_fd.saved_fd = dup(STDIN_FILENO);
